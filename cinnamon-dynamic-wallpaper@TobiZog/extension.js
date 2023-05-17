@@ -16,6 +16,8 @@ const APPNAME = "Cinnamon Dynamic Wallpaper"
 const MessageTray = imports.ui.messageTray;
 const St = imports.gi.St;
 const Main = imports.ui.main;
+const Util = imports.misc.util;
+const Settings = imports.ui.settings;
 
 
 /********** Global Variables **********/
@@ -38,7 +40,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	 * @param {string} uuid 	Universally Unique Identifier
 	 */
 	_init: function(uuid) {
-		// todo
+		this.settings = new Settings.AppletSettings(this, uuid);
 
 		// Display the welcome notification on activation
 		this.showNotification(
@@ -85,6 +87,24 @@ CinnamonDynamicWallpaperExtension.prototype = {
 		// Display it
 		source.notify(notification);
 	},
+
+
+	/**
+	 * Callback for settings-schema
+	 * Opens the external heic-importer window
+	 */
+	configCustomImageSet: function() {
+		// todo
+	},
+
+
+	/**
+	 * Callback for settings-schema
+	 * Opens the browser and navigate to the URL of the respository
+	 */
+	openRepoWebsite: function() {
+		Util.spawnCommandLine("xdg-open https://github.com/TobiZog/cinnamon-dynamic-wallpaper");
+	}
 }
 
 

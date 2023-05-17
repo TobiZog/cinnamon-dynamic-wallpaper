@@ -1,0 +1,123 @@
+{
+	"layout": {
+		"type": "layout",
+		"pages": [
+			"pg_config",
+			"pg_about"
+		],
+		"pg_config": {
+			"type": "page",
+			"title": "Configuration",
+			"sections": [
+				"sec_image_set",
+				"sec_location"
+			]
+		},
+		"pg_about": {
+			"type": "page",
+			"title": "About",
+			"sections": [
+				"sec_project",
+				"sec_github"
+			]
+		},
+		"sec_image_set": {
+			"type": "section",
+			"title": "Image set",
+			"keys": [
+				"sw_template_enabled",
+				"rg_choose_template",
+				"btn_config_custom_image_set"
+			]
+		},
+		"sec_location": {
+			"type": "section",
+			"title": "Location estimation",
+			"keys": [
+				"sw_auto_location",
+				"sc_location_refresh_time",
+				"etr_latitude",
+				"etr_longitude"
+			]
+		},
+		"sec_project": {
+			"type": "section",
+			"title": "About the project",
+			"keys": [
+				"lb_about",
+				"lb_author"
+			]
+		},
+		"sec_github": {
+			"type": "section",
+			"title": "Source Code on GitHub",
+			"keys": [
+				"lb_repository",
+				"btn_open_repository"
+			]
+		}
+	},
+	"sw_template_enabled": {
+		"type": "switch",
+		"default": true,
+		"description": "Use a included image set"
+	},
+	"rg_choose_template": {
+		"type": "radiogroup",
+		"default": "",
+		"description": "Choose a set of images",
+		"options": {
+			"": ""
+		},
+		"dependency": "sw_template_enabled"
+	},
+	"btn_config_custom_image_set": {
+		"type": "button",
+		"description": "Create your own image set from images",
+		"callback": "configCustomImageSet",
+		"dependency": "!sw_template_enabled"
+	},
+	"sw_auto_location": {
+		"type": "switch",
+		"default": true,
+		"description": "Estimate coordinates via network"
+	},
+	"sc_location_refresh_time": {
+		"type": "scale",
+		"default": 15,
+		"min": 5,
+		"max": 60,
+		"step": 5,
+		"description": "Interval time to refresh the location via network (min)",
+		"dependency": "sw_auto_location"
+	},
+	"etr_latitude": {
+		"type": "entry",
+		"default": "",
+		"description": "Latitude",
+		"dependency": "!sw_auto_location"
+	},
+	"etr_longitude": {
+		"type": "entry",
+		"default": "",
+		"description": "Longitude",
+		"dependency": "!sw_auto_location"
+	},
+	"lb_about": {
+		"type": "label",
+		"description": "Based on a location, this extension calculates the periods of a day and switch the background image of your Cinnamon desktop. The extension offers the choice between a set of predownloaded wallpapers or to select a custom set of images."
+	},
+	"lb_author": {
+		"type": "label",
+		"description": "Developed by TobiZog"
+	},
+	"lb_repository": {
+		"type": "label",
+		"description": "This project is Open Source. You can visit the whole source code of this extension on GitHub"
+	},
+	"btn_open_repository": {
+		"type": "button",
+		"description": "Open the Repository",
+		"callback": "openRepoWebsite"
+	}
+}

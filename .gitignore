@@ -1,2 +1,4 @@
 *.glade~
 *.glade#
+extracted/
+*.txt

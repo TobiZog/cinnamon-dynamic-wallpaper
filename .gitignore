@@ -1,4 +1,5 @@
 *.glade~
 *.glade#
 extracted/
+custom_images/
 *.txt

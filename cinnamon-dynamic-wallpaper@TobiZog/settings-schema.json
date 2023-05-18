@@ -108,6 +108,11 @@
 		"description": "Open the Repository",
 		"callback": "openRepoWebsite"
 	},
+	"etr_choosen_image_set": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
 	"etr_img_morning_twilight": {
 		"type": "entry",
 		"default": "",

@@ -1,4 +1,4 @@
-import gi, os, glob
+import gi, os, glob, json
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf
@@ -11,7 +11,20 @@ EXPORT_DIR = "extracted"
 class ImageConfigurator:
 	def __init__(self) -> None:
 		########### Class variables ###########
+		self.pref_vars = [
+			"etr_img_morning_twilight",
+			"etr_img_sunrise",
+			"etr_img_morning",
+			"etr_img_noon",
+			"etr_img_afternoon",
+			"etr_img_evening",
+			"etr_img_sunset",
+			"etr_img_night_twilight",
+			"etr_img_night"
+		]
 
+		self.pref_path = os.path.expanduser("~") + \
+			"/.config/cinnamon/spices/cinnamon-dynamic-wallpaper@TobiZog/cinnamon-dynamic-wallpaper@TobiZog.json"
 
 
 		try:
@@ -66,19 +79,10 @@ class ImageConfigurator:
 		# todo
 
 
-		try:
-			# Create the combobox content
-			self.createExtracted()
-			self.changePreviewSpinners(self.extracted)
+		# Load preferences
+		self.createExtracted()
+		self.loadFromSettings()
 
-			# Load the images
-			with open(DIR + "/selected_images.txt", "r") as file:
-				for i, line in enumerate(file.readlines()):
-					line = line.removesuffix("\n")
-					self.changePreviewImage(i, EXPORT_DIR + "/" + line)
-					self.cb_previews[i].set_active(self.extracted.index(line))
-		except:
-			pass
 
 
 	def showMainWindow(self):
@@ -86,6 +90,34 @@ class ImageConfigurator:
 		window.show_all()
 
 		Gtk.main()
+
+	
+	def loadFromSettings(self):
+		with open(self.pref_path, "r") as pref_file:
+			pref_data = json.load(pref_file)
+
+		for i, val in enumerate(self.pref_vars):
+			try:
+				self.changePreviewImage(i, EXPORT_DIR + "/" + pref_data[val]['value'])
+				self.cb_previews[i].set_active(self.extracted.index(pref_data[val]['value']))
+			except:
+				pass
+
+
+
+
+
+	def writeToSettings(self):
+		with open(self.pref_path, "r") as pref_file:
+			pref_data = json.load(pref_file)
+
+		for i, val in enumerate(self.pref_vars):
+			pref_data[val]['value'] = self.extracted[self.cb_previews[i].get_active()]
+
+		with open(self.pref_path, "w") as pref_file:
+			json.dump(pref_data, pref_file, separators=(',', ':'), indent=4)
+
+		
 
 
 	def changePreviewImage(self, imageId: int, imageURI: str):
@@ -109,27 +141,17 @@ class ImageConfigurator:
 			os.remove(file)
 
 
-	def changePreviewSpinners(self, options: list):
-		for option in options:
-			self.ls_preview.append([option])
-
-
 	def createExtracted(self):
 		self.extracted = os.listdir(DIR + "/" + EXPORT_DIR)
 		self.extracted.sort()
 
+		self.ls_preview.clear()
+
+		for option in self.extracted:
+			self.ls_preview.append([option])
+
 
 	########## UI Signals ##########
-
-	def onHeifSelected(self, fc):
-		# Get the URI to the file
-		uri = fc.get_file().get_uri()
-		uri = uri[7:]
-
-		self.extractHeifImages(uri)
-		self.createExtracted()
-		self.changePreviewSpinners(self.extracted)
-
 
 	def onRadioImageSet(self, rb):
 		""" UI Signal, if the radio buttons are toggled
@@ -144,6 +166,15 @@ class ImageConfigurator:
 		self.fileChooserFc.set_visible(not rb.get_active())
 
 
+	def onHeifSelected(self, fc):
+		# Get the URI to the file
+		uri = fc.get_file().get_uri()
+		uri = uri[7:]
+
+		self.extractHeifImages(uri)
+		self.createExtracted()
+
+
 	def onPreviewComboboxSelected(self, cb):
 		number = Gtk.Buildable.get_name(cb)
 		number = number[number.rfind("_") + 1:]
@@ -152,19 +183,8 @@ class ImageConfigurator:
 
 
 	def onApply(self, *args):
-		buffer = []
+		self.writeToSettings()
 
-		for cb in self.cb_previews:
-			if cb.get_active() != -1:
-				buffer.append(self.extracted[cb.get_active()])
-			else:
-				buffer.append(buffer[len(buffer) - 1])
-		
-		with open(DIR + "/selected_images.txt", "w") as file:
-			for buff in buffer:
-				file.write(buff + "\n")
-		
-		# todo
 		Gtk.main_quit()
 
 

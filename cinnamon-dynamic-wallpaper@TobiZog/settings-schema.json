@@ -107,5 +107,50 @@
 		"type": "button",
 		"description": "Open the Repository",
 		"callback": "openRepoWebsite"
+	},
+	"etr_img_morning_twilight": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_img_sunrise": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_img_morning": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_img_noon": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_img_afternoon": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_img_evening": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_img_sunset": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_img_night_twilight": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_img_night": {
+		"type": "entry",
+		"default": "",
+		"description": ""
 	}
 }

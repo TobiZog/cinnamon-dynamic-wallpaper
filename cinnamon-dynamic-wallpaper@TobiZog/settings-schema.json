@@ -9,7 +9,7 @@
 			"type": "page",
 			"title": "Configuration",
 			"sections": [
-				"sec_image_set",
+				"sec_image_configuration",
 				"sec_location"
 			]
 		},
@@ -21,13 +21,12 @@
 				"sec_github"
 			]
 		},
-		"sec_image_set": {
+		"sec_image_configuration": {
 			"type": "section",
 			"title": "Image set",
 			"keys": [
-				"sw_template_enabled",
-				"rg_choose_template",
-				"btn_config_custom_image_set"
+				"lb_image_configuration",
+				"btn_config_images"
 			]
 		},
 		"sec_location": {
@@ -57,25 +56,14 @@
 			]
 		}
 	},
-	"sw_template_enabled": {
-		"type": "switch",
-		"default": true,
-		"description": "Use a included image set"
+	"lb_image_configuration": {
+		"type": "label",
+		"description": "Choose an included image set or import a heic-file with the Image Configurator"
 	},
-	"rg_choose_template": {
-		"type": "radiogroup",
-		"default": "",
-		"description": "Choose a set of images",
-		"options": {
-			"": ""
-		},
-		"dependency": "sw_template_enabled"
-	},
-	"btn_config_custom_image_set": {
+	"btn_config_images": {
 		"type": "button",
-		"description": "Create your own image set from images",
-		"callback": "configCustomImageSet",
-		"dependency": "!sw_template_enabled"
+		"description": "Image Configurator",
+		"callback": "openImageConfigurator"
 	},
 	"sw_auto_location": {
 		"type": "switch",

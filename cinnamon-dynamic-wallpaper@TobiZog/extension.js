@@ -9,6 +9,7 @@
 
 const UUID = "cinnamon-dynamic-wallpaper@TobiZog";
 const APPNAME = "Cinnamon Dynamic Wallpaper"
+const DIRECTORY = imports.ui.extensionSystem.extensionMeta[UUID];
 
 
 /********** Imports **********/
@@ -18,6 +19,7 @@ const St = imports.gi.St;
 const Main = imports.ui.main;
 const Util = imports.misc.util;
 const Settings = imports.ui.settings;
+const { find_program_in_path } = imports.gi.GLib;
 
 
 /********** Global Variables **********/
@@ -41,13 +43,6 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	 */
 	_init: function(uuid) {
 		this.settings = new Settings.AppletSettings(this, uuid);
-
-		// Display the welcome notification on activation
-		this.showNotification(
-			APPNAME,
-			"Welcome to " + APPNAME + "! Open the settings and configure the extensions.",
-			true
-		);
 	},
 
 
@@ -93,8 +88,9 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	 * Callback for settings-schema
 	 * Opens the external heic-importer window
 	 */
-	configCustomImageSet: function() {
-		// todo
+	openImageConfigurator: function() {
+		global.log(DIRECTORY.path + "/image-configurator/image-configurator.py")
+		Util.spawnCommandLine("/usr/bin/env python3 " + DIRECTORY.path + "/image-configurator/image-configurator.py");
 	},
 
 
@@ -127,6 +123,18 @@ function init(extensionMeta) {
  * @returns The extension object
  */
 function enable() {
+	// Check for necessary software
+	if (!find_program_in_path('heif-convert')) {
+		Util.spawnCommandLine("apturl apt://libheif-examples");
+	}
+
+	// Display the welcome notification on activation
+	extension.showNotification(
+		APPNAME,
+		"Welcome to " + APPNAME + "! Open the settings and configure the extensions.",
+		true
+	);
+
 	return extension;
 }
 

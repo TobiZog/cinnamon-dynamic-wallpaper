@@ -4,15 +4,7 @@
  * @since	2023
  */
 
-
-/********** Constants **********/
-
-const UUID = "cinnamon-dynamic-wallpaper@TobiZog";
-const APPNAME = "Cinnamon Dynamic Wallpaper"
-const DIRECTORY = imports.ui.extensionSystem.extensionMeta[UUID];
-
-
-/********** Imports **********/
+/******************** Imports ********************/
 
 const MessageTray = imports.ui.messageTray;
 const St = imports.gi.St;
@@ -20,15 +12,23 @@ const Main = imports.ui.main;
 const Util = imports.misc.util;
 const Settings = imports.ui.settings;
 const { find_program_in_path } = imports.gi.GLib;
+const Gio = imports.gi.Gio;
 
 
-/********** Global Variables **********/
+/******************** Constants ********************/
+
+const UUID = "cinnamon-dynamic-wallpaper@TobiZog";
+const APPNAME = "Cinnamon Dynamic Wallpaper"
+const DIRECTORY = imports.ui.extensionSystem.extensionMeta[UUID];
+
+
+/******************** Global Variables ********************/
 
 // The extension object
 let extension;
 
 
-/********** Objects **********/
+/******************** Objects ********************/
 
 function CinnamonDynamicWallpaperExtension(uuid) {
 	this._init(uuid);
@@ -42,7 +42,31 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	 * @param {string} uuid 	Universally Unique Identifier
 	 */
 	_init: function(uuid) {
-		this.settings = new Settings.AppletSettings(this, uuid);
+		this.settings = new Settings.ExtensionSettings(this, uuid);
+
+		this.bindSettings("sw_auto_location", "autolocation")
+		this.bindSettings("sc_location_refresh_time", "locationRefreshTime")
+		this.bindSettings("etr_latitude", "latitude")
+		this.bindSettings("etr_longitude", "longitude")
+		this.bindSettings("etr_img_morning_twilight", "img_morning_twilight")
+		this.bindSettings("etr_img_sunrise", "img_sunrise")
+		this.bindSettings("etr_img_morning", "img_morning")
+		this.bindSettings("etr_img_noon", "img_noon")
+		this.bindSettings("etr_img_afternoon", "img_afternoon")
+		this.bindSettings("etr_img_evening", "img_evening")
+		this.bindSettings("etr_img_sunset", "img_sunset")
+		this.bindSettings("etr_img_night_twilight", "img_night_twilight")
+		this.bindSettings("etr_img_night", "img_night")
+	},
+
+
+	bindSettings: function (ui_name, js_name, func = this.on_settings_changed) {
+		this.settings.bindProperty(
+			Settings.BindingDirection.IN,
+			ui_name,
+			js_name,
+			func
+		)
 	},
 
 
@@ -85,11 +109,31 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 
 	/**
+	 * Changes the desktop background image
+	 * 
+	 * @param {jpg} imageURI 	The new desktop image
+	 */
+	changeWallpaper: function(imageURI) {
+		let gSetting = new Gio.Settings({schema: 'org.cinnamon.desktop.background'});
+		gSetting.set_string('picture-uri', imageURI);
+		Gio.Settings.sync();
+		gSetting.apply();
+	},
+
+
+	/******************** UI Callbacks ********************/
+
+
+	on_settings_changed: function () {
+		// todo
+	},
+
+
+	/**
 	 * Callback for settings-schema
 	 * Opens the external heic-importer window
 	 */
 	openImageConfigurator: function() {
-		global.log(DIRECTORY.path + "/image-configurator/image-configurator.py")
 		Util.spawnCommandLine("/usr/bin/env python3 " + DIRECTORY.path + "/image-configurator/image-configurator.py");
 	},
 
@@ -105,7 +149,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 
 
-/********** Lifecycle **********/
+/******************** Lifecycle ********************/
 
 /**
  * Lifecycle function on initialization

@@ -14,6 +14,8 @@ const Settings = imports.ui.settings;
 const { find_program_in_path } = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 
+let suntimes = require('./scripts/suntimes')
+
 
 /******************** Constants ********************/
 
@@ -57,6 +59,8 @@ CinnamonDynamicWallpaperExtension.prototype = {
 		this.bindSettings("etr_img_sunset", "img_sunset")
 		this.bindSettings("etr_img_night_twilight", "img_night_twilight")
 		this.bindSettings("etr_img_night", "img_night")
+
+		// suntimes.calcTimePeriod(52.37227, 9.73815)
 	},
 
 
@@ -173,11 +177,11 @@ function enable() {
 	}
 
 	// Display the welcome notification on activation
-	extension.showNotification(
-		APPNAME,
-		"Welcome to " + APPNAME + "! Open the settings and configure the extensions.",
-		true
-	);
+	// extension.showNotification(
+	// 	APPNAME,
+	// 	"Welcome to " + APPNAME + "! Open the settings and configure the extensions.",
+	// 	true
+	// );
 
 	return extension;
 }

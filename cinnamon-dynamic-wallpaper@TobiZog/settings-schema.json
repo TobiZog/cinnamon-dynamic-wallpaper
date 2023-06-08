@@ -10,7 +10,8 @@
 			"title": "Configuration",
 			"sections": [
 				"sec_image_configuration",
-				"sec_location"
+				"sec_location",
+				"sec_times"
 			]
 		},
 		"pg_about": {
@@ -37,6 +38,13 @@
 				"sc_location_refresh_time",
 				"etr_latitude",
 				"etr_longitude"
+			]
+		},
+		"sec_times": {
+			"type": "section",
+			"title": "Time periods",
+			"keys": [
+				"tv_times"
 			]
 		},
 		"sec_project": {
@@ -90,6 +98,11 @@
 		"default": "",
 		"description": "Longitude",
 		"dependency": "!sw_auto_location"
+	},
+	"tv_times": {
+		"type": "textview",
+		"description": "Time sections today",
+		"default": ""
 	},
 	"lb_about": {
 		"type": "label",

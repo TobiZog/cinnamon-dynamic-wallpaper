@@ -71,6 +71,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 		this.bindSettings("etr_img_sunset", "img_sunset", this.setImageToTime)
 		this.bindSettings("etr_img_night_twilight", "img_night_twilight", this.setImageToTime)
 		this.bindSettings("etr_img_night", "img_night", this.setImageToTime)
+		this.bindSettings("tv_times", "tvTimes")
 
 		this.setImageToTime()
 
@@ -163,7 +164,23 @@ CinnamonDynamicWallpaperExtension.prototype = {
 				lastDayTime = i
 				break
 			}
-		}		
+		}
+
+		
+		function convertToTimeString(time) {
+			return time.getHours().toString().padStart(2, "0") + ":" + time.getMinutes().toString().padStart(2, "0")
+		}
+
+		this.tvTimes = 
+			"Morning Twilight:\t\t" + convertToTimeString(timesArray[0][0]) + " - " + convertToTimeString(timesArray[0][1]) +
+			"\nSunrise:\t\t\t\t" + convertToTimeString(timesArray[1][0]) + " - " + convertToTimeString(timesArray[1][1]) +
+			"\nMorning:\t\t\t" + convertToTimeString(timesArray[2][0]) + " - " + convertToTimeString(timesArray[2][1]) +
+			"\nNoon:\t\t\t\t" + convertToTimeString(timesArray[3][0]) + " - " + convertToTimeString(timesArray[3][1]) +
+			"\nAfternoon:\t\t\t" + convertToTimeString(timesArray[4][0]) + " - " + convertToTimeString(timesArray[4][1]) +
+			"\nEvening:\t\t\t" + convertToTimeString(timesArray[5][0]) + " - " + convertToTimeString(timesArray[5][1]) +
+			"\nSunset:\t\t\t\t" + convertToTimeString(timesArray[6][0]) + " - " + convertToTimeString(timesArray[6][1]) +
+			"\nNight Twilight:\t\t" + convertToTimeString(timesArray[7][0]) + " - " + convertToTimeString(timesArray[7][1]) +
+			"\nNight:\t\t\t\t" + convertToTimeString(timesArray[8][0]) + " - " + convertToTimeString(timesArray[8][1])
 	},
 
 

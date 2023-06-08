@@ -157,7 +157,7 @@ class ImageConfigurator:
 
 
 		# Write the settings
-		with open(self.pref_path, "w") as pref_file:
+		with open(PREF_PATH, "w") as pref_file:
 			json.dump(pref_data, pref_file, separators=(',', ':'), indent=4)
 
 
@@ -210,16 +210,19 @@ class ImageConfigurator:
 	def createExtracted(self):
 		""" Create the extracted images array
 		"""
-		if self.image_source == Source.RESSOURCES:
-			self.extracted = os.listdir(RES_DIR + "/custom_images")
-		elif self.image_source == Source.EXPORT:
-			self.extracted = os.listdir(EXPORT_DIR)
+		try:
+			if self.image_source == Source.RESSOURCES:
+				self.extracted = os.listdir(RES_DIR + "/custom_images")
+			elif self.image_source == Source.EXPORT:
+				self.extracted = os.listdir(EXPORT_DIR)
 
-		self.extracted.sort()
-		self.ls_preview.clear()
+			self.extracted.sort()
+			self.ls_preview.clear()
 
-		for option in self.extracted:
-			self.ls_preview.append([option])
+			for option in self.extracted:
+				self.ls_preview.append([option])
+		except:
+			pass
 
 		self.stack_main.set_visible_child_name("config")
 

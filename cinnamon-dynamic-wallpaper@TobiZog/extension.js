@@ -11,10 +11,13 @@ const St = imports.gi.St;
 const Main = imports.ui.main;
 const Util = imports.misc.util;
 const Settings = imports.ui.settings;
+const Mainloop = imports.mainloop;
+const Lang = imports.lang;
 const { find_program_in_path } = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 
 let suntimes = require('./scripts/suntimes')
+let location = require('./scripts/location')
 
 
 /******************** Constants ********************/
@@ -22,12 +25,21 @@ let suntimes = require('./scripts/suntimes')
 const UUID = "cinnamon-dynamic-wallpaper@TobiZog";
 const APPNAME = "Cinnamon Dynamic Wallpaper"
 const DIRECTORY = imports.ui.extensionSystem.extensionMeta[UUID];
+const PATH = DIRECTORY.path;
 
 
 /******************** Global Variables ********************/
 
 // The extension object
 let extension;
+
+// Time and date of the last location update
+let lastLocationUpdate = new Date()
+
+// The last calculated suntime of the day
+let lastDayTime = suntimes.DAYPERIOD.NONE
+
+let looping = true
 
 
 /******************** Objects ********************/
@@ -46,21 +58,23 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	_init: function(uuid) {
 		this.settings = new Settings.ExtensionSettings(this, uuid);
 
-		this.bindSettings("sw_auto_location", "autolocation")
+		this.bindSettings("sw_auto_location", "autolocation", this.updateLocation)
 		this.bindSettings("sc_location_refresh_time", "locationRefreshTime")
-		this.bindSettings("etr_latitude", "latitude")
-		this.bindSettings("etr_longitude", "longitude")
-		this.bindSettings("etr_img_morning_twilight", "img_morning_twilight")
-		this.bindSettings("etr_img_sunrise", "img_sunrise")
-		this.bindSettings("etr_img_morning", "img_morning")
-		this.bindSettings("etr_img_noon", "img_noon")
-		this.bindSettings("etr_img_afternoon", "img_afternoon")
-		this.bindSettings("etr_img_evening", "img_evening")
-		this.bindSettings("etr_img_sunset", "img_sunset")
-		this.bindSettings("etr_img_night_twilight", "img_night_twilight")
-		this.bindSettings("etr_img_night", "img_night")
+		this.bindSettings("etr_latitude", "latitude", this.updateLocation)
+		this.bindSettings("etr_longitude", "longitude", this.updateLocation)
+		this.bindSettings("etr_img_morning_twilight", "img_morning_twilight", this.setImageToTime)
+		this.bindSettings("etr_img_sunrise", "img_sunrise", this.setImageToTime)
+		this.bindSettings("etr_img_morning", "img_morning", this.setImageToTime)
+		this.bindSettings("etr_img_noon", "img_noon", this.setImageToTime)
+		this.bindSettings("etr_img_afternoon", "img_afternoon", this.setImageToTime)
+		this.bindSettings("etr_img_evening", "img_evening", this.setImageToTime)
+		this.bindSettings("etr_img_sunset", "img_sunset", this.setImageToTime)
+		this.bindSettings("etr_img_night_twilight", "img_night_twilight", this.setImageToTime)
+		this.bindSettings("etr_img_night", "img_night", this.setImageToTime)
 
-		// suntimes.calcTimePeriod(52.37227, 9.73815)
+		this.setImageToTime()
+
+		this._loop()
 	},
 
 
@@ -125,13 +139,53 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	},
 
 
-	/******************** UI Callbacks ********************/
 
+	setImageToTime: function() {
+		let times = suntimes.calcTimePeriod(this.latitude, this.longitude)
+		let now = new Date()
 
-	on_settings_changed: function () {
-		// todo
+		let timesArray = [
+			times["morning_twilight"], times["sunrise"], times["morning"],
+			times["noon"], times["afternoon"], times["evening"], 
+			times["sunset"], times["night_twilight"], times["night"]
+		]
+
+		let imageSet = [
+			this.img_morning_twilight, this.img_sunrise, this.img_morning,
+			this.img_noon, this.img_afternoon, this.img_evening,
+			this.img_sunset, this.img_night_twilight, this.img_night
+		]
+
+		for(let i = 0; i < timesArray.length; i++) {
+			if(timesArray[i][0] <= now && now <= timesArray[i][1] && i != lastDayTime) {
+				this.changeWallpaper("file://" + PATH + "/res/custom_images/" + imageSet[i])
+
+				lastDayTime = i
+				break
+			}
+		}		
 	},
 
+
+	updateLocation: function () {
+		if (this.autolocation) {
+			let loc = location.estimateLocation()
+			this.latitude = loc["latitude"]
+			this.longitude = loc["longitude"]
+		} else {
+			this.latitude = this.latitude
+			this.longitude = this.longitude
+		}
+
+		// Refresh the image information, if it's necessary
+		this.setImageToTime()
+
+		// Update the update information
+		lastLocationUpdate = new Date()
+	},
+
+
+	/******************** UI Callbacks ********************/
 
 	/**
 	 * Callback for settings-schema
@@ -148,6 +202,24 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	 */
 	openRepoWebsite: function() {
 		Util.spawnCommandLine("xdg-open https://github.com/TobiZog/cinnamon-dynamic-wallpaper");
+	},
+
+
+	/**
+	 * Main loop
+	 */
+	_loop: function() {
+		if(looping) {
+			this.setImageToTime()
+
+			if (lastLocationUpdate < new Date().getTime() - this.locationRefreshTime * 1000) {
+				this.updateLocation()
+				lastLocationUpdate = new Date()
+			}
+			
+			// Refresh every 60 seconds
+			Mainloop.timeout_add_seconds(60, Lang.bind(this, this._loop));
+		}
 	}
 }
 
@@ -191,5 +263,5 @@ function enable() {
  * Lifecycle function on disable
  */
 function disable() {
-	// todo
+	looping = false
 }

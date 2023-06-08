@@ -24,10 +24,7 @@ const J2000 = 2451545
 
 function fromJulian(j) {
 	let ms_date = (j + 0.5 - J1970) * DAYMS
-	var utc = new Date();
-	var offset = utc.getTimezoneOffset()
-
-	return new Date(ms_date - offset * 60000)
+	return new Date(ms_date)
 }
 
 /**

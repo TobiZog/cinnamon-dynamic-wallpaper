@@ -116,33 +116,33 @@ function calcTimePeriod(latitude, longitude) {
 			),
 			addMinutesToTime(
 				todaySunEventsDay.noon,
-				(subTimesToMinutes(todaySunEventsDay.sunset, todaySunEventsDay.noon) / 8) * 1 - 1
+				(subTimesToMinutes(todaySunEventsDay.sunset, todaySunEventsDay.noon) / 8) * 2 - 1
 			)
 		],
 		afternoon: [
 			addMinutesToTime(
 				todaySunEventsDay.noon,
-				(subTimesToMinutes(todaySunEventsDay.sunset, todaySunEventsDay.noon) / 8) * 1
+				(subTimesToMinutes(todaySunEventsDay.sunset, todaySunEventsDay.noon) / 8) * 2
 			),
 			addMinutesToTime(
 				todaySunEventsDay.noon,
-				(subTimesToMinutes(todaySunEventsDay.sunset, todaySunEventsDay.noon) / 8) * 3 - 1
+				(subTimesToMinutes(todaySunEventsDay.sunset, todaySunEventsDay.noon) / 8) * 5 - 1
 			)
 		],
 		evening: [
 			addMinutesToTime(
 				todaySunEventsDay.noon,
-				(subTimesToMinutes(todaySunEventsDay.sunset, todaySunEventsDay.noon) / 8) * 3
+				(subTimesToMinutes(todaySunEventsDay.sunset, todaySunEventsDay.noon) / 8) * 5
 			),
 			addMinutesToTime(
 				todaySunEventsDay.noon,
-				(subTimesToMinutes(todaySunEventsDay.sunset, todaySunEventsDay.noon) / 8) * 5 - 1
+				(subTimesToMinutes(todaySunEventsDay.sunset, todaySunEventsDay.noon) / 8) * 7 - 1
 			)
 		],
 		sunset: [
 			addMinutesToTime(
 				todaySunEventsDay.noon,
-				(subTimesToMinutes(todaySunEventsDay.sunset, todaySunEventsDay.noon) / 8) * 5 - 1
+				(subTimesToMinutes(todaySunEventsDay.sunset, todaySunEventsDay.noon) / 8) * 7 - 1
 			), 
 			todaySunEventsDay.sunset
 		],

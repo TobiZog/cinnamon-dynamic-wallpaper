@@ -159,7 +159,8 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 		for(let i = 0; i < timesArray.length; i++) {
 			if(timesArray[i][0] <= now && now <= timesArray[i][1] && i != lastDayTime) {
-				this.changeWallpaper("file://" + PATH + "/res/custom_images/" + imageSet[i])
+				global.log(PATH + "/res/images/selected/" + imageSet[i])
+				this.changeWallpaper("file://" + PATH + "/images/selected/" + imageSet[i])
 
 				lastDayTime = i
 				break

@@ -7,18 +7,6 @@
       <pattern>*.heic</pattern>
     </patterns>
   </object>
-  <object class="GtkListStore" id="image_set_list_store">
-    <columns>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="ls_preview">
-    <columns>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
   <object class="GtkScrolledWindow" id="page_config">
     <property name="width-request">100</property>
     <property name="height-request">80</property>
@@ -189,17 +177,10 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBox" id="cb_image_set">
+                          <object class="GtkComboBoxText" id="cb_image_set">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="model">image_set_list_store</property>
-                            <property name="has-entry">True</property>
-                            <property name="entry-text-column">0</property>
-                            <child internal-child="entry">
-                              <object class="GtkEntry">
-                                <property name="can-focus">False</property>
-                              </object>
-                            </child>
+                            <signal name="changed" handler="onImageSetSelected" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left-attach">1</property>
@@ -286,18 +267,10 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBox" id="cb_preview_1">
+                                      <object class="GtkComboBoxText" id="cb_preview_1">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="model">ls_preview</property>
-                                        <property name="has-entry">True</property>
-                                        <property name="entry-text-column">0</property>
                                         <signal name="changed" handler="onPreviewComboboxSelected" swapped="no"/>
-                                        <child internal-child="entry">
-                                          <object class="GtkEntry">
-                                            <property name="can-focus">False</property>
-                                          </object>
-                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -360,18 +333,9 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBox" id="cb_preview_2">
-                                        <property name="visible">True</property>
+                                      <object class="GtkComboBoxText" id="cb_preview_2">
                                         <property name="can-focus">False</property>
-                                        <property name="model">ls_preview</property>
-                                        <property name="has-entry">True</property>
-                                        <property name="entry-text-column">0</property>
                                         <signal name="changed" handler="onPreviewComboboxSelected" swapped="no"/>
-                                        <child internal-child="entry">
-                                          <object class="GtkEntry">
-                                            <property name="can-focus">False</property>
-                                          </object>
-                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -434,18 +398,10 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBox" id="cb_preview_3">
+                                      <object class="GtkComboBoxText" id="cb_preview_3">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="model">ls_preview</property>
-                                        <property name="has-entry">True</property>
-                                        <property name="entry-text-column">0</property>
                                         <signal name="changed" handler="onPreviewComboboxSelected" swapped="no"/>
-                                        <child internal-child="entry">
-                                          <object class="GtkEntry">
-                                            <property name="can-focus">False</property>
-                                          </object>
-                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -508,18 +464,9 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBox" id="cb_preview_4">
-                                        <property name="visible">True</property>
+                                      <object class="GtkComboBoxText" id="cb_preview_4">
                                         <property name="can-focus">False</property>
-                                        <property name="model">ls_preview</property>
-                                        <property name="has-entry">True</property>
-                                        <property name="entry-text-column">0</property>
                                         <signal name="changed" handler="onPreviewComboboxSelected" swapped="no"/>
-                                        <child internal-child="entry">
-                                          <object class="GtkEntry">
-                                            <property name="can-focus">False</property>
-                                          </object>
-                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -582,18 +529,10 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBox" id="cb_preview_5">
+                                      <object class="GtkComboBoxText" id="cb_preview_5">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="model">ls_preview</property>
-                                        <property name="has-entry">True</property>
-                                        <property name="entry-text-column">0</property>
                                         <signal name="changed" handler="onPreviewComboboxSelected" swapped="no"/>
-                                        <child internal-child="entry">
-                                          <object class="GtkEntry">
-                                            <property name="can-focus">False</property>
-                                          </object>
-                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -656,18 +595,10 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBox" id="cb_preview_6">
+                                      <object class="GtkComboBoxText" id="cb_preview_6">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="model">ls_preview</property>
-                                        <property name="has-entry">True</property>
-                                        <property name="entry-text-column">0</property>
                                         <signal name="changed" handler="onPreviewComboboxSelected" swapped="no"/>
-                                        <child internal-child="entry">
-                                          <object class="GtkEntry">
-                                            <property name="can-focus">False</property>
-                                          </object>
-                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -730,18 +661,10 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBox" id="cb_preview_7">
+                                      <object class="GtkComboBoxText" id="cb_preview_7">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="model">ls_preview</property>
-                                        <property name="has-entry">True</property>
-                                        <property name="entry-text-column">0</property>
                                         <signal name="changed" handler="onPreviewComboboxSelected" swapped="no"/>
-                                        <child internal-child="entry">
-                                          <object class="GtkEntry">
-                                            <property name="can-focus">False</property>
-                                          </object>
-                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -804,18 +727,10 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBox" id="cb_preview_8">
+                                      <object class="GtkComboBoxText" id="cb_preview_8">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="model">ls_preview</property>
-                                        <property name="has-entry">True</property>
-                                        <property name="entry-text-column">0</property>
                                         <signal name="changed" handler="onPreviewComboboxSelected" swapped="no"/>
-                                        <child internal-child="entry">
-                                          <object class="GtkEntry">
-                                            <property name="can-focus">False</property>
-                                          </object>
-                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -878,18 +793,10 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBox" id="cb_preview_9">
+                                      <object class="GtkComboBoxText" id="cb_preview_9">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="model">ls_preview</property>
-                                        <property name="has-entry">True</property>
-                                        <property name="entry-text-column">0</property>
                                         <signal name="changed" handler="onPreviewComboboxSelected" swapped="no"/>
-                                        <child internal-child="entry">
-                                          <object class="GtkEntry">
-                                            <property name="can-focus">False</property>
-                                          </object>
-                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>

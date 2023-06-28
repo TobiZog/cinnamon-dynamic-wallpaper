@@ -3,18 +3,21 @@ import gi, os, glob, json, shutil, enum, threading
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf
 
-PROJECT_DIR = os.path.dirname(os.path.dirname(__file__))
-PROG_DIR = PROJECT_DIR + "/image-configurator"
-EXPORT_DIR = PROG_DIR + "/extracted"
-RES_DIR = PROJECT_DIR + "/res"
-UI_PATH = PROG_DIR + "/image-configurator.glade"
+PROJECT_DIR = os.path.dirname(os.path.dirname(__file__)) + "/"
+UI_PATH = PROJECT_DIR + "image-configurator/" + "image-configurator.glade"
+
+IMAGE_DIR = PROJECT_DIR + "images/"
+IMAGE_EXTRACT_DIR = IMAGE_DIR + "extracted/"
+IMAGE_SETS_DIR = IMAGE_DIR + "included_image_sets/"
+IMAGE_SELECTED_DIR = IMAGE_DIR + "selected/"
+
 PREF_PATH = os.path.expanduser("~") + \
 	"/.config/cinnamon/spices/cinnamon-dynamic-wallpaper@TobiZog/cinnamon-dynamic-wallpaper@TobiZog.json"
 
 class Source(enum.Enum):
-	RESSOURCES = 0
-	EXPORT = 1
-	SET = 2
+	SELECTED = 0	# Load previous selected images
+	EXTRACT = 1		# Use a custom image set from a heic file
+	SET = 2			# Use an included image set
 
 
 class ImageConfigurator:
@@ -32,14 +35,23 @@ class ImageConfigurator:
 			"etr_img_night"
 		]
 
+		self.img_sets = [
+			"aurora",
+			"beach",
+			"bitday",
+			"lakeside",
+			"mountains",
+			"sahara"
+		]
+
 		########### Create the folder ###########
 		try:
-			os.mkdir(EXPORT_DIR)
+			os.mkdir(IMAGE_EXTRACT_DIR)
 		except:
 			pass
 
 		try:
-			os.mkdir(RES_DIR + "/custom_images")
+			os.mkdir(IMAGE_SELECTED_DIR)
 		except:
 			pass
 
@@ -57,8 +69,6 @@ class ImageConfigurator:
 
 		self.lb_heic_file = self.builder.get_object("lb_heic_file")
 		self.fc_heic_file = self.builder.get_object("fc_heic_file")
-		self.image_set_list_store = self.builder.get_object("image_set_list_store")
-		self.ls_preview = self.builder.get_object("ls_preview")
 
 		self.img_previews = [
 			self.builder.get_object("img_preview_1"),
@@ -92,10 +102,11 @@ class ImageConfigurator:
 		
 
 		########### Load predefinitions and settings ###########
-		self.image_set_list_store.append(["Big Sur Beach 2"])
-		self.image_set_list_store.append(["Firewatch"])
-		self.image_set_list_store.append(["Lakeside"])
-		# todo
+		for set in self.img_sets:
+			self.cb_image_set.append_text(set)
+
+		self.image_source = Source.SELECTED
+
 
 		# Load preferences
 		self.loadFromSettings()
@@ -106,6 +117,9 @@ class ImageConfigurator:
 		"""
 		window = self.builder.get_object("main_window")
 		window.show_all()
+
+		self.imageSetVisibility(self.image_source)
+		self.rb_external_image_set.set_active(self.image_source == Source.EXTRACT)
 
 		Gtk.main()
 
@@ -118,22 +132,36 @@ class ImageConfigurator:
 			pref_data = json.load(pref_file)
 
 
-		# Use the settings
-		if pref_data["etr_choosen_image_set"]["value"] == "custom":
-			self.image_source = Source.RESSOURCES
-		else:
-			#todo
-			pass
+		# Get all images in the "selected" folder
+		choosable_images = os.listdir(IMAGE_SELECTED_DIR)
+		choosable_images.sort()
 
-		self.createExtracted()
-		
+
+		# Add the founded image names to the ComboBoxes
+		if pref_data["etr_choosen_image_set"]["value"] == "custom":
+			for combobox in self.cb_previews:
+				for option in choosable_images:
+					combobox.append_text(option)
+		else:
+			for i, set in enumerate(self.img_sets):
+				if set == pref_data["etr_choosen_image_set"]["value"]:
+					self.cb_image_set.set_active(i)
+
+
 		for i, val in enumerate(self.pref_vars):
-			try:
-				self.changePreviewImage(i, RES_DIR + "/custom_images/" + pref_data[val]['value'])
-				self.cb_previews[i].set_active(self.extracted.index(pref_data[val]['value']))
-			except:
-				pass
-	
+			# Set the preview image
+			self.changePreviewImage(i, IMAGE_SELECTED_DIR + pref_data[val]['value'])
+
+			# Set the ComboBox selection
+			if pref_data["etr_choosen_image_set"]["value"] == "custom":
+				self.image_source = Source.EXTRACT
+
+				for j, set in enumerate(choosable_images):
+					if set == pref_data[val]["value"]:
+						self.cb_previews[i].set_active(j)
+			else:
+				self.image_source = Source.SET
+
 
 	def writeToSettings(self):
 		""" Save preferences to the Cinnamon preference file
@@ -144,16 +172,16 @@ class ImageConfigurator:
 
 
 		# Update the settings
-		for i, val in enumerate(self.pref_vars):
-			pref_data[val]['value'] = self.extracted[self.cb_previews[i].get_active()]
+		if self.image_source == Source.SET:
+			pref_data["etr_choosen_image_set"]["value"] = self.cb_image_set.get_active_text()
 
-
-		if self.rb_included_image_set:
-			#pref_data["etr_choosen_image_set"]["value"] = self.cb_image_set.
-			# todo
-			pass
+			for i, val in enumerate(self.pref_vars):
+				pref_data[val]['value'] = str(i + 1) + ".jpg"
 		else:
 			pref_data["etr_choosen_image_set"]["value"] = "custom"
+
+			for i, val in enumerate(self.pref_vars):
+				pref_data[val]['value'] = self.cb_previews[i].get_active_text()
 
 
 		# Write the settings
@@ -184,10 +212,10 @@ class ImageConfigurator:
 		
 		filename = imageURI[imageURI.rfind("/") + 1:imageURI.rfind(".")]
 
-		self.image_source = Source.EXPORT
+		self.image_source = Source.EXTRACT
 
-		self.wipeImages(Source.EXPORT)
-		os.system("heif-convert " + imageURI + " " + EXPORT_DIR + "/" + filename + ".jpg")
+		self.wipeImages(Source.EXTRACT)
+		os.system("heif-convert " + imageURI + " " + IMAGE_EXTRACT_DIR + "/" + filename + ".jpg")
 
 		self.createExtracted()
 
@@ -198,10 +226,10 @@ class ImageConfigurator:
 		Args:
 			source (Source): Choose the folder by selecting the Source
 		"""
-		if source == Source.EXPORT:
-			dir = EXPORT_DIR + "/*"
-		elif source == Source.RESSOURCES:
-			dir = RES_DIR + "/custom_images/*"
+		if source == Source.EXTRACT:
+			dir = IMAGE_EXTRACT_DIR + "*"
+		elif source == Source.SELECTED:
+			dir = IMAGE_SELECTED_DIR + "*"
 		
 		for file in glob.glob(dir):
 			os.remove(file)
@@ -211,29 +239,37 @@ class ImageConfigurator:
 		""" Create the extracted images array
 		"""
 		try:
-			if self.image_source == Source.RESSOURCES:
-				self.extracted = os.listdir(RES_DIR + "/custom_images")
-			elif self.image_source == Source.EXPORT:
-				self.extracted = os.listdir(EXPORT_DIR)
+			if self.image_source == Source.SELECTED:
+				self.extracted = os.listdir(IMAGE_SELECTED_DIR)
+			elif self.image_source == Source.EXTRACT:
+				self.extracted = os.listdir(IMAGE_EXTRACT_DIR)
 
 			self.extracted.sort()
-			self.ls_preview.clear()
 
-			for option in self.extracted:
-				self.ls_preview.append([option])
+			for combobox in self.cb_previews:
+				for option in self.extracted:
+					combobox.append_text(option)
 		except:
 			pass
 
 		self.stack_main.set_visible_child_name("config")
 
 
-	def copyToSource(self):
+	def copyToSelected(self, source: Source):
 		""" Copies the extracted images to "res/"
 		"""
-		self.wipeImages(Source.RESSOURCES)
+		# Clean the "selected folder up"
+		self.wipeImages(Source.SELECTED)
 
-		for image in os.listdir(EXPORT_DIR):
-			shutil.copy(EXPORT_DIR + "/" + image, RES_DIR + "/custom_images/" + image)
+		# Estimate the source folder
+		if source == Source.EXTRACT:
+			source_folder = IMAGE_EXTRACT_DIR
+		else:
+			source_folder = IMAGE_SETS_DIR + self.cb_image_set.get_active_text() + "/"
+
+		# Copy it to "selected/"
+		for image in os.listdir(source_folder):
+			shutil.copy(source_folder + image, IMAGE_SELECTED_DIR + image)
 
 
 	def imageSetVisibility(self, source: Source):
@@ -242,15 +278,33 @@ class ImageConfigurator:
 		Args:
 			source (Source): Toggle by type of Source
 		"""
+		self.image_source = source
+
 		self.lb_image_set.set_visible(source == Source.SET)
 		self.cb_image_set.set_visible(source == Source.SET)
 
 		self.lb_heic_file.set_visible(source != Source.SET)
 		self.fc_heic_file.set_visible(source != Source.SET)
 
+		for i in range(0, 9):
+			self.cb_previews[i].set_visible(source != Source.SET)
+
 
 
 	########## UI Signals ##########
+
+	def onImageSetSelected(self, cb):
+		""" UI signal if the image set combo box value changed
+
+		Args:
+			cb (GtkComboBox): The active ComboBox
+		"""
+		if self.image_source != Source.SELECTED:
+			set_name = cb.get_active_text()
+			
+			for i, _ in enumerate(self.img_previews):
+				self.changePreviewImage(i, IMAGE_SETS_DIR + set_name + "/" + str(i + 1) + ".jpg")
+
 
 	def onRadioImageSet(self, rb):
 		""" UI signal if the radio buttons are toggled
@@ -261,7 +315,7 @@ class ImageConfigurator:
 		if rb.get_active():
 			self.imageSetVisibility(Source.SET)
 		else:
-			self.imageSetVisibility(Source.EXPORT)
+			self.imageSetVisibility(Source.EXTRACT)
 
 
 	def onHeifSelected(self, fc):
@@ -278,7 +332,7 @@ class ImageConfigurator:
 
 		thread = threading.Thread(target=self.extractHeifImages, args=(uri, ))
 		thread.daemon = True
-		thread.start()		
+		thread.start()
 
 
 	def onPreviewComboboxSelected(self, cb):
@@ -290,18 +344,15 @@ class ImageConfigurator:
 		number = Gtk.Buildable.get_name(cb)
 		number = number[number.rfind("_") + 1:]
 		
-		# todo
-		if self.image_source == Source.RESSOURCES:
-			self.changePreviewImage(int(number) - 1, RES_DIR + "/custom_images/" + self.extracted[cb.get_active()])
-		elif self.image_source == Source.EXPORT:
-			self.changePreviewImage(int(number) - 1, EXPORT_DIR + "/" + self.extracted[cb.get_active()])
+		if self.image_source == Source.EXTRACT:
+			self.changePreviewImage(int(number) - 1, IMAGE_EXTRACT_DIR + cb.get_active_text())
 
 
 	def onApply(self, *args):
 		""" UI signal if the user presses the "Apply" button
 		"""
 		self.writeToSettings()
-		self.copyToSource()
+		self.copyToSelected(self.image_source)
 
 		Gtk.main_quit()
 

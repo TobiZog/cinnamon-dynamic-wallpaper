@@ -36,6 +36,8 @@ class ImageConfigurator:
 			"aurora",
 			"beach",
 			"bitday",
+			"cliffs",
+			"gradient",
 			"lakeside",
 			"mountains",
 			"sahara"

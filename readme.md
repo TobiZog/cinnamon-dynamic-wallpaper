@@ -58,6 +58,10 @@ The image sets are from https://github.com/adi1090x/dynamic-wallpaper
 | ------ | ----- | ------ |
 | ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/aurora/5.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/beach/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/bitday/4.jpg) |
 
-| Lakeside | Mountains | Sahara |
+| Cliffs | Gradient | Lakeside | 
 | -------- | --------- | ------ |
-| ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/lakeside/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/mountains/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/sahara/4.jpg) |
+| ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/cliffs/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/gradient/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/lakeside/4.jpg) |
+
+| Mountains | Sahara |
+| --------- | ------ |
+| ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/mountains/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/sahara/4.jpg) |

@@ -10,11 +10,21 @@ Based on a location, this extension calculates the periods of a day and switches
 - 9 day periods
 - HEIF converter
 - Image configuration assistent with simple one-click setup for image choose
-- Online location estimation
+- Online location estimation or offline with manual latitude and longitude input
 - Offline sun angles estimation
 
 ### Tested Cinnamon versions
-- 5.6
+- 5.4 (Mint 21)
+- 5.6 (Mint 21.1)
+- 5.8 (Mint 21.2)
+
+### Technology
+- Using `JavaScript` for
+	- Sun angle estimation
+	- Location estimation
+	- Change of the desktop wallpapers
+- `Python` displays the Image Configurator
+- Image Configurator UI was written with `Glade`
 
 ## Installation
 ### From the repo
@@ -23,6 +33,8 @@ Based on a location, this extension calculates the periods of a day and switches
 3. Copy the folder `cinnamon-dynamic-wallpaper@TobiZog` to `~/.local/share/cinnamon/extensions/`
 
 ### From Built-in Extension Manager
+![](res/download-manager.png)
+
 1. Open "Extensions" in Linux Mint or any other distribution with Cinnamon as Desktop Environment
 2. Click on "Download"
 3. Search and download it

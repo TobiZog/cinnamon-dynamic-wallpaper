@@ -6,7 +6,7 @@
 Based on a location, this extension calculates the periods of a day and switches the background image of your Cinnamon desktop. The extension offers the choice between a set of included wallpapers or to select a HEIC-file.
 
 ### Features
-- 6 included image sets
+- 8 included image sets
 - 9 day periods
 - HEIF converter
 - Image configuration assistent with simple one-click setup for image choose

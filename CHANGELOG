@@ -1,8 +1,5 @@
 # Version 1.2
 - Compatibility with Cinnamon 4.8 and higher
-- Notification on first start
-- Bugfix: No more restart needed after first enable
-- Load at first start a predefined dynamic wallpaper
 
 # Version 1.1
 - Compatibility with Cinnamon 5.4 and 5.8

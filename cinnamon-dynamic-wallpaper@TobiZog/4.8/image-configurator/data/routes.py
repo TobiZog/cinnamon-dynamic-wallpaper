@@ -1,0 +1,1 @@
+pref_path = "/.cinnamon/configs/cinnamon-dynamic-wallpaper@TobiZog/cinnamon-dynamic-wallpaper@TobiZog.json"

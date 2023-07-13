@@ -1,20 +1,18 @@
 import gi, os, glob, json, shutil, enum, threading, subprocess
+from data.routes import pref_path
+from data.enum import Source
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(__file__)) + "/"
 UI_PATH = PROJECT_DIR + "image-configurator/" + "image-configurator.glade"
+PREF_PATH = os.path.expanduser("~") + pref_path
 
 IMAGE_DIR = PROJECT_DIR + "images/"
 IMAGE_EXTRACT_DIR = IMAGE_DIR + "extracted/"
 IMAGE_SETS_DIR = IMAGE_DIR + "included_image_sets/"
 IMAGE_SELECTED_DIR = IMAGE_DIR + "selected/"
-
-class Source(enum.Enum):
-	SELECTED = 0	# Load previous selected images
-	EXTRACT = 1		# Use a custom image set from a heic file
-	SET = 2			# Use an included image set
 
 
 class ImageConfigurator:
@@ -113,13 +111,6 @@ class ImageConfigurator:
 		version = version.decode()
 		version = version[version.find(" "):version.rfind("\n")].strip()
 
-		if version.startswith("5.4"):
-			self.pref_path = os.path.expanduser("~") + \
-				"/.cinnamon/configs/cinnamon-dynamic-wallpaper@TobiZog/cinnamon-dynamic-wallpaper@TobiZog.json"
-		else:
-			self.pref_path = os.path.expanduser("~") + \
-				"/.config/cinnamon/spices/cinnamon-dynamic-wallpaper@TobiZog/cinnamon-dynamic-wallpaper@TobiZog.json"
-
 		# Load preferences
 		self.loadFromSettings()
 
@@ -140,7 +131,7 @@ class ImageConfigurator:
 		""" Load preferences from the Cinnamon preference file
 		"""
 		# Load the settings
-		with open(self.pref_path, "r") as pref_file:
+		with open(PREF_PATH, "r") as pref_file:
 			pref_data = json.load(pref_file)
 
 
@@ -179,7 +170,7 @@ class ImageConfigurator:
 		""" Save preferences to the Cinnamon preference file
 		"""
 		# Load the settings
-		with open(self.pref_path, "r") as pref_file:
+		with open(PREF_PATH, "r") as pref_file:
 			pref_data = json.load(pref_file)
 
 
@@ -197,7 +188,7 @@ class ImageConfigurator:
 
 
 		# Write the settings
-		with open(self.pref_path, "w") as pref_file:
+		with open(PREF_PATH, "w") as pref_file:
 			json.dump(pref_data, pref_file, separators=(',', ':'), indent=4)
 
 

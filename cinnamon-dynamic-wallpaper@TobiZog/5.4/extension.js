@@ -76,6 +76,23 @@ CinnamonDynamicWallpaperExtension.prototype = {
 		this.setImageToTime()
 
 		this._loop()
+
+		
+		// Check for the first startup
+		if (this.settings.getValue("first_start")) {
+			this.showNotification("Welcome to Cinnamon Dynamic Wallpaper", "Check the preferences to choose a dynamic wallpaper", true)
+			this.settings.setValue("first_start", false)
+
+			// Copy the default wallpaper to the folder
+			Util.spawnCommandLine("mkdir " + DIRECTORY.path + "/images/selected/")
+			global.log("mkdir " + DIRECTORY.path + "/images/selected")
+
+			for (let i = 1; i <= 9; i++) {
+				Util.spawnCommandLine("ln -s " + 
+				DIRECTORY.path + "/images/included_image_sets/lakeside/" + i + ".jpg " + 
+				DIRECTORY.path + "/images/selected/" + i + ".jpg");
+			}
+		}
 	},
 
 

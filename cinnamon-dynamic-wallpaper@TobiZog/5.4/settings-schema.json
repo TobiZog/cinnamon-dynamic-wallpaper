@@ -123,52 +123,56 @@
 	},
 	"etr_choosen_image_set": {
 		"type": "entry",
-		"default": "",
+		"default": "lakeside",
 		"description": ""
 	},
 	"etr_img_morning_twilight": {
 		"type": "entry",
-		"default": "",
+		"default": "1.jpg",
 		"description": ""
 	},
 	"etr_img_sunrise": {
 		"type": "entry",
-		"default": "",
+		"default": "2.jpg",
 		"description": ""
 	},
 	"etr_img_morning": {
 		"type": "entry",
-		"default": "",
+		"default": "3.jpg",
 		"description": ""
 	},
 	"etr_img_noon": {
 		"type": "entry",
-		"default": "",
+		"default": "4.jpg",
 		"description": ""
 	},
 	"etr_img_afternoon": {
 		"type": "entry",
-		"default": "",
+		"default": "5.jpg",
 		"description": ""
 	},
 	"etr_img_evening": {
 		"type": "entry",
-		"default": "",
+		"default": "6.jpg",
 		"description": ""
 	},
 	"etr_img_sunset": {
 		"type": "entry",
-		"default": "",
+		"default": "7.jpg",
 		"description": ""
 	},
 	"etr_img_night_twilight": {
 		"type": "entry",
-		"default": "",
+		"default": "8.jpg",
 		"description": ""
 	},
 	"etr_img_night": {
 		"type": "entry",
-		"default": "",
+		"default": "9.jpg",
 		"description": ""
+	},
+	"first_start": {
+		"type": "generic",
+		"default": true
 	}
 }

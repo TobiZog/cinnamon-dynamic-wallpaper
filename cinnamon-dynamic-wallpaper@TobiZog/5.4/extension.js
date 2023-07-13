@@ -237,11 +237,29 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	},
 
 
+	/**
+	 * Main loop
+	 */
+	_loop: function () {
+		if (looping) {
+			this.setImageToTime()
+
+			if (lastLocationUpdate < new Date().getTime() - this.locationRefreshTime * 1000) {
+				this.updateLocation()
+				lastLocationUpdate = new Date()
+			}
+
+			// Refresh every 60 seconds
+			Mainloop.timeout_add_seconds(60, Lang.bind(this, this._loop));
+		}
+	},
+
+
 	/******************** UI Callbacks ********************/
 
 	/**
 	 * Callback for settings-schema
-	 * Opens the external heic-importer window
+	 * Opens the external image configurator window
 	 */
 	openImageConfigurator: function() {
 		Util.spawnCommandLine("/usr/bin/env python3 " + 
@@ -251,7 +269,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 	/**
 	 * Callback for settings-schema
-	 * Opens the browser and navigate to the URL of the respository
+	 * Opens the browser and navigates to the URL of the respository
 	 */
 	openRepoWebsite: function() {
 		Util.spawnCommandLine("xdg-open https://github.com/TobiZog/cinnamon-dynamic-wallpaper");
@@ -259,20 +277,20 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 
 	/**
-	 * Main loop
+	 * Callback for settings-schema
+	 * Opens the browser and navigates to the URL of the Cinnamon Spices extension
 	 */
-	_loop: function() {
-		if(looping) {
-			this.setImageToTime()
+	openSpicesWebsite: function() {
+		Util.spawnCommandLine("xdg-open https://cinnamon-spices.linuxmint.com/extensions/view/97")
+	},
 
-			if (lastLocationUpdate < new Date().getTime() - this.locationRefreshTime * 1000) {
-				this.updateLocation()
-				lastLocationUpdate = new Date()
-			}
-			
-			// Refresh every 60 seconds
-			Mainloop.timeout_add_seconds(60, Lang.bind(this, this._loop));
-		}
+
+	/**
+	 * Callback for settings-schema
+	 * Opens the browser and navigates to the GitHub issue page
+	 */
+	openIssueWebsite: function() {
+		Util.spawnCommandLine("xdg-open https://github.com/TobiZog/cinnamon-dynamic-wallpaper/issues/new")
 	}
 }
 

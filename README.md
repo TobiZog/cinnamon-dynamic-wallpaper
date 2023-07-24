@@ -12,6 +12,7 @@ Based on a location, this extension calculates the periods of a day and switches
 - Image configuration assistent with simple one-click setup for image choose
 - Online location estimation or offline with manual latitude and longitude input
 - Offline sun angles estimation
+- Image stretching over multiple displays or repeat image for every display
 
 ### Tested Cinnamon versions
 - 4.8 (Mint 20.1)
@@ -30,17 +31,17 @@ Based on a location, this extension calculates the periods of a day and switches
 - Image Configurator UI was written with `Glade`
 
 ## Installation
-### From the repo
-1. Download the Repository
-2. Extract the files
-3. Copy the folder `cinnamon-dynamic-wallpaper@TobiZog` to `~/.local/share/cinnamon/extensions/`
-
 ### From Built-in Extension Manager
 ![](res/download-manager.png)
 
 1. Open "Extensions" in Linux Mint or any other distribution with Cinnamon as Desktop Environment
 2. Click on "Download"
 3. Search and download it
+
+### From the repo
+1. Download the Repository
+2. Extract the files
+3. Copy the folder `cinnamon-dynamic-wallpaper@TobiZog` to `~/.local/share/cinnamon/extensions/`
 
 ## How to use it
 1. Active the Extension via Cinnamon Extension Manager
@@ -59,12 +60,12 @@ The image sets are from https://github.com/adi1090x/dynamic-wallpaper
 
 | Aurora | Beach | Bitday |
 | ------ | ----- | ------ |
-| ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/aurora/5.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/beach/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/bitday/4.jpg) |
+| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/aurora/5.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/beach/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/bitday/4.jpg) |
 
 | Cliffs | Gradient | Lakeside | 
 | -------- | --------- | ------ |
-| ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/cliffs/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/gradient/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/lakeside/4.jpg) |
+| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/cliffs/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/gradient/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/lakeside/4.jpg) |
 
 | Mountains | Sahara |
 | --------- | ------ |
-| ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/mountains/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/images/included_image_sets/sahara/4.jpg) |
+| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/mountains/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/sahara/4.jpg) |

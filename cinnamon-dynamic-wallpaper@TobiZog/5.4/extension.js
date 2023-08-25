@@ -93,6 +93,16 @@ CinnamonDynamicWallpaperExtension.prototype = {
 		this.bindSettings("etr_img_night_twilight", "img_night_twilight", this.settingsUpdated)
 		this.bindSettings("etr_img_night", "img_night", this.settingsUpdated)
 
+		this.bindSettings("etr_morning_twilight_times", "img_morning_twilight_times")
+		this.bindSettings("etr_sunrise_times", "img_sunrise_times")
+		this.bindSettings("etr_morning_times", "img_morning_times")
+		this.bindSettings("etr_noon_times", "img_noon_times")
+		this.bindSettings("etr_afternoon_times", "img_afternoon_times")
+		this.bindSettings("etr_evening_times", "img_evening_times")
+		this.bindSettings("etr_sunset_times", "img_sunset_times")
+		this.bindSettings("etr_night_twilight_times", "img_night_twilight_times")
+		this.bindSettings("etr_night_times", "img_night_times")
+
 
 		// Check for the first startup
 		if (this.settings.getValue("first_start")) {
@@ -272,6 +282,17 @@ CinnamonDynamicWallpaperExtension.prototype = {
 		function convertToTimeString(time) {
 			return time.getHours().toString().padStart(2, "0") + ":" + time.getMinutes().toString().padStart(2, "0")
 		}
+
+
+		this.img_morning_twilight_times = convertToTimeString(timesArray[0][0]) + " - " + convertToTimeString(timesArray[0][1])
+		this.img_sunrise_times = convertToTimeString(timesArray[1][0]) + " - " + convertToTimeString(timesArray[1][1])
+		this.img_morning_times = convertToTimeString(timesArray[2][0]) + " - " + convertToTimeString(timesArray[2][1])
+		this.img_noon_times = convertToTimeString(timesArray[3][0]) + " - " + convertToTimeString(timesArray[3][1])
+		this.img_afternoon_times = convertToTimeString(timesArray[4][0]) + " - " + convertToTimeString(timesArray[4][1])
+		this.img_evening_times = convertToTimeString(timesArray[5][0]) + " - " + convertToTimeString(timesArray[5][1])
+		this.img_sunset_times = convertToTimeString(timesArray[6][0]) + " - " + convertToTimeString(timesArray[6][1])
+		this.img_night_twilight_times = convertToTimeString(timesArray[7][0]) + " - " + convertToTimeString(timesArray[7][1])
+		this.img_night_times = convertToTimeString(timesArray[8][0]) + " - " + convertToTimeString(timesArray[8][1])
 
 		this.tvTimes = 
 			"Morning Twilight:\t\t" + convertToTimeString(timesArray[0][0]) + " - " + convertToTimeString(timesArray[0][1]) +

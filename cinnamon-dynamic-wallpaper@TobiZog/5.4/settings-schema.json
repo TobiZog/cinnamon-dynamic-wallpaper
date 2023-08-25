@@ -267,5 +267,51 @@
 	"first_start": {
 		"type": "generic",
 		"default": true
+	},
+
+	"etr_morning_twilight_times": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_sunrise_times": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_morning_times": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_noon_times": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_afternoon_times": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_evening_times": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_sunset_times": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_night_twilight_times": {
+		"type": "entry",
+		"default": "",
+		"description": ""
+	},
+	"etr_night_times": {
+		"type": "entry",
+		"default": "",
+		"description": ""
 	}
 }

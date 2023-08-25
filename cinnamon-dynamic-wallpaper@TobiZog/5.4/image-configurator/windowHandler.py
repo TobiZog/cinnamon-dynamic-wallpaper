@@ -21,7 +21,19 @@ class WindowHandler:
 		########### Class variables ###########
 		self.pref_path = pref_path
 
-		self.pref_vars = [
+		self.time_values = [
+			"etr_morning_twilight_times",
+			"etr_sunrise_times",
+			"etr_morning_times",
+			"etr_noon_times",
+			"etr_afternoon_times",
+			"etr_evening_times",
+			"etr_sunset_times",
+			"etr_night_twilight_times",
+			"etr_night_times"
+		]
+
+		self.img_values = [
 			"etr_img_morning_twilight",
 			"etr_img_sunrise",
 			"etr_img_morning",
@@ -69,6 +81,18 @@ class WindowHandler:
 
 		self.lb_heic_file = self.builder.get_object("lb_heic_file")
 		self.fc_heic_file = self.builder.get_object("fc_heic_file")
+
+		self.lb_times = [
+			self.builder.get_object("lb_times_1"),
+			self.builder.get_object("lb_times_2"),
+			self.builder.get_object("lb_times_3"),
+			self.builder.get_object("lb_times_4"),
+			self.builder.get_object("lb_times_5"),
+			self.builder.get_object("lb_times_6"),
+			self.builder.get_object("lb_times_7"),
+			self.builder.get_object("lb_times_8"),
+			self.builder.get_object("lb_times_9")
+		]
 
 		self.img_previews = [
 			self.builder.get_object("img_preview_1"),
@@ -148,7 +172,8 @@ class WindowHandler:
 					self.cb_image_set.set_active(i)
 
 
-		for i, val in enumerate(self.pref_vars):
+		for i, val in enumerate(self.img_values):
+			# Bugfix: Load the images only, if there is choosen one
 			if pref_data[val]['value'] != None:
 				# Set the preview image
 				self.changePreviewImage(i, IMAGE_SELECTED_DIR + pref_data[val]['value'])
@@ -163,6 +188,10 @@ class WindowHandler:
 				else:
 					self.image_source = Source.SET
 
+		# Print the times of the day
+		for i, val in enumerate(self.time_values):
+			self.lb_times[i].set_text(pref_data[val]['value'])
+
 
 	def writeToSettings(self):
 		""" Save preferences to the Cinnamon preference file
@@ -176,12 +205,12 @@ class WindowHandler:
 		if self.image_source == Source.SET:
 			pref_data["etr_choosen_image_set"]["value"] = self.cb_image_set.get_active_text()
 
-			for i, val in enumerate(self.pref_vars):
+			for i, val in enumerate(self.img_values):
 				pref_data[val]['value'] = str(i + 1) + ".jpg"
 		else:
 			pref_data["etr_choosen_image_set"]["value"] = "custom"
 
-			for i, val in enumerate(self.pref_vars):
+			for i, val in enumerate(self.img_values):
 				image_name = self.cb_previews[i].get_active_text()
 
 				pref_data[val]['value'] = image_name

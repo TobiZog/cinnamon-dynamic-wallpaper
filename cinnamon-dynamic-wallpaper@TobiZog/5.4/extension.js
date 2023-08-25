@@ -1,14 +1,13 @@
 /**
  * @name	Cinnamon-Dynamic-Wallpaper
  * @alias 	TobiZog
- * @since	2023
+ * @since	2023-05-17
+ * 
+ * @description Main application file
  */
 
 /******************** Imports ********************/
 
-const MessageTray = imports.ui.messageTray;
-const St = imports.gi.St;
-const Main = imports.ui.main;
 const Util = imports.misc.util;
 const Settings = imports.ui.settings;
 const Mainloop = imports.mainloop;
@@ -18,6 +17,7 @@ const Gio = imports.gi.Gio;
 
 let suntimes = require('./scripts/suntimes')
 let location = require('./scripts/location')
+let communication = require('./scripts/communication')
 
 
 /******************** Constants ********************/
@@ -39,6 +39,7 @@ let lastLocationUpdate = new Date()
 // The last calculated suntime of the day
 let lastDayTime = suntimes.DAYPERIOD.NONE
 
+// Loop state
 let looping = true
 
 
@@ -50,14 +51,18 @@ function CinnamonDynamicWallpaperExtension(uuid) {
 
 
 CinnamonDynamicWallpaperExtension.prototype = {
+
+	/******************** Lifecycle ********************/
+
 	/**
 	 * Initialization
 	 * 
 	 * @param {string} uuid 	Universally Unique Identifier
 	 */
-	_init: function(uuid) {
+	_init: function(uuid) { 
 		this.settings = new Settings.ExtensionSettings(this, uuid);
 
+		/** Configuration */
 		// Image set
 		this.bindSettings("sw_image_stretch", "imageStretch", this.settingsUpdated)
 
@@ -67,8 +72,14 @@ CinnamonDynamicWallpaperExtension.prototype = {
 		this.bindSettings("etr_latitude", "latitude", this.settingsUpdated)
 		this.bindSettings("etr_longitude", "longitude", this.settingsUpdated)
 
+
 		// Time periods
 		this.bindSettings("tv_times", "tvTimes")
+
+		/** Debugging */
+		// Logs
+		this.bindSettings("tv_logs", "tvLogs")
+
 		
 		// Image Configurator
 		this.bindSettings("etr_img_morning_twilight", "img_morning_twilight", this.settingsUpdated)
@@ -81,12 +92,14 @@ CinnamonDynamicWallpaperExtension.prototype = {
 		this.bindSettings("etr_img_night_twilight", "img_night_twilight", this.settingsUpdated)
 		this.bindSettings("etr_img_night", "img_night", this.settingsUpdated)
 
-		
+
 		// Check for the first startup
 		if (this.settings.getValue("first_start")) {
+			this.writeToLogs("First time start")
+
 			// Welcome notification
-			this.showNotification("Welcome to Cinnamon Dynamic Wallpaper", 
-			"Check the preferences to choose a dynamic wallpaper", true)
+			communication.showNotification("Welcome to Cinnamon Dynamic Wallpaper", 
+				"Check the preferences to choose a dynamic wallpaper", true)
 
 			// Hide the notification on system restart
 			this.settings.setValue("first_start", false)
@@ -102,6 +115,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 			}
 		}
 
+		this.writeToLogs("Initialization completed")
 
 		// Set image initial at desktop wallpaper
 		this.setImageToTime()
@@ -114,9 +128,9 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	/**
 	 * Binding the settings objects
 	 * 
-	 * @param {*} ui_name 	Name of preference in settings-schema.json
-	 * @param {*} js_name 	Name of preference in JavaScript
-	 * @param {*} func 		Function to call on change
+	 * @param {string} ui_name 	Name of preference in settings-schema.json
+	 * @param {string} js_name 	Name of preference in JavaScript
+	 * @param {Function} func 	Function to call on change
 	 */
 	bindSettings: function (ui_name, js_name, func = this.on_settings_changed) {
 		this.settings.bindProperty(
@@ -129,6 +143,27 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 
 	/**
+	 * Main loop
+	 */
+	_loop: function () {
+		if (looping) {
+			this.setImageToTime()
+
+			if (lastLocationUpdate < new Date().getTime() - this.locationRefreshTime * 1000) {
+				this.updateLocation()
+				lastLocationUpdate = new Date()
+			}
+
+			// Refresh every 60 seconds
+			Mainloop.timeout_add_seconds(60, Lang.bind(this, this._loop));
+			this.writeToLogs("Main loop runs...")
+		}
+	},
+
+
+	/******************** Settings handling ********************/
+
+	/**
 	 * Handles changes in settings
 	 */
 	settingsUpdated: function() {
@@ -138,43 +173,40 @@ CinnamonDynamicWallpaperExtension.prototype = {
 		this.setImageToTime()
 	},
 
+	/**
+	 * Callback for settings-schema
+	 * Opens the external image configurator window
+	 */
+	openImageConfigurator: function () {
+		Util.spawnCommandLine("/usr/bin/env python3 " +
+			DIRECTORY.path + "/image-configurator/image-configurator.py");
+	},
+
 
 	/**
-	 * Displaying a desktop notification
-	 * 
-	 * @param {string} title 				The Title in the notification
-	 * @param {string} text 				The text in the notification
-	 * @param {boolean} showOpenSettings 	Display the "Open settings" button in the notification, 
-	 * 										defaults to false
+	 * Callback for settings-schema
+	 * Opens the browser and navigates to the URL of the respository
 	 */
-	showNotification: function (title, text, showOpenSettings = false) {
-		let source = new MessageTray.Source(this.uuid);
+	openRepoWebsite: function () {
+		Util.spawnCommandLine("xdg-open https://github.com/TobiZog/cinnamon-dynamic-wallpaper");
+	},
 
-		// Parameter
-		let params = {
-			icon: new St.Icon({
-				icon_name: "icon",
-				icon_type: St.IconType.FULLCOLOR,
-				icon_size: source.ICON_SIZE
-			})
-		};
 
-		// The notification itself
-		let notification = new MessageTray.Notification(source, title, text, params);
+	/**
+	 * Callback for settings-schema
+	 * Opens the browser and navigates to the URL of the Cinnamon Spices extension
+	 */
+	openSpicesWebsite: function () {
+		Util.spawnCommandLine("xdg-open https://cinnamon-spices.linuxmint.com/extensions/view/97")
+	},
 
-		// Display the "Open settings" button, if showOpenSettings
-		if (showOpenSettings) {
-			notification.addButton("open-settings", _("Open settings"));
 
-			notification.connect("action-invoked", () =>
-				Util.spawnCommandLine("xlet-settings extension " + UUID));
-		}
-
-		// Put all together
-		Main.messageTray.add(source);
-
-		// Display it
-		source.notify(notification);
+	/**
+	 * Callback for settings-schema
+	 * Opens the browser and navigates to the GitHub issue page
+	 */
+	openIssueWebsite: function () {
+		Util.spawnCommandLine("xdg-open https://github.com/TobiZog/cinnamon-dynamic-wallpaper/issues/new")
 	},
 
 
@@ -197,6 +229,8 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 		Gio.Settings.sync();
 		gSetting.apply();
+
+		this.writeToLogs("Set new image: " + imageURI)
 	},
 
 
@@ -227,7 +261,6 @@ CinnamonDynamicWallpaperExtension.prototype = {
 				break
 			}
 		}
-
 		
 		function convertToTimeString(time) {
 			return time.getHours().toString().padStart(2, "0") + ":" + time.getMinutes().toString().padStart(2, "0")
@@ -261,63 +294,17 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 		// Update the update information
 		lastLocationUpdate = new Date()
+
+		this.writeToLogs("Location updated")
 	},
 
-
 	/**
-	 * Main loop
+	 * Adding text to the logs
+	 * 
+	 * @param {string} msg New message string
 	 */
-	_loop: function () {
-		if (looping) {
-			this.setImageToTime()
-
-			if (lastLocationUpdate < new Date().getTime() - this.locationRefreshTime * 1000) {
-				this.updateLocation()
-				lastLocationUpdate = new Date()
-			}
-
-			// Refresh every 60 seconds
-			Mainloop.timeout_add_seconds(60, Lang.bind(this, this._loop));
-		}
-	},
-
-
-	/******************** UI Callbacks ********************/
-
-	/**
-	 * Callback for settings-schema
-	 * Opens the external image configurator window
-	 */
-	openImageConfigurator: function() {
-		Util.spawnCommandLine("/usr/bin/env python3 " + 
-		DIRECTORY.path + "/image-configurator/image-configurator.py");
-	},
-
-
-	/**
-	 * Callback for settings-schema
-	 * Opens the browser and navigates to the URL of the respository
-	 */
-	openRepoWebsite: function() {
-		Util.spawnCommandLine("xdg-open https://github.com/TobiZog/cinnamon-dynamic-wallpaper");
-	},
-
-
-	/**
-	 * Callback for settings-schema
-	 * Opens the browser and navigates to the URL of the Cinnamon Spices extension
-	 */
-	openSpicesWebsite: function() {
-		Util.spawnCommandLine("xdg-open https://cinnamon-spices.linuxmint.com/extensions/view/97")
-	},
-
-
-	/**
-	 * Callback for settings-schema
-	 * Opens the browser and navigates to the GitHub issue page
-	 */
-	openIssueWebsite: function() {
-		Util.spawnCommandLine("xdg-open https://github.com/TobiZog/cinnamon-dynamic-wallpaper/issues/new")
+	writeToLogs: function(msg) {
+		this.tvLogs = communication.createLogs(this.tvLogs, msg)
 	}
 }
 

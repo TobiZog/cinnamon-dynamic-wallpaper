@@ -34,7 +34,7 @@ const PATH = DIRECTORY.path;
 let extension;
 
 // Time and date of the last location update
-let lastLocationUpdate = new Date()
+let lastLocationUpdate = -1
 
 // The last calculated suntime of the day
 let lastDayTime = suntimes.DAYPERIOD.NONE
@@ -69,12 +69,13 @@ CinnamonDynamicWallpaperExtension.prototype = {
 		// Location estimation
 		this.bindSettings("sw_auto_location", "autolocation", this.settingsUpdated)
 		this.bindSettings("sc_location_refresh_time", "locationRefreshTime", this.settingsUpdated)
+		this.bindSettings("etr_last_update", "etrLastUpdate")
 		this.bindSettings("etr_latitude", "latitude", this.settingsUpdated)
 		this.bindSettings("etr_longitude", "longitude", this.settingsUpdated)
 
-
 		// Time periods
 		this.bindSettings("tv_times", "tvTimes")
+
 
 		/** Debugging */
 		// Logs
@@ -149,7 +150,11 @@ CinnamonDynamicWallpaperExtension.prototype = {
 		if (looping) {
 			this.setImageToTime()
 
-			if (lastLocationUpdate < new Date().getTime() - this.locationRefreshTime * 1000) {
+			// Update the location, if the user choose "autoLocation" and the timer has expired
+			if ((lastLocationUpdate == -1 || 
+				lastLocationUpdate.getTime() < new Date().getTime() - this.locationRefreshTime * 60000) && 
+				this.autolocation) 
+			{
 				this.updateLocation()
 				lastLocationUpdate = new Date()
 			}
@@ -209,6 +214,8 @@ CinnamonDynamicWallpaperExtension.prototype = {
 		Util.spawnCommandLine("xdg-open https://github.com/TobiZog/cinnamon-dynamic-wallpaper/issues/new")
 	},
 
+
+	/******************** Other functions ********************/
 
 	/**
 	 * Changes the desktop background image
@@ -283,17 +290,16 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	 * Callback for changes in preferences
 	 */
 	updateLocation: function () {
+		// Update the update information
+		lastLocationUpdate = new Date()
+
 		if (this.autolocation) {
 			let loc = location.estimateLocation()
 			this.latitude = loc["latitude"]
 			this.longitude = loc["longitude"]
-		} else {
-			this.latitude = this.latitude
-			this.longitude = this.longitude
-		}
 
-		// Update the update information
-		lastLocationUpdate = new Date()
+			this.etrLastUpdate = lastLocationUpdate.getHours() + ":" + lastLocationUpdate.getMinutes()
+		}
 
 		this.writeToLogs("Location updated")
 	},

@@ -12,6 +12,7 @@ IMAGE_DIR = PROJECT_DIR + "images/"
 IMAGE_EXTRACT_DIR = IMAGE_DIR + "extracted/"
 IMAGE_SETS_DIR = IMAGE_DIR + "included_image_sets/"
 IMAGE_SELECTED_DIR = IMAGE_DIR + "selected/"
+IMAGE_DEFAULT_DIR = IMAGE_DIR + "default/"
 
 
 class WindowHandler:
@@ -148,20 +149,19 @@ class WindowHandler:
 
 
 		for i, val in enumerate(self.pref_vars):
-			# Set the preview image
-			self.changePreviewImage(i, IMAGE_SELECTED_DIR + pref_data[val]['value'])
+			if pref_data[val]['value'] != None:
+				# Set the preview image
+				self.changePreviewImage(i, IMAGE_SELECTED_DIR + pref_data[val]['value'])
 
-			# Set the ComboBox selection
-			if pref_data["etr_choosen_image_set"]["value"] == "custom":
-				self.image_source = Source.EXTRACT
+				# Set the ComboBox selection
+				if pref_data["etr_choosen_image_set"]["value"] == "custom":
+					self.image_source = Source.EXTRACT
 
-				for j, set in enumerate(choosable_images):
-					if set == pref_data[val]["value"]:
-						self.cb_previews[i].set_active(j)
-			else:
-				self.image_source = Source.SET
-		#except:
-		#	pass
+					for j, set in enumerate(choosable_images):
+						if set == pref_data[val]["value"]:
+							self.cb_previews[i].set_active(j)
+				else:
+					self.image_source = Source.SET
 
 
 	def writeToSettings(self):
@@ -182,7 +182,9 @@ class WindowHandler:
 			pref_data["etr_choosen_image_set"]["value"] = "custom"
 
 			for i, val in enumerate(self.pref_vars):
-				pref_data[val]['value'] = self.cb_previews[i].get_active_text()
+				image_name = self.cb_previews[i].get_active_text()
+
+				pref_data[val]['value'] = image_name
 
 
 		# Write the settings
@@ -219,7 +221,7 @@ class WindowHandler:
 		self.image_source = Source.EXTRACT
 
 		self.wipeImages(Source.EXTRACT)
-		os.system("heif-convert " + imageURI + " " + IMAGE_EXTRACT_DIR + "/" + filename + ".jpg")
+		os.system("heif-convert " + imageURI + " " + IMAGE_EXTRACT_DIR + filename + ".jpg")
 
 		self.createExtracted()
 

@@ -52,6 +52,7 @@
 			"keys": [
 				"sw_auto_location",
 				"sc_location_refresh_time",
+				"etr_last_update",
 				"etr_latitude",
 				"etr_longitude"
 			]
@@ -132,6 +133,12 @@
 		"max": 60,
 		"step": 5,
 		"description": "Interval time to refresh the location via network (min)",
+		"dependency": "sw_auto_location"
+	},
+	"etr_last_update": {
+		"type": "entry",
+		"description": "Last location update",
+		"default": "",
 		"dependency": "sw_auto_location"
 	},
 	"etr_latitude": {

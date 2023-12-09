@@ -5,3 +5,4 @@ custom_images/
 *.txt
 selected/
 __pycache__
+*.svg

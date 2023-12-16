@@ -18,7 +18,7 @@
     <property name="can-focus">False</property>
     <property name="window-position">center</property>
     <property name="default-width">1024</property>
-    <property name="default-height">768</property>
+    <property name="default-height">600</property>
     <property name="gravity">center</property>
     <signal name="destroy" handler="onDestroy" swapped="no"/>
     <child>
@@ -145,17 +145,22 @@
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="halign">center</property>
-                        <property name="spacing">8</property>
-                        <property name="layout-style">start</property>
+                        <property name="homogeneous">True</property>
+                        <property name="layout-style">expand</property>
                         <child>
-                          <object class="GtkToggleButton">
+                          <object class="GtkToggleButton" id="tb_image">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
+                            <signal name="toggled" handler="onToggleButtonImageClicked" swapped="no"/>
                             <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="margin-top">8</property>
+                                <property name="margin-bottom">8</property>
                                 <property name="orientation">vertical</property>
                                 <child>
                                   <object class="GtkImage">
@@ -192,14 +197,19 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton">
+                          <object class="GtkToggleButton" id="tb_heic">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
+                            <signal name="toggled" handler="onToggleButtonHeicClicked" swapped="no"/>
                             <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="margin-top">8</property>
+                                <property name="margin-bottom">8</property>
                                 <property name="orientation">vertical</property>
                                 <child>
                                   <object class="GtkImage">
@@ -236,14 +246,19 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkToggleButton">
+                          <object class="GtkToggleButton" id="tb_folder">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
+                            <signal name="toggled" handler="onToggleButtonFolderClicked" swapped="no"/>
                             <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="margin-top">8</property>
+                                <property name="margin-bottom">8</property>
                                 <property name="orientation">vertical</property>
                                 <child>
                                   <object class="GtkImage">
@@ -284,7 +299,8 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkListBoxRow" id="lbr_set">
+                  <object class="GtkListBoxRow" id="lbr_image">
+                    <property name="height-request">64</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <child>
@@ -327,6 +343,7 @@
                 </child>
                 <child>
                   <object class="GtkListBoxRow" id="lbr_heic">
+                    <property name="height-request">64</property>
                     <property name="can-focus">True</property>
                     <child>
                       <object class="GtkBox">
@@ -370,6 +387,7 @@
                 </child>
                 <child>
                   <object class="GtkListBoxRow" id="lbr_folder">
+                    <property name="height-request">64</property>
                     <property name="can-focus">True</property>
                     <child>
                       <object class="GtkBox">
@@ -451,75 +469,10 @@
                     <property name="row-spacing">8</property>
                     <property name="column-spacing">8</property>
                     <child>
-                      <object class="GtkImage">
-                        <property name="width-request">200</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="icon-name">image-x-generic</property>
-                        <property name="icon_size">6</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">0</property>
-                        <property name="top-attach">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkImage">
-                        <property name="width-request">200</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="icon-name">image-x-generic</property>
-                        <property name="icon_size">6</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">1</property>
-                        <property name="top-attach">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkImage">
-                        <property name="width-request">200</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="icon-name">image-x-generic</property>
-                        <property name="icon_size">6</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">2</property>
-                        <property name="top-attach">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkImage">
-                        <property name="width-request">200</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="icon-name">image-x-generic</property>
-                        <property name="icon_size">6</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">3</property>
-                        <property name="top-attach">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkImage">
-                        <property name="width-request">200</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="icon-name">image-x-generic</property>
-                        <property name="icon_size">6</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">4</property>
-                        <property name="top-attach">1</property>
-                      </packing>
-                    </child>
-                    <child>
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">label</property>
+                        <property name="label" translatable="yes">00:00 - 07:35</property>
                       </object>
                       <packing>
                         <property name="left-attach">0</property>
@@ -530,7 +483,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">label</property>
+                        <property name="label" translatable="yes">08:15 - 08:43</property>
                       </object>
                       <packing>
                         <property name="left-attach">1</property>
@@ -541,7 +494,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">label</property>
+                        <property name="label" translatable="yes">11:13 - 13:12</property>
                       </object>
                       <packing>
                         <property name="left-attach">2</property>
@@ -552,7 +505,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">label</property>
+                        <property name="label" translatable="yes">14:42 - 15:41</property>
                       </object>
                       <packing>
                         <property name="left-attach">3</property>
@@ -563,7 +516,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">label</property>
+                        <property name="label" translatable="yes">16:13 - 16:52</property>
                       </object>
                       <packing>
                         <property name="left-attach">4</property>
@@ -571,19 +524,119 @@
                       </packing>
                     </child>
                     <child>
-                      <placeholder/>
+                      <object class="GtkImage">
+                        <property name="width-request">200</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/9.jpg</property>
+                        <property name="icon_size">6</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">2</property>
+                      </packing>
                     </child>
                     <child>
-                      <placeholder/>
+                      <object class="GtkImage">
+                        <property name="width-request">200</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/2.jpg</property>
+                        <property name="icon_size">6</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">2</property>
+                      </packing>
                     </child>
                     <child>
-                      <placeholder/>
+                      <object class="GtkImage">
+                        <property name="width-request">200</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/4.jpg</property>
+                        <property name="icon_size">6</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">2</property>
+                        <property name="top-attach">2</property>
+                      </packing>
                     </child>
                     <child>
-                      <placeholder/>
+                      <object class="GtkImage">
+                        <property name="width-request">200</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/6.jpg</property>
+                        <property name="icon_size">6</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">3</property>
+                        <property name="top-attach">2</property>
+                      </packing>
                     </child>
                     <child>
-                      <placeholder/>
+                      <object class="GtkImage">
+                        <property name="width-request">200</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/8.jpg</property>
+                        <property name="icon_size">6</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">4</property>
+                        <property name="top-attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">2</property>
+                        <property name="top-attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">3</property>
+                        <property name="top-attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">4</property>
+                        <property name="top-attach">1</property>
+                      </packing>
                     </child>
                   </object>
                   <packing>
@@ -605,23 +658,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <!-- n-columns=5 n-rows=3 -->
+                  <object class="GtkGrid">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="halign">center</property>
-                    <property name="spacing">8</property>
+                    <property name="row-spacing">8</property>
+                    <property name="column-spacing">8</property>
                     <child>
                       <object class="GtkImage">
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="icon-name">image-x-generic</property>
+                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/1.jpg</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">0</property>
                       </packing>
                     </child>
                     <child>
@@ -629,13 +682,12 @@
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="icon-name">image-x-generic</property>
+                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/9.jpg</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
+                        <property name="left-attach">4</property>
+                        <property name="top-attach">0</property>
                       </packing>
                     </child>
                     <child>
@@ -643,13 +695,12 @@
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="icon-name">image-x-generic</property>
+                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/7.jpg</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
+                        <property name="left-attach">3</property>
+                        <property name="top-attach">0</property>
                       </packing>
                     </child>
                     <child>
@@ -657,13 +708,130 @@
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="icon-name">image-x-generic</property>
+                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/5.jpg</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">3</property>
+                        <property name="left-attach">2</property>
+                        <property name="top-attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="width-request">200</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/3.jpg</property>
+                        <property name="icon_size">6</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">07:35 - 08:14</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">08:44 - 11:12</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">13:13 - 14:41</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">2</property>
+                        <property name="top-attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">15:41 - 16:12</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">3</property>
+                        <property name="top-attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">16:53 - 23:59</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">4</property>
+                        <property name="top-attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">3</property>
+                        <property name="top-attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">2</property>
+                        <property name="top-attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">4</property>
+                        <property name="top-attach">2</property>
                       </packing>
                     </child>
                   </object>
@@ -672,9 +840,6 @@
                     <property name="fill">True</property>
                     <property name="position">2</property>
                   </packing>
-                </child>
-                <child>
-                  <placeholder/>
                 </child>
               </object>
               <packing>

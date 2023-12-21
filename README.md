@@ -15,12 +15,15 @@ Based on a location, this extension calculates the periods of a day and switches
 - Image stretching over multiple displays or repeat image for every display
 
 ### Tested Cinnamon versions
-- 4.8 (Mint 20.1)
-- 5.0 (Mint 20.2)
-- 5.2 (Mint 20.3)
 - 5.4 (Mint 21)
 - 5.6 (Mint 21.1)
 - 5.8 (Mint 21.2)
+- 6.0 (Mint 21.3)
+
+#### Only supported with version 1.x
+- 4.8 (Mint 20.1)
+- 5.0 (Mint 20.2)
+- 5.2 (Mint 20.3)
 
 ### Technology
 - Using `JavaScript` for

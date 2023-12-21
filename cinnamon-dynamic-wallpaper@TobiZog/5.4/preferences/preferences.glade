@@ -839,7 +839,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSwitch">
+                          <object class="GtkSwitch" id="sw_expand_over_all_displays">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="halign">end</property>
@@ -880,7 +880,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSwitch">
+                          <object class="GtkSwitch" id="sw_show_on_lock_screen">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="halign">end</property>
@@ -1156,7 +1156,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSpinButton">
+                          <object class="GtkSpinButton" id="spb_network_location_refresh_time">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="adjustment">adjustment1</property>
@@ -1198,7 +1198,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkEntry">
+                          <object class="GtkEntry" id="etr_latitude">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                           </object>
@@ -1239,7 +1239,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkEntry">
+                          <object class="GtkEntry" id="etr_longitude">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                           </object>
@@ -2530,6 +2530,7 @@
             <property name="double-buffered">False</property>
             <property name="use-stock">True</property>
             <property name="always-show-image">True</property>
+            <signal name="clicked" handler="onApply" swapped="no"/>
           </object>
         </child>
       </object>

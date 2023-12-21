@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 # Imports
-import gi, os
+import gi, os, subprocess
 from time_bar import create_bar_chart
 
 gi.require_version("Gtk", "3.0")
@@ -24,14 +24,25 @@ class Preferences:
 		self.builder.connect_signals(self)
 
 
-		# UI objects
-		self.buttonImageSet = self.builder.get_object("tb_image")
-		self.buttonHeicFile = self.builder.get_object("tb_heic")
-		self.buttonSourceFolder = self.builder.get_object("tb_folder")
-		self.listBoxRowImageSet = self.builder.get_object("lbr_image")
-		self.listBoxRowHeicFile = self.builder.get_object("lbr_heic")
-		self.listBoxRowSourceFolder = self.builder.get_object("lbr_folder")
+		########## UI objects ##########
+		
+		## Image Configuration
+		self.tbImageSet = self.builder.get_object("tb_image_set")
+		self.tbHeicFile = self.builder.get_object("tb_heic_file")
+		self.tbSourceFolder = self.builder.get_object("tb_source_folder")
+		self.lbrImageSet = self.builder.get_object("lbr_image_set")
+		self.lbrHeicFile = self.builder.get_object("lbr_heic_file")
+		self.lbrSourceFolder = self.builder.get_object("lbr_source_folder")
 		self.imgBar = self.builder.get_object("img_bar")
+
+		## Location & Times
+		self.tbNetworkLocation = self.builder.get_object("tb_network_location")
+		self.tbCustomLocation = self.builder.get_object("tb_custom_location")
+		self.tbTimePeriods = self.builder.get_object("tb_time_periods")
+		self.lbrNetworkLocation = self.builder.get_object("lbr_network_location")
+		self.lbrCustomLocationLongitude = self.builder.get_object("lbr_custom_location_longitude")
+		self.lbrCustomLocationLatitude = self.builder.get_object("lbr_custom_location_latitude")
+		self.lbrTimePeriods = self.builder.get_object("lbr_time_periods")
 
 
 		# Time bar
@@ -47,7 +58,8 @@ class Preferences:
 		window = self.builder.get_object("window_main")
 		window.show_all()
 
-		self.buttonImageSet.set_active(True)
+		self.tbImageSet.set_active(True)
+		self.tbNetworkLocation.set_active(True)
 
 		Gtk.main()
 
@@ -59,33 +71,77 @@ class Preferences:
 
 
 	#################### Callbacks ####################
-
-	def onToggleButtonImageClicked(self, button):
+		
+	## Image Configuration
+		
+	def onToggleButtonImageSetClicked(self, button):
 		if button.get_active():
-			self.buttonHeicFile.set_active(False)
-			self.buttonSourceFolder.set_active(False)
+			self.tbHeicFile.set_active(False)
+			self.tbSourceFolder.set_active(False)
 
-			self.listBoxRowImageSet.set_visible(True)
-			self.listBoxRowHeicFile.set_visible(False)
-			self.listBoxRowSourceFolder.set_visible(False)
-
-	def onToggleButtonHeicClicked(self, button):
+			self.lbrImageSet.set_visible(True)
+			self.lbrHeicFile.set_visible(False)
+			self.lbrSourceFolder.set_visible(False)
+		
+	def onToggleButtonHeicFileClicked(self, button):
 		if button.get_active():
-			self.buttonImageSet.set_active(False)
-			self.buttonSourceFolder.set_active(False)
+			self.tbImageSet.set_active(False)
+			self.tbSourceFolder.set_active(False)
 
-			self.listBoxRowImageSet.set_visible(False)
-			self.listBoxRowHeicFile.set_visible(True)
-			self.listBoxRowSourceFolder.set_visible(False)
+			self.lbrImageSet.set_visible(False)
+			self.lbrHeicFile.set_visible(True)
+			self.lbrSourceFolder.set_visible(False)
 
-	def onToggleButtonFolderClicked(self, button):
+	def onToggleButtonSourceFolderClicked(self, button):
 		if button.get_active():
-			self.buttonImageSet.set_active(False)
-			self.buttonHeicFile.set_active(False)
+			self.tbImageSet.set_active(False)
+			self.tbHeicFile.set_active(False)
 
-			self.listBoxRowImageSet.set_visible(False)
-			self.listBoxRowHeicFile.set_visible(False)
-			self.listBoxRowSourceFolder.set_visible(True)
+			self.lbrImageSet.set_visible(False)
+			self.lbrHeicFile.set_visible(False)
+			self.lbrSourceFolder.set_visible(True)
+	
+
+	## Location & Times
+
+	def onToggleButtonNetworkLocationClicked(self, button):
+		if button.get_active():
+			self.tbCustomLocation.set_active(False)
+			self.tbTimePeriods.set_active(False)
+
+			self.lbrNetworkLocation.set_visible(True)
+			self.lbrCustomLocationLongitude.set_visible(False)
+			self.lbrCustomLocationLatitude.set_visible(False)
+			self.lbrTimePeriods.set_visible(False)
+
+	def onToggleButtonCustomLocationClicked(self, button):
+		if button.get_active():
+			self.tbNetworkLocation.set_active(False)
+			self.tbTimePeriods.set_active(False)
+
+			self.lbrNetworkLocation.set_visible(False)
+			self.lbrCustomLocationLongitude.set_visible(True)
+			self.lbrCustomLocationLatitude.set_visible(True)
+			self.lbrTimePeriods.set_visible(False)
+
+	def onToggleButtonTimePeriodsClicked(self, button):
+		if button.get_active():
+			self.tbNetworkLocation.set_active(False)
+			self.tbCustomLocation.set_active(False)
+
+			self.lbrNetworkLocation.set_visible(False)
+			self.lbrCustomLocationLongitude.set_visible(False)
+			self.lbrCustomLocationLatitude.set_visible(False)
+			self.lbrTimePeriods.set_visible(True)
+
+	def onCinnamonSpicesWebsiteButtonClicked(self, button):
+		subprocess.Popen(["xdg-open", "https://cinnamon-spices.linuxmint.com/extensions/view/97"])
+
+	def onGithubWebsiteButtonClicked(self, button):
+		subprocess.Popen(["xdg-open", "https://github.com/TobiZog/cinnamon-dynamic-wallpaper"])
+
+	def onCreateIssueButtonClicked(self, button):
+		subprocess.Popen(["xdg-open", "https://github.com/TobiZog/cinnamon-dynamic-wallpaper/issues/new"])
 
 
 

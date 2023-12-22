@@ -407,10 +407,13 @@
                     <property name="column-spacing">8</property>
                     <property name="column-homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="etr_period_1">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">00:00 - 07:35</property>
+                        <attributes>
+                          <attribute name="size" value="15360"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="left-attach">0</property>
@@ -418,10 +421,13 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="etr_period_3">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">08:15 - 08:43</property>
+                        <attributes>
+                          <attribute name="size" value="15360"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="left-attach">1</property>
@@ -429,10 +435,13 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="etr_period_5">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">11:13 - 13:12</property>
+                        <attributes>
+                          <attribute name="size" value="15360"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="left-attach">2</property>
@@ -440,10 +449,13 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="etr_period_7">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">14:42 - 15:41</property>
+                        <attributes>
+                          <attribute name="size" value="15360"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="left-attach">3</property>
@@ -451,10 +463,13 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="etr_period_9">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">16:13 - 16:52</property>
+                        <attributes>
+                          <attribute name="size" value="15360"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="left-attach">4</property>
@@ -669,10 +684,13 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="etr_period_2">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">07:35 - 08:14</property>
+                        <attributes>
+                          <attribute name="size" value="15360"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="left-attach">0</property>
@@ -680,10 +698,13 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="etr_period_4">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">08:44 - 11:12</property>
+                        <attributes>
+                          <attribute name="size" value="15360"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="left-attach">1</property>
@@ -691,10 +712,13 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="etr_period_6">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">13:13 - 14:41</property>
+                        <attributes>
+                          <attribute name="size" value="15360"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="left-attach">2</property>
@@ -702,10 +726,13 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="etr_period_8">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">15:41 - 16:12</property>
+                        <attributes>
+                          <attribute name="size" value="15360"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="left-attach">3</property>
@@ -713,10 +740,13 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkLabel" id="etr_period_10">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">16:53 - 23:59</property>
+                        <attributes>
+                          <attribute name="size" value="15360"/>
+                        </attributes>
                       </object>
                       <packing>
                         <property name="left-attach">4</property>

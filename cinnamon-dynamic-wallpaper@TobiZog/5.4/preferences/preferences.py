@@ -2,8 +2,9 @@
 
 # Imports
 import gi, os, subprocess
-from time_bar import create_bar_chart
-from cinnamon_pref_handler import *
+from scripts.time_bar import create_bar_chart
+from scripts.cinnamon_pref_handler import *
+from scripts.suntimes import *
 from enums.PreferenceEnums import PrefenceEnums
 from enums.ImageSourceEnum import ImageSourceEnum
 from enums.PeriodSourceEnum import PeriodSourceEnum
@@ -27,6 +28,8 @@ class Preferences:
 		self.builder.add_from_file(GLADE_URI)
 		self.builder.connect_signals(self)
 
+		self.suntimes = Suntimes(48.1663, 11.5683)
+
 
 		########## UI objects ##########
 		
@@ -40,6 +43,13 @@ class Preferences:
 		self.imgBar = self.builder.get_object("img_bar")
 		self.swExpandOverAllDisplays = self.builder.get_object("sw_expand_over_all_displays")
 		self.swShowOnLockScreen = self.builder.get_object("sw_show_on_lock_screen")
+		self.etr_periods = [
+			self.builder.get_object("etr_period_1"), self.builder.get_object("etr_period_2"),
+			self.builder.get_object("etr_period_3"), self.builder.get_object("etr_period_4"),
+			self.builder.get_object("etr_period_5"), self.builder.get_object("etr_period_6"),
+			self.builder.get_object("etr_period_7"), self.builder.get_object("etr_period_8"),
+			self.builder.get_object("etr_period_9"), self.builder.get_object("etr_period_10"),
+		]
 
 		## Location & Times
 		self.tbNetworkLocation = self.builder.get_object("tb_network_location")
@@ -52,13 +62,6 @@ class Preferences:
 		self.lbrTimePeriods = self.builder.get_object("lbr_time_periods")
 		self.etrLongitude = self.builder.get_object("etr_longitude")
 		self.etrLatitude = self.builder.get_object("etr_latitude")
-
-
-		# Time bar
-		# todo: Sample times
-		create_bar_chart(1036, 150, [0, 455, 494, 523, 673, 792, 882, 941, 973, 1013])
-		pixbuf = GdkPixbuf.Pixbuf.new_from_file("time_bar.svg")
-		self.imgBar.set_from_pixbuf(pixbuf)
 
 
 	def show(self):
@@ -91,35 +94,30 @@ class Preferences:
 		self.etrLatitude.set_text(read_str_from_preferences(PrefenceEnums.LATITUDE))
 		self.etrLongitude.set_text(read_str_from_preferences(PrefenceEnums.LONGITUDE))
 
+
+		########## Time diagram ##########
+
+		# Stores the start times of the periods in minutes since midnight
+		time_periods_min = []
+
+		# Get all time periods. Store the minutes to the list and print the values to the text views
+		for i in range(0, 10):
+			time_range = self.suntimes.get_time_period(i)
+			self.etr_periods[i].set_text(str(time_range[0].hour).rjust(2, '0') + ":" + str(time_range[0].minute).rjust(2, '0') +\
+																 " - " + str(time_range[1].hour).rjust(2, '0') + ":" + str(time_range[1].minute).rjust(2, '0'))
+			
+			time_periods_min.append(time_range[0].hour * 60 + time_range[0].minute)
+		
+		# Create time bar
+		create_bar_chart(1200, 150, time_periods_min)
+
+		# Load to the view
+		pixbuf = GdkPixbuf.Pixbuf.new_from_file("time_bar.svg")
+		self.imgBar.set_from_pixbuf(pixbuf)
+
+
+		# Show the main window
 		Gtk.main()
-
-	
-	def onApply(self, *args):
-		# todo: Store all values to settings
-		if self.tbImageSet.get_active():
-			write_to_preferences(PrefenceEnums.IMAGESOURCE, ImageSourceEnum.IMAGESET)
-		elif self.tbHeicFile.get_active():
-			write_to_preferences(PrefenceEnums.IMAGESOURCE, ImageSourceEnum.HEICFILE)
-		elif self.tbSourceFolder.get_active():
-			write_to_preferences(PrefenceEnums.IMAGESOURCE, ImageSourceEnum.SOURCEFOLDER)
-
-		write_to_preferences(PrefenceEnums.EXPANDOVERALLDISPLAY, self.swExpandOverAllDisplays.get_active())
-		write_to_preferences(PrefenceEnums.SHOWONLOCKSCREEN, self.swShowOnLockScreen.get_active())
-
-
-		write_to_preferences(PrefenceEnums.LOCATIONREFRESHINTERVALS, self.spbNetworkLocationRefreshTime.get_value())
-		write_to_preferences(PrefenceEnums.LATITUDE, self.etrLatitude.get_text())
-		write_to_preferences(PrefenceEnums.LONGITUDE, self.etrLongitude.get_text())
-
-		if self.tbNetworkLocation.get_active():
-			write_to_preferences(PrefenceEnums.PERIODSOURCE, PeriodSourceEnum.NETWORKLOCATION)
-		elif self.tbCustomLocation.get_active():
-			write_to_preferences(PrefenceEnums.PERIODSOURCE, PeriodSourceEnum.CUSTOMLOCATION)
-		elif self.tbTimePeriods.get_active():
-			write_to_preferences(PrefenceEnums.PERIODSOURCE, PeriodSourceEnum.CUSTOMTIMEPERIODS)
-
-
-		self.onDestroy()
 
 	
 	def onDestroy(self, *args):
@@ -204,6 +202,33 @@ class Preferences:
 	def onCreateIssueButtonClicked(self, button):
 		subprocess.Popen(["xdg-open", "https://github.com/TobiZog/cinnamon-dynamic-wallpaper/issues/new"])
 
+
+	def onApply(self, *args):
+			# todo: Store all values to settings
+			if self.tbImageSet.get_active():
+				write_to_preferences(PrefenceEnums.IMAGESOURCE, ImageSourceEnum.IMAGESET)
+			elif self.tbHeicFile.get_active():
+				write_to_preferences(PrefenceEnums.IMAGESOURCE, ImageSourceEnum.HEICFILE)
+			elif self.tbSourceFolder.get_active():
+				write_to_preferences(PrefenceEnums.IMAGESOURCE, ImageSourceEnum.SOURCEFOLDER)
+
+			write_to_preferences(PrefenceEnums.EXPANDOVERALLDISPLAY, self.swExpandOverAllDisplays.get_active())
+			write_to_preferences(PrefenceEnums.SHOWONLOCKSCREEN, self.swShowOnLockScreen.get_active())
+
+
+			write_to_preferences(PrefenceEnums.LOCATIONREFRESHINTERVALS, self.spbNetworkLocationRefreshTime.get_value())
+			write_to_preferences(PrefenceEnums.LATITUDE, self.etrLatitude.get_text())
+			write_to_preferences(PrefenceEnums.LONGITUDE, self.etrLongitude.get_text())
+
+			if self.tbNetworkLocation.get_active():
+				write_to_preferences(PrefenceEnums.PERIODSOURCE, PeriodSourceEnum.NETWORKLOCATION)
+			elif self.tbCustomLocation.get_active():
+				write_to_preferences(PrefenceEnums.PERIODSOURCE, PeriodSourceEnum.CUSTOMLOCATION)
+			elif self.tbTimePeriods.get_active():
+				write_to_preferences(PrefenceEnums.PERIODSOURCE, PeriodSourceEnum.CUSTOMTIMEPERIODS)
+
+
+			self.onDestroy()
 
 
 if __name__ == "__main__":

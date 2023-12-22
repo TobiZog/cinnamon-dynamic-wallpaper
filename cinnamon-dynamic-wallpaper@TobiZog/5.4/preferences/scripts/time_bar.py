@@ -3,21 +3,28 @@ import math
 image_code = []
 
 colors = [
-    "00193dff", 
-    "05597fff", 
-    "54babfff", 
-    "bfe3c2ff", 
-    "ffbf6bff", 
-    "fdb55cff", 
-    "f37f73ff", 
-    "7f3d85ff", 
-    "4a217aff", 
-    "00193dff"
+    "00193d", 
+    "05597f", 
+    "54babf", 
+    "bfe3c2", 
+    "ffbf6b", 
+    "fdb55c", 
+    "f37f73", 
+    "b45bbc", 
+    "7e38ce", 
+    "00285f"
   ]
 
 bar_pos_x = []
 
-def create_bar_chart(image_width, image_height, times):
+def create_bar_chart(image_width: int, image_height: int, times: list):
+  """ Create a time bar chart
+
+  Args:
+      image_width (int): Width of the image in pixel
+      image_height (int): Height of the image in pixel
+      times (list): List of start times of the periods in minutes since midnight
+  """
   create_bar(image_width, image_height, times)
   create_polylines(image_width, image_height)
   create_time_markers(image_width, image_height)
@@ -120,9 +127,3 @@ def create_polylines(image_width: int, image_height: int):
 
     # Store the end point of the bar as start point of the next
     bar_x_start = bar_pos_x[i + 1]
-
-# Hannover
-#create_bar_chart(1036, 180, [0, 455, 494, 523, 673, 792, 882, 941, 973, 1013])
-
-# Other Test bar
-#create_bar_chart(1036, 180, [0, 180, 190, 523, 673, 792, 882, 941, 973, 1300])

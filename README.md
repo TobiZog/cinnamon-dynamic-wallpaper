@@ -1,18 +1,21 @@
 # Cinnamon Dynamic Wallpaper
+<img src="cinnamon-dynamic-wallpaper@TobiZog/5.4/icons/icon.svg" alt="drawing" width="200" style="margin-left:auto; margin-right:auto; width:50%; display:block"/>
 
 ![](res/wallpaper_merged.jpg)
 
 ## About the project
-Based on a location, this extension calculates the periods of a day and switches the background image of your Cinnamon desktop. The extension offers the choice between a set of included wallpapers or to select a HEIC-file.
+This extension switches the background image of your Cinnamon desktop multiple times in a day, based on a location or custom time periods. You can choose between included image-sets, your own HEIC-file or a source folder with single images. Configuration through a user-friendly configuration window.
 
 ### Features
 - 8 included image sets
-- 9 day periods
+- 10 day periods
 - HEIF converter
-- Image configuration assistent with simple one-click setup for image choose
+- Image configuration assistent with simple one-click setup for image choices
 - Online location estimation or offline with manual latitude and longitude input
+- Time periods individual configured by user
 - Offline sun angles estimation
 - Image stretching over multiple displays or repeat image for every display
+- Show image on lock screen
 
 ### Tested Cinnamon versions
 - 5.4 (Mint 21)
@@ -27,10 +30,9 @@ Based on a location, this extension calculates the periods of a day and switches
 
 ### Technology
 - Using `JavaScript` for
-	- Sun angle estimation
 	- Location estimation
 	- Change of the desktop wallpapers
-- `Python` displays the Image Configurator
+- `Python` displays the preference window
 - Image Configurator UI was written with `Glade`
 
 ## Installation

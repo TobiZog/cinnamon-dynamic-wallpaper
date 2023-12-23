@@ -54,31 +54,3 @@ function showNotification(title, text, showOpenSettings = false) {
 	// Display it
 	source.notify(notification);
 }
-
-
-/**
- * Adding a message to the logs
- * 
- * @param {string} logMsg New log message to add
- */
-function createLogs(tvLogs, logMsg) {
-	/**
-	 * Pad a number with leading zeros
-	 * 
-	 * @param {number} num Number to format
-	 * @param {number} size Final string length
-	 * 
-	 * @returns String with defined length
-	 */
-	function pad(num, size) {
-		var s = "00" + num
-		return s.substring(s.length - size)
-	}
-
-	// Estimate date and time
-	let date = new Date()
-	let formattedDate = pad(date.getHours(), 2) + ":" + pad(date.getMinutes(), 2) + ":" + pad(date.getSeconds(), 2)
-
-	// Add the the logs
-	return formattedDate + "\t" + logMsg + "\n" + tvLogs
-}

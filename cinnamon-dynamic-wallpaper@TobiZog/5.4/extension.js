@@ -15,9 +15,9 @@ const Lang = imports.lang;
 const { find_program_in_path } = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 
-let suntimes = require('./scripts/suntimes')
-let location = require('./scripts/location')
-let communication = require('./scripts/communication')
+// let suntimes = require('./scripts/suntimes')
+// let location = require('./scripts/location')
+// let communication = require('./scripts/communication')
 
 
 /******************** Constants ********************/
@@ -64,44 +64,38 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 		/** Configuration */
 		// Image set
-		this.bindSettings("sw_image_stretch", "imageStretch", this.settingsUpdated)
+		// this.bindSettings("sw_image_stretch", "imageStretch", this.settingsUpdated)
 
-		// Location estimation
-		this.bindSettings("sw_auto_location", "autolocation", this.settingsUpdated)
-		this.bindSettings("sc_location_refresh_time", "locationRefreshTime", this.settingsUpdated)
-		this.bindSettings("etr_last_update", "etrLastUpdate")
-		this.bindSettings("etr_latitude", "latitude", this.settingsUpdated)
-		this.bindSettings("etr_longitude", "longitude", this.settingsUpdated)
+		// // Location estimation
+		// this.bindSettings("sw_auto_location", "autolocation", this.settingsUpdated)
+		// this.bindSettings("sc_location_refresh_time", "locationRefreshTime", this.settingsUpdated)
+		// this.bindSettings("etr_last_update", "etrLastUpdate")
+		// this.bindSettings("etr_latitude", "latitude", this.settingsUpdated)
+		// this.bindSettings("etr_longitude", "longitude", this.settingsUpdated)
 
-		// Time periods
-		this.bindSettings("tv_times", "tvTimes")
-
-
-		/** Debugging */
-		// Logs
-		this.bindSettings("tv_logs", "tvLogs")
-
+		// // Time periods
+		// this.bindSettings("tv_times", "tvTimes")
 		
 		// Image Configurator
-		this.bindSettings("etr_img_morning_twilight", "img_morning_twilight", this.settingsUpdated)
-		this.bindSettings("etr_img_sunrise", "img_sunrise", this.settingsUpdated)
-		this.bindSettings("etr_img_morning", "img_morning", this.settingsUpdated)
-		this.bindSettings("etr_img_noon", "img_noon", this.settingsUpdated)
-		this.bindSettings("etr_img_afternoon", "img_afternoon", this.settingsUpdated)
-		this.bindSettings("etr_img_evening", "img_evening", this.settingsUpdated)
-		this.bindSettings("etr_img_sunset", "img_sunset", this.settingsUpdated)
-		this.bindSettings("etr_img_night_twilight", "img_night_twilight", this.settingsUpdated)
-		this.bindSettings("etr_img_night", "img_night", this.settingsUpdated)
+		// this.bindSettings("etr_img_morning_twilight", "img_morning_twilight", this.settingsUpdated)
+		// this.bindSettings("etr_img_sunrise", "img_sunrise", this.settingsUpdated)
+		// this.bindSettings("etr_img_morning", "img_morning", this.settingsUpdated)
+		// this.bindSettings("etr_img_noon", "img_noon", this.settingsUpdated)
+		// this.bindSettings("etr_img_afternoon", "img_afternoon", this.settingsUpdated)
+		// this.bindSettings("etr_img_evening", "img_evening", this.settingsUpdated)
+		// this.bindSettings("etr_img_sunset", "img_sunset", this.settingsUpdated)
+		// this.bindSettings("etr_img_night_twilight", "img_night_twilight", this.settingsUpdated)
+		// this.bindSettings("etr_img_night", "img_night", this.settingsUpdated)
 
-		this.bindSettings("etr_morning_twilight_times", "img_morning_twilight_times")
-		this.bindSettings("etr_sunrise_times", "img_sunrise_times")
-		this.bindSettings("etr_morning_times", "img_morning_times")
-		this.bindSettings("etr_noon_times", "img_noon_times")
-		this.bindSettings("etr_afternoon_times", "img_afternoon_times")
-		this.bindSettings("etr_evening_times", "img_evening_times")
-		this.bindSettings("etr_sunset_times", "img_sunset_times")
-		this.bindSettings("etr_night_twilight_times", "img_night_twilight_times")
-		this.bindSettings("etr_night_times", "img_night_times")
+		// this.bindSettings("etr_morning_twilight_times", "img_morning_twilight_times")
+		// this.bindSettings("etr_sunrise_times", "img_sunrise_times")
+		// this.bindSettings("etr_morning_times", "img_morning_times")
+		// this.bindSettings("etr_noon_times", "img_noon_times")
+		// this.bindSettings("etr_afternoon_times", "img_afternoon_times")
+		// this.bindSettings("etr_evening_times", "img_evening_times")
+		// this.bindSettings("etr_sunset_times", "img_sunset_times")
+		// this.bindSettings("etr_night_twilight_times", "img_night_twilight_times")
+		// this.bindSettings("etr_night_times", "img_night_times")
 
 
 		// Check for the first startup
@@ -126,10 +120,8 @@ CinnamonDynamicWallpaperExtension.prototype = {
 			}
 		}
 
-		this.writeToLogs("Initialization completed")
-
 		// Set image initial at desktop wallpaper
-		this.setImageToTime()
+		//this.setImageToTime()
 
 		// Start the main loop, checks in fixed time periods the 
 		this._loop()
@@ -158,7 +150,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	 */
 	_loop: function () {
 		if (looping) {
-			this.setImageToTime()
+			//this.setImageToTime()
 
 			// Update the location, if the user choose "autoLocation" and the timer has expired
 			if ((lastLocationUpdate == -1 || 
@@ -171,57 +163,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 			// Refresh every 60 seconds
 			Mainloop.timeout_add_seconds(60, Lang.bind(this, this._loop));
-			this.writeToLogs("Main loop runs...")
 		}
-	},
-
-
-	/******************** Settings handling ********************/
-
-	/**
-	 * Handles changes in settings
-	 */
-	settingsUpdated: function() {
-		lastDayTime = suntimes.DAYPERIOD.NONE
-
-		this.updateLocation()
-		this.setImageToTime()
-	},
-
-	/**
-	 * Callback for settings-schema
-	 * Opens the external image configurator window
-	 */
-	openImageConfigurator: function () {
-		Util.spawnCommandLine("/usr/bin/env python3 " +
-			DIRECTORY.path + "/image-configurator/image-configurator.py");
-	},
-
-
-	/**
-	 * Callback for settings-schema
-	 * Opens the browser and navigates to the URL of the respository
-	 */
-	openRepoWebsite: function () {
-		Util.spawnCommandLine("xdg-open https://github.com/TobiZog/cinnamon-dynamic-wallpaper");
-	},
-
-
-	/**
-	 * Callback for settings-schema
-	 * Opens the browser and navigates to the URL of the Cinnamon Spices extension
-	 */
-	openSpicesWebsite: function () {
-		Util.spawnCommandLine("xdg-open https://cinnamon-spices.linuxmint.com/extensions/view/97")
-	},
-
-
-	/**
-	 * Callback for settings-schema
-	 * Opens the browser and navigates to the GitHub issue page
-	 */
-	openIssueWebsite: function () {
-		Util.spawnCommandLine("xdg-open https://github.com/TobiZog/cinnamon-dynamic-wallpaper/issues/new")
 	},
 
 
@@ -246,8 +188,6 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 		Gio.Settings.sync();
 		gSetting.apply();
-
-		this.writeToLogs("Set new image: " + imageURI)
 	},
 
 
@@ -321,18 +261,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 			this.etrLastUpdate = lastLocationUpdate.getHours() + ":" + lastLocationUpdate.getMinutes()
 		}
-
-		this.writeToLogs("Location updated")
 	},
-
-	/**
-	 * Adding text to the logs
-	 * 
-	 * @param {string} msg New message string
-	 */
-	writeToLogs: function(msg) {
-		this.tvLogs = communication.createLogs(this.tvLogs, msg)
-	}
 }
 
 

@@ -1,4 +1,5 @@
 {
+	"external-configuration-app": "preferences/preferences.py",
 	"uuid": "cinnamon-dynamic-wallpaper@TobiZog",
 	"name": "Cinnamon Dynamic Wallpaper",
 	"description": "Cinnamon extension for dynamic desktop backgrounds based on time and location",

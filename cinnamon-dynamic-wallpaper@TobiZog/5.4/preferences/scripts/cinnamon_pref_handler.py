@@ -39,8 +39,11 @@ def read_str_from_preferences(parameter: PrefenceEnums) -> str:
   Returns:
       str: Value of the parameter
   """
-  with open(pref_location, "r") as pref_file:
-    pref_data = json.load(pref_file)
+  try:
+    with open(pref_location, "r") as pref_file:
+      pref_data = json.load(pref_file)
+  except:
+    return ""
 
   if parameter in pref_data:
     return pref_data[parameter]["value"]
@@ -54,3 +57,11 @@ def read_int_from_preferences(parameter: PrefenceEnums) -> int:
     return 0
   else:
     return int(value)
+  
+def read_float_from_preferences(parameter: PrefenceEnums) -> float:
+  value = read_str_from_preferences(parameter)
+
+  if value == "":
+    return 0.0
+  else:
+    return float(value)

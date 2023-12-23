@@ -31,7 +31,7 @@
     <property name="default-height">400</property>
     <property name="icon">../icon.svg</property>
     <property name="gravity">center</property>
-    <signal name="destroy" handler="onDestroy" swapped="no"/>
+    <signal name="destroy" handler="on_destroy" swapped="no"/>
     <child>
       <object class="GtkStack" id="stack_main">
         <property name="visible">True</property>
@@ -76,7 +76,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <signal name="clicked" handler="onToggleButtonImageSetClicked" swapped="no"/>
+                    <signal name="clicked" handler="on_toggle_button_image_set_clicked" swapped="no"/>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -126,7 +126,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <signal name="clicked" handler="onToggleButtonHeicFileClicked" swapped="no"/>
+                    <signal name="clicked" handler="on_toggle_button_heic_file_clicked" swapped="no"/>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -176,7 +176,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <signal name="clicked" handler="onToggleButtonSourceFolderClicked" swapped="no"/>
+                    <signal name="clicked" handler="on_toggle_button_source_folder_clicked" swapped="no"/>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -979,7 +979,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <signal name="clicked" handler="onToggleButtonNetworkLocationClicked" swapped="no"/>
+                    <signal name="clicked" handler="on_toggle_button_network_location_clicked" swapped="no"/>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1031,7 +1031,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <signal name="clicked" handler="onToggleButtonCustomLocationClicked" swapped="no"/>
+                    <signal name="clicked" handler="on_toggle_button_custom_location_clicked" swapped="no"/>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1081,7 +1081,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <signal name="clicked" handler="onToggleButtonTimePeriodsClicked" swapped="no"/>
+                    <signal name="clicked" handler="on_toggle_button_time_periods_clicked" swapped="no"/>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1191,47 +1191,7 @@
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="adjustment">adjustment1</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkListBoxRow" id="lbr_custom_location_latitude">
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <child>
-                      <object class="GtkBox">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="margin-start">8</property>
-                        <property name="margin-end">8</property>
-                        <property name="margin-top">8</property>
-                        <property name="margin-bottom">8</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="halign">start</property>
-                            <property name="label" translatable="yes">Latitude</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkEntry" id="etr_latitude">
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
+                            <signal name="changed" handler="on_spb_network_location_refresh_time_changed" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1273,6 +1233,50 @@
                           <object class="GtkEntry" id="etr_longitude">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
+                            <signal name="changed" handler="on_etr_longitude_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkListBoxRow" id="lbr_custom_location_latitude">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">8</property>
+                        <property name="margin-end">8</property>
+                        <property name="margin-top">8</property>
+                        <property name="margin-bottom">8</property>
+                        <property name="homogeneous">True</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Latitude</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="etr_latitude">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="input-purpose">number</property>
+                            <signal name="changed" handler="on_etr_latitude_changed" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2380,7 +2384,7 @@
                         <property name="margin-end">12</property>
                         <property name="margin-top">12</property>
                         <property name="margin-bottom">12</property>
-                        <signal name="clicked" handler="onCinnamonSpicesWebsiteButtonClicked" swapped="no"/>
+                        <signal name="clicked" handler="on_cinnamon_spices_website_button_clicked" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -2448,7 +2452,7 @@
                         <property name="margin-end">12</property>
                         <property name="margin-top">12</property>
                         <property name="margin-bottom">12</property>
-                        <signal name="clicked" handler="onGithubWebsiteButtonClicked" swapped="no"/>
+                        <signal name="clicked" handler="on_github_website_button_clicked" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -2518,7 +2522,7 @@
                         <property name="margin-end">12</property>
                         <property name="margin-top">12</property>
                         <property name="margin-bottom">12</property>
-                        <signal name="clicked" handler="onCreateIssueButtonClicked" swapped="no"/>
+                        <signal name="clicked" handler="on_create_issue_button_clicked" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -2561,7 +2565,7 @@
             <property name="double-buffered">False</property>
             <property name="use-stock">True</property>
             <property name="always-show-image">True</property>
-            <signal name="clicked" handler="onApply" swapped="no"/>
+            <signal name="clicked" handler="on_apply" swapped="no"/>
           </object>
         </child>
       </object>

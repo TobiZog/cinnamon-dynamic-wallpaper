@@ -15,9 +15,9 @@ const Lang = imports.lang;
 const { find_program_in_path } = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 
-// let suntimes = require('./scripts/suntimes')
-// let location = require('./scripts/location')
-// let communication = require('./scripts/communication')
+let suntimes = require('./scripts/suntimes')
+let location = require('./scripts/location')
+let communication = require('./scripts/communication')
 
 
 /******************** Constants ********************/
@@ -37,7 +37,7 @@ let extension;
 let lastLocationUpdate = -1
 
 // The last calculated suntime of the day
-let lastDayTime = suntimes.DAYPERIOD.NONE
+//let lastDayTime = suntimes.DAYPERIOD.NONE
 
 // Loop state
 let looping = true
@@ -100,7 +100,6 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 		// Check for the first startup
 		if (this.settings.getValue("first_start")) {
-			this.writeToLogs("First time start")
 
 			// Welcome notification
 			communication.showNotification("Welcome to Cinnamon Dynamic Wallpaper", 
@@ -194,7 +193,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	/**
 	 * Estimate the right image based on time period of the day
 	 */
-	setImageToTime: function() {
+	/*setImageToTime: function() {
 		let times = suntimes.calcTimePeriod(this.latitude, this.longitude)
 		let now = new Date()
 
@@ -244,7 +243,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 			"\nSunset:\t\t\t\t" + convertToTimeString(timesArray[6][0]) + " - " + convertToTimeString(timesArray[6][1]) +
 			"\nNight Twilight:\t\t" + convertToTimeString(timesArray[7][0]) + " - " + convertToTimeString(timesArray[7][1]) +
 			"\nNight:\t\t\t\t" + convertToTimeString(timesArray[8][0]) + " - " + convertToTimeString(timesArray[8][1])
-	},
+	},*/
 
 	/**
 	 * Get the location of the user

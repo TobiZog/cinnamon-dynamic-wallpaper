@@ -2,7 +2,7 @@
 
 # Imports
 import gi, os, subprocess
-from scripts.time_bar import create_bar_chart
+from scripts.time_bar_chart import Time_Bar_Chart
 from scripts.cinnamon_pref_handler import *
 from scripts.suntimes import *
 from scripts.location import *
@@ -31,36 +31,39 @@ class Preferences:
 		self.builder.add_from_file(GLADE_URI)
 		self.builder.connect_signals(self)
 
+		self.time_bar_chart = Time_Bar_Chart()
+		self.cinnamon_prefs = Cinnamon_Pref_Handler()
+
 		# Load all settings from file
 		self.settings_dict = {
-			PrefenceEnums.EXPAND_OVER_ALL_DISPLAY: read_str_from_preferences(PrefenceEnums.EXPAND_OVER_ALL_DISPLAY),
-			PrefenceEnums.SHOW_ON_LOCK_SCREEN: read_str_from_preferences(PrefenceEnums.SHOW_ON_LOCK_SCREEN),
-			PrefenceEnums.IMAGE_SOURCE: read_str_from_preferences(PrefenceEnums.IMAGE_SOURCE),
-			PrefenceEnums.SELECTED_IMAGE_SET: read_str_from_preferences(PrefenceEnums.SELECTED_IMAGE_SET),
-			PrefenceEnums.PERIOD_0_IMAGE: read_str_from_preferences(PrefenceEnums.PERIOD_0_IMAGE),
-			PrefenceEnums.PERIOD_1_IMAGE: read_str_from_preferences(PrefenceEnums.PERIOD_1_IMAGE),
-			PrefenceEnums.PERIOD_2_IMAGE: read_str_from_preferences(PrefenceEnums.PERIOD_2_IMAGE),
-			PrefenceEnums.PERIOD_3_IMAGE: read_str_from_preferences(PrefenceEnums.PERIOD_3_IMAGE),
-			PrefenceEnums.PERIOD_4_IMAGE: read_str_from_preferences(PrefenceEnums.PERIOD_4_IMAGE),
-			PrefenceEnums.PERIOD_5_IMAGE: read_str_from_preferences(PrefenceEnums.PERIOD_5_IMAGE),
-			PrefenceEnums.PERIOD_6_IMAGE: read_str_from_preferences(PrefenceEnums.PERIOD_6_IMAGE),
-			PrefenceEnums.PERIOD_7_IMAGE: read_str_from_preferences(PrefenceEnums.PERIOD_7_IMAGE),
-			PrefenceEnums.PERIOD_8_IMAGE: read_str_from_preferences(PrefenceEnums.PERIOD_8_IMAGE),
-			PrefenceEnums.PERIOD_9_IMAGE: read_str_from_preferences(PrefenceEnums.PERIOD_9_IMAGE),
-			PrefenceEnums.PERIOD_SOURCE: read_str_from_preferences(PrefenceEnums.PERIOD_SOURCE),
-			PrefenceEnums.LOCATION_REFRESH_INTERVALS: read_int_from_preferences(PrefenceEnums.LOCATION_REFRESH_INTERVALS),
-			PrefenceEnums.LATITUDE: read_float_from_preferences(PrefenceEnums.LATITUDE),
-			PrefenceEnums.LONGITUDE: read_float_from_preferences(PrefenceEnums.LONGITUDE),
-			PrefenceEnums.PERIOD_0_STARTTIME: read_str_from_preferences(PrefenceEnums.PERIOD_0_STARTTIME),
-			PrefenceEnums.PERIOD_1_STARTTIME: read_str_from_preferences(PrefenceEnums.PERIOD_1_STARTTIME),
-			PrefenceEnums.PERIOD_2_STARTTIME: read_str_from_preferences(PrefenceEnums.PERIOD_2_STARTTIME),
-			PrefenceEnums.PERIOD_3_STARTTIME: read_str_from_preferences(PrefenceEnums.PERIOD_3_STARTTIME),
-			PrefenceEnums.PERIOD_4_STARTTIME: read_str_from_preferences(PrefenceEnums.PERIOD_4_STARTTIME),
-			PrefenceEnums.PERIOD_5_STARTTIME: read_str_from_preferences(PrefenceEnums.PERIOD_5_STARTTIME),
-			PrefenceEnums.PERIOD_6_STARTTIME: read_str_from_preferences(PrefenceEnums.PERIOD_6_STARTTIME),
-			PrefenceEnums.PERIOD_7_STARTTIME: read_str_from_preferences(PrefenceEnums.PERIOD_7_STARTTIME),
-			PrefenceEnums.PERIOD_8_STARTTIME: read_str_from_preferences(PrefenceEnums.PERIOD_8_STARTTIME),
-			PrefenceEnums.PERIOD_9_STARTTIME: read_str_from_preferences(PrefenceEnums.PERIOD_9_STARTTIME),
+			PrefenceEnums.EXPAND_OVER_ALL_DISPLAY: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.EXPAND_OVER_ALL_DISPLAY),
+			PrefenceEnums.SHOW_ON_LOCK_SCREEN: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.SHOW_ON_LOCK_SCREEN),
+			PrefenceEnums.IMAGE_SOURCE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.IMAGE_SOURCE),
+			PrefenceEnums.SELECTED_IMAGE_SET: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.SELECTED_IMAGE_SET),
+			PrefenceEnums.PERIOD_0_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_0_IMAGE),
+			PrefenceEnums.PERIOD_1_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_1_IMAGE),
+			PrefenceEnums.PERIOD_2_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_2_IMAGE),
+			PrefenceEnums.PERIOD_3_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_3_IMAGE),
+			PrefenceEnums.PERIOD_4_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_4_IMAGE),
+			PrefenceEnums.PERIOD_5_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_5_IMAGE),
+			PrefenceEnums.PERIOD_6_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_6_IMAGE),
+			PrefenceEnums.PERIOD_7_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_7_IMAGE),
+			PrefenceEnums.PERIOD_8_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_8_IMAGE),
+			PrefenceEnums.PERIOD_9_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_9_IMAGE),
+			PrefenceEnums.PERIOD_SOURCE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_SOURCE),
+			PrefenceEnums.LOCATION_REFRESH_INTERVALS: self.cinnamon_prefs.read_int_from_preferences(PrefenceEnums.LOCATION_REFRESH_INTERVALS),
+			PrefenceEnums.LATITUDE: self.cinnamon_prefs.read_float_from_preferences(PrefenceEnums.LATITUDE),
+			PrefenceEnums.LONGITUDE: self.cinnamon_prefs.read_float_from_preferences(PrefenceEnums.LONGITUDE),
+			PrefenceEnums.PERIOD_0_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_0_STARTTIME),
+			PrefenceEnums.PERIOD_1_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_1_STARTTIME),
+			PrefenceEnums.PERIOD_2_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_2_STARTTIME),
+			PrefenceEnums.PERIOD_3_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_3_STARTTIME),
+			PrefenceEnums.PERIOD_4_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_4_STARTTIME),
+			PrefenceEnums.PERIOD_5_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_5_STARTTIME),
+			PrefenceEnums.PERIOD_6_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_6_STARTTIME),
+			PrefenceEnums.PERIOD_7_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_7_STARTTIME),
+			PrefenceEnums.PERIOD_8_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_8_STARTTIME),
+			PrefenceEnums.PERIOD_9_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_9_STARTTIME),
 		}
 
 
@@ -127,7 +130,7 @@ class Preferences:
 		elif self.settings_dict[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.CUSTOMTIMEPERIODS:
 			self.tb_time_periods.set_active(True)
 
-		self.spb_network_location_refresh_time.set_value(read_int_from_preferences(PrefenceEnums.LOCATION_REFRESH_INTERVALS))
+		self.spb_network_location_refresh_time.set_value(self.cinnamon_prefs.read_int_from_preferences(PrefenceEnums.LOCATION_REFRESH_INTERVALS))
 		self.etr_latitude.set_text(str(self.settings_dict[PrefenceEnums.LATITUDE]))
 		self.etr_longitude.set_text(str(self.settings_dict[PrefenceEnums.LONGITUDE]))
 
@@ -146,7 +149,7 @@ class Preferences:
 			time_periods_min.append(time_range[0].hour * 60 + time_range[0].minute)
 		
 		# Create time bar
-		create_bar_chart(1200, 150, time_periods_min)
+		self.time_bar_chart.create_bar_chart(1200, 150, time_periods_min)
 
 		# Load to the view
 		pixbuf = GdkPixbuf.Pixbuf.new_from_file("time_bar.svg")
@@ -258,7 +261,7 @@ class Preferences:
 	def on_apply(self, *args):
 			# Store all values to the JSON file
 			for item in self.settings_dict:
-				write_to_preferences(item, self.settings_dict[item])
+				self.cinnamon_prefs.write_to_preferences(item, self.settings_dict[item])
 
 			# Close the window
 			self.on_destroy()

@@ -12,7 +12,8 @@ const St = imports.gi.St;
 const Main = imports.ui.main;
 const Util = imports.misc.util;
 const MessageTray = imports.ui.messageTray;
-
+const UUID = "cinnamon-dynamic-wallpaper@TobiZog";
+const DIRECTORY = imports.ui.extensionSystem.extensionMeta[UUID];
 
 
 
@@ -45,7 +46,8 @@ function showNotification(title, text, showOpenSettings = false) {
 		notification.addButton("open-settings", _("Open settings"));
 
 		notification.connect("action-invoked", () =>
-			Util.spawnCommandLine("xlet-settings extension " + UUID));
+			Util.spawnCommandLine("/usr/bin/env python3 " + 
+				DIRECTORY.path + "/preferences/preferences.py"));
 	}
 
 	// Put all together

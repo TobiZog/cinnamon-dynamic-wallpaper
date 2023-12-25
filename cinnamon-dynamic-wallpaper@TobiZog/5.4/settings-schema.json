@@ -2,5 +2,13 @@
   "first_start": {
     "type": "generic",
     "default": true
+  },
+  "image_source": {
+    "type": "generic",
+    "default": "image_set"
+  },
+  "period_source": {
+    "type": "generic",
+    "default": "network_location"
   }
 }

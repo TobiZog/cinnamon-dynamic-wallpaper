@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
 # Imports
-import gi, os, subprocess
+import gi, os, subprocess, time
+from datetime import timedelta
 from scripts.time_bar_chart import Time_Bar_Chart
 from scripts.cinnamon_pref_handler import *
 from scripts.suntimes import *
@@ -38,8 +39,7 @@ class Preferences:
 		# Suntimes object
 		self.suntimes = Suntimes(float(self.c_prefs.prefs[PrefenceEnums.LATITUDE_AUTO]), 
 													 float(self.c_prefs.prefs[PrefenceEnums.LONGITUDE_AUTO]))
-
-
+		
 		########## UI objects ##########
 		
 		## Image Configuration
@@ -49,7 +49,7 @@ class Preferences:
 		self.lbr_image_set = self.builder.get_object("lbr_image_set")
 		self.lbr_heic_file = self.builder.get_object("lbr_heic_file")
 		self.lbr_source_folder = self.builder.get_object("lbr_source_folder")
-		self.img_bar = self.builder.get_object("img_bar")
+		self.img_bar_images = self.builder.get_object("img_bar_images")
 		self.sw_expand_over_all_displays = self.builder.get_object("sw_expand_over_all_displays")
 		self.sw_show_on_lock_screen = self.builder.get_object("sw_show_on_lock_screen")
 		self.etr_periods = [
@@ -73,6 +73,36 @@ class Preferences:
 		self.lbr_time_periods = self.builder.get_object("lbr_time_periods")
 		self.etr_longitude = self.builder.get_object("etr_longitude")
 		self.etr_latitude = self.builder.get_object("etr_latitude")
+		self.img_bar_times = self.builder.get_object("img_bar_times")
+		self.spb_periods_hour = [
+			self.builder.get_object("spb_period_1_hour"),
+			self.builder.get_object("spb_period_2_hour"),
+			self.builder.get_object("spb_period_3_hour"),
+			self.builder.get_object("spb_period_4_hour"),
+			self.builder.get_object("spb_period_5_hour"),
+			self.builder.get_object("spb_period_6_hour"),
+			self.builder.get_object("spb_period_7_hour"),
+			self.builder.get_object("spb_period_8_hour"),
+			self.builder.get_object("spb_period_9_hour"),
+		]
+		self.spb_periods_minute = [
+			self.builder.get_object("spb_period_1_minute"),
+			self.builder.get_object("spb_period_2_minute"),
+			self.builder.get_object("spb_period_3_minute"),
+			self.builder.get_object("spb_period_4_minute"),
+			self.builder.get_object("spb_period_5_minute"),
+			self.builder.get_object("spb_period_6_minute"),
+			self.builder.get_object("spb_period_7_minute"),
+			self.builder.get_object("spb_period_8_minute"),
+			self.builder.get_object("spb_period_9_minute")
+		]
+		self.lb_period_end = [
+			self.builder.get_object("lb_period_0_end"), self.builder.get_object("lb_period_1_end"),
+			self.builder.get_object("lb_period_2_end"), self.builder.get_object("lb_period_3_end"),
+			self.builder.get_object("lb_period_4_end"), self.builder.get_object("lb_period_5_end"),
+			self.builder.get_object("lb_period_6_end"), self.builder.get_object("lb_period_7_end"),
+			self.builder.get_object("lb_period_8_end"), self.builder.get_object("lb_period_9_end"), 
+		]
 
 
 	def show(self):
@@ -101,28 +131,11 @@ class Preferences:
 		elif self.c_prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.CUSTOMTIMEPERIODS:
 			self.tb_time_periods.set_active(True)
 
-
-
-		########## Time diagram ##########
-
-		# Stores the start times of the periods in minutes since midnight
-		time_periods_min = []
-
-		# Get all time periods. Store the minutes to the list and print the values to the text views
-		for i in range(0, 10):
-			time_range = self.suntimes.get_time_period(i)
-			self.etr_periods[i].set_text(str(time_range[0].hour).rjust(2, '0') + ":" + str(time_range[0].minute).rjust(2, '0') +\
-																 " - " + str(time_range[1].hour).rjust(2, '0') + ":" + str(time_range[1].minute).rjust(2, '0'))
-			
-			time_periods_min.append(time_range[0].hour * 60 + time_range[0].minute)
-		
-		# Create time bar
-		self.time_bar_chart.create_bar_chart(PREFERENCES_URI, 1200, 150, time_periods_min)
-
-		# Load to the view
-		pixbuf = GdkPixbuf.Pixbuf.new_from_file(PREFERENCES_URI + "/time_bar.svg")
-		self.img_bar.set_from_pixbuf(pixbuf)
-
+		# Time diagram
+		try:
+			self.refresh_chart()
+		except:
+			pass
 
 		# Show the main window
 		Gtk.main()
@@ -134,7 +147,42 @@ class Preferences:
 		Gtk.main_quit()
 
 
+	#################### Local methods ####################
+
+
+	def refresh_chart(self):
+		# Stores the start times of the periods in minutes since midnight
+		time_periods_min = []
+
+		if self.c_prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.CUSTOMTIMEPERIODS:
+			for i in range(0, 10):
+				time_str = self.c_prefs.prefs["period_%s_custom_start_time" % i]
+
+				time_periods_min.append(int(time_str[0:2]) * 60 + int(time_str[3:5]))
+		else:
+			# Get all time periods. Store the minutes to the list and print the values to the text views
+			for i in range(0, 10):
+				time_range = self.suntimes.get_time_period(i)
+				self.etr_periods[i].set_text(
+					str(time_range[0].hour).rjust(2, '0') + ":" + str(time_range[0].minute).rjust(2, '0') +\
+						" - " + str(time_range[1].hour).rjust(2, '0') + ":" + str(time_range[1].minute).rjust(2, '0'))
+				
+				time_periods_min.append(time_range[0].hour * 60 + time_range[0].minute)
+
+		# Create time bar
+		self.time_bar_chart.create_bar_chart_with_polylines(PREFERENCES_URI, 1200, 150, time_periods_min)
+		self.time_bar_chart.create_bar_chart(PREFERENCES_URI, 1200, 150, time_periods_min)
+
+		# Load to the views
+		pixbuf = GdkPixbuf.Pixbuf.new_from_file(PREFERENCES_URI + "/time_bar_polylines.svg")
+		self.img_bar_images.set_from_pixbuf(pixbuf)
+
+		pixbuf2 = GdkPixbuf.Pixbuf.new_from_file(PREFERENCES_URI + "/time_bar.svg")
+		self.img_bar_times.set_from_pixbuf(pixbuf2)
+
+
 	#################### Callbacks ####################
+		
 		
 	## Image Configuration
 		
@@ -201,6 +249,8 @@ class Preferences:
 			self.c_prefs.prefs[PrefenceEnums.LATITUDE_AUTO] = float(location["latitude"])
 			self.c_prefs.prefs[PrefenceEnums.LONGITUDE_AUTO] = float(location["longitude"])
 
+			self.refresh_chart()
+
 
 	def on_toggle_button_custom_location_clicked(self, button):
 		if button.get_active():
@@ -229,6 +279,35 @@ class Preferences:
 			self.lbr_custom_location_longitude.set_visible(False)
 			self.lbr_custom_location_latitude.set_visible(False)
 			self.lbr_time_periods.set_visible(True)
+			
+			
+			for i in range(0, 9):
+				pref_value = self.c_prefs.prefs["period_%s_custom_start_time" % (i + 1)]
+				time_parts = [int(pref_value[0:pref_value.find(":")]), int(pref_value[pref_value.find(":") + 1:])]
+
+				self.spb_periods_hour[i].set_value(time_parts[0])
+				self.spb_periods_minute[i].set_value(time_parts[1])
+
+
+
+	def on_spb_period_value_changed(self, spin_button):
+			spin_button_name = Gtk.Buildable.get_name(spin_button)
+			index = int(spin_button_name[11:12]) - 1
+			hours = self.spb_periods_hour[index].get_value()
+			minutes = self.spb_periods_minute[index].get_value()
+
+			time_value = datetime(2024,1,1, int(hours), int(minutes))
+			time_str = str(time_value.hour).rjust(2, '0') + ":" + str(time_value.minute).rjust(2, '0')
+
+			self.c_prefs.prefs["period_%s_custom_start_time" % (index + 1)] = time_str
+
+			next_time = time_value - timedelta(minutes=1)
+			time_str = str(next_time.hour).rjust(2, '0') + ":" + str(next_time.minute).rjust(2, '0')
+
+			# Update the start time of the previous period
+			self.lb_period_end[index].set_text(time_str)
+
+			self.refresh_chart()
 
 
 	def on_spb_network_location_refresh_time_changed(self, spin_button):

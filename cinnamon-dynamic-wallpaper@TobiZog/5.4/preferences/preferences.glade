@@ -9,13 +9,93 @@
     <property name="step-increment">5</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_hours">
+  <object class="GtkAdjustment" id="adjustment_hours1">
     <property name="upper">23</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_minutes">
+  <object class="GtkAdjustment" id="adjustment_hours2">
+    <property name="upper">23</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_hours3">
+    <property name="upper">23</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_hours4">
+    <property name="upper">23</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_hours5">
+    <property name="upper">23</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_hours6">
+    <property name="upper">23</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_hours7">
+    <property name="upper">23</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_hours8">
+    <property name="upper">23</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_hours9">
+    <property name="upper">23</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_minutes1">
     <property name="upper">59</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_minutes2">
+    <property name="upper">59</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_minutes3">
+    <property name="upper">59</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_minutes4">
+    <property name="upper">59</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_minutes5">
+    <property name="upper">59</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_minutes6">
+    <property name="upper">59</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_minutes7">
+    <property name="upper">59</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_minutes8">
+    <property name="upper">57</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_minutes9">
+    <property name="upper">58</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
@@ -600,7 +680,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkImage" id="img_bar">
+                  <object class="GtkImage" id="img_bar_images">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="stock">gtk-missing-image</property>
@@ -1313,178 +1393,105 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <child>
-                      <object class="GtkBox">
+                      <!-- n-columns=5 n-rows=4 -->
+                      <object class="GtkGrid">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="homogeneous">True</property>
+                        <property name="row-spacing">8</property>
+                        <property name="column-spacing">8</property>
+                        <property name="column-homogeneous">True</property>
                         <child>
-                          <!-- n-columns=6 n-rows=5 -->
-                          <object class="GtkGrid">
+                          <object class="GtkLabel" id="etr_period_11">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Period 1</property>
+                            <attributes>
+                              <attribute name="size" value="15360"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="etr_period_12">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Period 2</property>
+                            <attributes>
+                              <attribute name="size" value="15360"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="etr_period_13">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Period 3</property>
+                            <attributes>
+                              <attribute name="size" value="15360"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left-attach">2</property>
+                            <property name="top-attach">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="etr_period_14">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Period 4</property>
+                            <attributes>
+                              <attribute name="size" value="15360"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left-attach">3</property>
+                            <property name="top-attach">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="etr_period_15">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Period 5</property>
+                            <attributes>
+                              <attribute name="size" value="15360"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left-attach">4</property>
+                            <property name="top-attach">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Period 1</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">0</property>
-                                <property name="top-attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
+                              <object class="GtkSpinButton" id="spb_period_5_hour">
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">0</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_minutes</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">5</property>
-                                <property name="top-attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
                                 <property name="margin-start">8</property>
                                 <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">:</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">4</property>
-                                <property name="top-attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
+                                <property name="text" translatable="yes">23</property>
                                 <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_hours</property>
+                                <property name="adjustment">adjustment_hours5</property>
+                                <property name="value">23</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
                               </object>
                               <packing>
-                                <property name="left-attach">3</property>
-                                <property name="top-attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">0</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_minutes</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">5</property>
-                                <property name="top-attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">12</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_hours</property>
-                                <property name="value">12</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">3</property>
-                                <property name="top-attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">0</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_minutes</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">5</property>
-                                <property name="top-attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">0</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_minutes</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">5</property>
-                                <property name="top-attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">0</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_minutes</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">5</property>
-                                <property name="top-attach">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">12</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_hours</property>
-                                <property name="value">12</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">3</property>
-                                <property name="top-attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">12</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_hours</property>
-                                <property name="value">12</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">3</property>
-                                <property name="top-attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">12</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_hours</property>
-                                <property name="value">12</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">3</property>
-                                <property name="top-attach">4</property>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -1497,70 +1504,48 @@
                                 <property name="margin-end">8</property>
                                 <property name="label" translatable="yes">:</property>
                                 <attributes>
-                                  <attribute name="size" value="30720"/>
+                                  <attribute name="size" value="20480"/>
                                 </attributes>
                               </object>
                               <packing>
-                                <property name="left-attach">4</property>
-                                <property name="top-attach">1</property>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_5_minute">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="text" translatable="yes">59</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_minutes5</property>
+                                <property name="value">59</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">:</property>
+                                <property name="label" translatable="yes">-</property>
                                 <attributes>
-                                  <attribute name="size" value="30720"/>
+                                  <attribute name="size" value="20480"/>
                                 </attributes>
                               </object>
                               <packing>
-                                <property name="left-attach">4</property>
-                                <property name="top-attach">2</property>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">:</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">4</property>
-                                <property name="top-attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">:</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">4</property>
-                                <property name="top-attach">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lb_period_5_end">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="margin-left">8</property>
@@ -1573,296 +1558,37 @@
                                 </attributes>
                               </object>
                               <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">00:00</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">00:00</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">00:00</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">00:00</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">-</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">2</property>
-                                <property name="top-attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">-</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">2</property>
-                                <property name="top-attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">-</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">2</property>
-                                <property name="top-attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">-</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">2</property>
-                                <property name="top-attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">-</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">2</property>
-                                <property name="top-attach">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Period 2</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">0</property>
-                                <property name="top-attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Period 3</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">0</property>
-                                <property name="top-attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Period 4</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">0</property>
-                                <property name="top-attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Period 5</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">0</property>
-                                <property name="top-attach">4</property>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">4</property>
                               </packing>
                             </child>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">3</property>
                           </packing>
                         </child>
                         <child>
-                          <!-- n-columns=6 n-rows=5 -->
-                          <object class="GtkGrid">
+                          <object class="GtkBox">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <child>
-                              <object class="GtkSpinButton">
+                              <object class="GtkSpinButton" id="spb_period_6_hour">
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">0</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_minutes</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">5</property>
-                                <property name="top-attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">0</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_hours</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">3</property>
-                                <property name="top-attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
                                 <property name="margin-start">8</property>
                                 <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">00:00</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
+                                <property name="text" translatable="yes">23</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_hours6</property>
+                                <property name="value">23</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
                               </object>
                               <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">-</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">2</property>
-                                <property name="top-attach">0</property>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -1875,268 +1601,48 @@
                                 <property name="margin-end">8</property>
                                 <property name="label" translatable="yes">:</property>
                                 <attributes>
-                                  <attribute name="size" value="30720"/>
+                                  <attribute name="size" value="20480"/>
                                 </attributes>
                               </object>
                               <packing>
-                                <property name="left-attach">4</property>
-                                <property name="top-attach">0</property>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_6_minute">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="text" translatable="yes">59</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_minutes6</property>
+                                <property name="value">59</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">:</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">4</property>
-                                <property name="top-attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">:</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">4</property>
-                                <property name="top-attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">:</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">4</property>
-                                <property name="top-attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">:</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">4</property>
-                                <property name="top-attach">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
                                 <property name="label" translatable="yes">-</property>
                                 <attributes>
-                                  <attribute name="size" value="30720"/>
+                                  <attribute name="size" value="20480"/>
                                 </attributes>
                               </object>
                               <packing>
-                                <property name="left-attach">2</property>
-                                <property name="top-attach">1</property>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">-</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">2</property>
-                                <property name="top-attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">-</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">2</property>
-                                <property name="top-attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">-</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">2</property>
-                                <property name="top-attach">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">0</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_minutes</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">5</property>
-                                <property name="top-attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">12</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_hours</property>
-                                <property name="value">12</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">3</property>
-                                <property name="top-attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">0</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_minutes</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">5</property>
-                                <property name="top-attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">0</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_minutes</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">5</property>
-                                <property name="top-attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">0</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_minutes</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">5</property>
-                                <property name="top-attach">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">12</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_hours</property>
-                                <property name="value">12</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">3</property>
-                                <property name="top-attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">12</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_hours</property>
-                                <property name="value">12</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">3</property>
-                                <property name="top-attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">12</property>
-                                <property name="orientation">vertical</property>
-                                <property name="adjustment">adjustment_hours</property>
-                                <property name="value">12</property>
-                              </object>
-                              <packing>
-                                <property name="left-attach">3</property>
-                                <property name="top-attach">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="lb_period_6_end">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="margin-left">8</property>
@@ -2145,143 +1651,835 @@
                                 <property name="margin-end">8</property>
                                 <property name="label" translatable="yes">00:00</property>
                                 <attributes>
-                                  <attribute name="size" value="30720"/>
+                                  <attribute name="size" value="20480"/>
                                 </attributes>
                               </object>
                               <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">00:00</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">00:00</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-right">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes">00:00</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Period 6</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">0</property>
-                                <property name="top-attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Period 7</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">0</property>
-                                <property name="top-attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Period 8</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">0</property>
-                                <property name="top-attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Period 9</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">0</property>
-                                <property name="top-attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Period 10</property>
-                                <attributes>
-                                  <attribute name="size" value="30720"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="left-attach">0</property>
-                                <property name="top-attach">4</property>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">4</property>
                               </packing>
                             </child>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_7_hour">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="text" translatable="yes">23</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_hours7</property>
+                                <property name="value">23</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">:</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_7_minute">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="text" translatable="yes">59</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_minutes7</property>
+                                <property name="value">59</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">-</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="lb_period_7_end">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">00:00</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">4</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left-attach">2</property>
+                            <property name="top-attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_8_hour">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="text" translatable="yes">23</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_hours8</property>
+                                <property name="value">23</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">:</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_8_minute">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="text" translatable="yes">59</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_minutes8</property>
+                                <property name="value">59</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">-</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="lb_period_8_end">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">00:00</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">4</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left-attach">3</property>
+                            <property name="top-attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_9_hour">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="text" translatable="yes">23</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_hours9</property>
+                                <property name="value">23</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">:</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_9_minute">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="text" translatable="yes">57</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_minutes9</property>
+                                <property name="value">57</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">-</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="lb_period_9_end">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">23:59</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">4</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left-attach">4</property>
+                            <property name="top-attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="etr_period_16">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Period 6</property>
+                            <attributes>
+                              <attribute name="size" value="15360"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="etr_period_17">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Period 7</property>
+                            <attributes>
+                              <attribute name="size" value="15360"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="etr_period_18">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Period 9</property>
+                            <attributes>
+                              <attribute name="size" value="15360"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left-attach">3</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="etr_period_19">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Period 8</property>
+                            <attributes>
+                              <attribute name="size" value="15360"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left-attach">2</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="etr_period_20">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Period 10</property>
+                            <attributes>
+                              <attribute name="size" value="15360"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left-attach">4</property>
+                            <property name="top-attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkLabel" id="lb_period_0_start">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">00:00</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">-</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="lb_period_0_end">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">00:00</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_2_hour">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="text" translatable="yes">23</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_hours2</property>
+                                <property name="value">23</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">:</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_2_minute">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="text" translatable="yes">59</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_minutes2</property>
+                                <property name="value">59</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">-</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="lb_period_2_end">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">00:00</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">4</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left-attach">2</property>
+                            <property name="top-attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_3_hour">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="text" translatable="yes">23</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_hours3</property>
+                                <property name="value">23</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">:</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_3_minute">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="text" translatable="yes">59</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_minutes3</property>
+                                <property name="value">59</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">-</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="lb_period_3_end">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">00:00</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">4</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left-attach">3</property>
+                            <property name="top-attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_4_hour">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="text" translatable="yes">23</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_hours4</property>
+                                <property name="value">23</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">:</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_4_minute">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="text" translatable="yes">59</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_minutes4</property>
+                                <property name="value">59</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">-</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="lb_period_4_end">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">00:00</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">4</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left-attach">4</property>
+                            <property name="top-attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_1_hour">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="text" translatable="yes">23</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_hours1</property>
+                                <property name="value">23</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">:</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="spb_period_1_minute">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="text" translatable="yes">59</property>
+                                <property name="orientation">vertical</property>
+                                <property name="adjustment">adjustment_minutes1</property>
+                                <property name="value">59</property>
+                                <signal name="value-changed" handler="on_spb_period_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">-</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="lb_period_1_end">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes">00:00</property>
+                                <attributes>
+                                  <attribute name="size" value="20480"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">4</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">1</property>
                           </packing>
                         </child>
                       </object>
@@ -2293,6 +2491,18 @@
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkImage" id="img_bar_times">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="stock">gtk-missing-image</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
               </packing>
             </child>
           </object>
@@ -2590,5 +2800,31 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkListStore" id="liststore1">
+    <columns>
+      <!-- column-name id -->
+      <column type="gint"/>
+      <!-- column-name hour -->
+      <column type="gint"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">0</col>
+        <col id="1">0</col>
+      </row>
+      <row>
+        <col id="0">1</col>
+        <col id="1">1</col>
+      </row>
+      <row>
+        <col id="0">2</col>
+        <col id="1">2</col>
+      </row>
+      <row>
+        <col id="0">3</col>
+        <col id="1">3</col>
+      </row>
+    </data>
   </object>
 </interface>

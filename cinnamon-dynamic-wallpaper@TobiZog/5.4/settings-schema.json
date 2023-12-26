@@ -87,44 +87,44 @@
     "type": "generic",
     "default": 0
   },
-  "period_0_start_time": {
+  "period_0_custom_start_time": {
     "type": "generic",
-    "default": ""
+    "default": "00:00"
   },
-  "period_1_start_time": {
+  "period_1_custom_start_time": {
     "type": "generic",
-    "default": ""
+    "default": "05:00"
   },
-  "period_2_start_time": {
+  "period_2_custom_start_time": {
     "type": "generic",
-    "default": ""
+    "default": "07:00"
   },
-  "period_3_start_time": {
+  "period_3_custom_start_time": {
     "type": "generic",
-    "default": ""
+    "default": "09:00"
   },
-  "period_4_start_time": {
+  "period_4_custom_start_time": {
     "type": "generic",
-    "default": ""
+    "default": "11:00"
   },
-  "period_5_start_time": {
+  "period_5_custom_start_time": {
     "type": "generic",
-    "default": ""
+    "default": "13:00"
   },
-  "period_6_start_time": {
+  "period_6_custom_start_time": {
     "type": "generic",
-    "default": ""
+    "default": "15:00"
   },
-  "period_7_start_time": {
+  "period_7_custom_start_time": {
     "type": "generic",
-    "default": ""
+    "default": "17:00"
   },
-  "period_8_start_time": {
+  "period_8_custom_start_time": {
     "type": "generic",
-    "default": ""
+    "default": "19:00"
   },
-  "period_9_start_time": {
+  "period_9_custom_start_time": {
     "type": "generic",
-    "default": ""
+    "default": "21:00"
   }
 }

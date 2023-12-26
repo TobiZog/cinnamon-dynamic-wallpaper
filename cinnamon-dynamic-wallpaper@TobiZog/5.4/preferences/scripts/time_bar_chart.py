@@ -20,7 +20,7 @@ class Time_Bar_Chart:
     self.bar_pos_x = []
 
 
-  def create_bar_chart(self, save_location: str, image_width: int, image_height: int, times: list):
+  def create_bar_chart_with_polylines(self, save_location: str, image_width: int, image_height: int, times: list):
     """ Create a time bar chart
 
     Args:
@@ -36,9 +36,28 @@ class Time_Bar_Chart:
     self.image_code.insert(0, '<svg xmlns="http://www.w3.org/2000/svg" width="%s" height="%s">' % (image_width, image_height))
     self.image_code.append('</svg>')
     
+    file = open(save_location + "/time_bar_polylines.svg", "w")
+    for i in self.image_code:
+      file.write(i + '\n')
+
+    self.image_code.clear()
+    self.bar_pos_x.clear()
+
+
+  def create_bar_chart(self, save_location: str, image_width: int, image_height: int, times: list):
+    self.create_bar(image_width, image_height, times)
+    self.create_time_markers(image_width, image_height)
+
+    # Write to file
+    self.image_code.insert(0, '<svg xmlns="http://www.w3.org/2000/svg" width="%s" height="%s">' % (image_width, image_height))
+    self.image_code.append('</svg>')
+    
     file = open(save_location + "/time_bar.svg", "w")
     for i in self.image_code:
       file.write(i + '\n')
+
+    self.image_code.clear()
+    self.bar_pos_x.clear()
 
 
   def create_bar(self, image_width: int, image_height: int, times: list):
@@ -53,7 +72,9 @@ class Time_Bar_Chart:
     y = 40
     width = 0
     height = image_height - 80
-    times.append(1440)
+
+    if times[len(times) - 1] != 1440:
+      times.append(1440)
 
     # Adding the bar parts
     for i in range(1, len(times)):

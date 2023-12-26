@@ -33,43 +33,11 @@ class Preferences:
 		self.builder.connect_signals(self)
 
 		self.time_bar_chart = Time_Bar_Chart()
-		self.cinnamon_prefs = Cinnamon_Pref_Handler()
-
-		# Load all settings from file
-		self.settings_dict = {
-			PrefenceEnums.EXPAND_OVER_ALL_DISPLAY: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.EXPAND_OVER_ALL_DISPLAY),
-			PrefenceEnums.SHOW_ON_LOCK_SCREEN: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.SHOW_ON_LOCK_SCREEN),
-			PrefenceEnums.IMAGE_SOURCE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.IMAGE_SOURCE),
-			PrefenceEnums.SELECTED_IMAGE_SET: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.SELECTED_IMAGE_SET),
-			PrefenceEnums.PERIOD_0_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_0_IMAGE),
-			PrefenceEnums.PERIOD_1_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_1_IMAGE),
-			PrefenceEnums.PERIOD_2_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_2_IMAGE),
-			PrefenceEnums.PERIOD_3_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_3_IMAGE),
-			PrefenceEnums.PERIOD_4_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_4_IMAGE),
-			PrefenceEnums.PERIOD_5_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_5_IMAGE),
-			PrefenceEnums.PERIOD_6_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_6_IMAGE),
-			PrefenceEnums.PERIOD_7_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_7_IMAGE),
-			PrefenceEnums.PERIOD_8_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_8_IMAGE),
-			PrefenceEnums.PERIOD_9_IMAGE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_9_IMAGE),
-			PrefenceEnums.PERIOD_SOURCE: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_SOURCE),
-			PrefenceEnums.LOCATION_REFRESH_INTERVALS: self.cinnamon_prefs.read_int_from_preferences(PrefenceEnums.LOCATION_REFRESH_INTERVALS),
-			PrefenceEnums.LATITUDE: self.cinnamon_prefs.read_float_from_preferences(PrefenceEnums.LATITUDE),
-			PrefenceEnums.LONGITUDE: self.cinnamon_prefs.read_float_from_preferences(PrefenceEnums.LONGITUDE),
-			PrefenceEnums.PERIOD_0_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_0_STARTTIME),
-			PrefenceEnums.PERIOD_1_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_1_STARTTIME),
-			PrefenceEnums.PERIOD_2_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_2_STARTTIME),
-			PrefenceEnums.PERIOD_3_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_3_STARTTIME),
-			PrefenceEnums.PERIOD_4_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_4_STARTTIME),
-			PrefenceEnums.PERIOD_5_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_5_STARTTIME),
-			PrefenceEnums.PERIOD_6_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_6_STARTTIME),
-			PrefenceEnums.PERIOD_7_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_7_STARTTIME),
-			PrefenceEnums.PERIOD_8_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_8_STARTTIME),
-			PrefenceEnums.PERIOD_9_STARTTIME: self.cinnamon_prefs.read_str_from_preferences(PrefenceEnums.PERIOD_9_STARTTIME),
-		}
-
+		self.c_prefs = Cinnamon_Pref_Handler()
 
 		# Suntimes object
-		self.suntimes = Suntimes(self.settings_dict[PrefenceEnums.LATITUDE], self.settings_dict[PrefenceEnums.LONGITUDE])
+		self.suntimes = Suntimes(float(self.c_prefs.prefs[PrefenceEnums.LATITUDE_AUTO]), 
+													 float(self.c_prefs.prefs[PrefenceEnums.LONGITUDE_AUTO]))
 
 
 		########## UI objects ##########
@@ -115,27 +83,24 @@ class Preferences:
 
 
 		# Load from preferences
-		if self.settings_dict[PrefenceEnums.IMAGE_SOURCE] == ImageSourceEnum.IMAGESET:
+		if self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] == ImageSourceEnum.IMAGESET:
 			self.tb_image_set.set_active(True)
-		elif self.settings_dict[PrefenceEnums.IMAGE_SOURCE] == ImageSourceEnum.HEICFILE:
+		elif self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] == ImageSourceEnum.HEICFILE:
 			self.tb_heic_file.set_active(True)
-		elif self.settings_dict[PrefenceEnums.IMAGE_SOURCE] == ImageSourceEnum.SOURCEFOLDER:
+		elif self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] == ImageSourceEnum.SOURCEFOLDER:
 			self.tb_source_folder.set_active(True)
 
-		self.sw_expand_over_all_displays.set_active(self.settings_dict[PrefenceEnums.EXPAND_OVER_ALL_DISPLAY])
-		self.sw_show_on_lock_screen.set_active(self.settings_dict[PrefenceEnums.SHOW_ON_LOCK_SCREEN])
+		self.sw_expand_over_all_displays.set_active(self.c_prefs.prefs[PrefenceEnums.EXPAND_OVER_ALL_DISPLAY])
+		self.sw_show_on_lock_screen.set_active(self.c_prefs.prefs[PrefenceEnums.SHOW_ON_LOCK_SCREEN])
 
 
-		if self.settings_dict[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.NETWORKLOCATION:
+		if self.c_prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.NETWORKLOCATION:
 			self.tb_network_location.set_active(True)
-		elif self.settings_dict[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.CUSTOMLOCATION:
+		elif self.c_prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.CUSTOMLOCATION:
 			self.tb_custom_location.set_active(True)
-		elif self.settings_dict[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.CUSTOMTIMEPERIODS:
+		elif self.c_prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.CUSTOMTIMEPERIODS:
 			self.tb_time_periods.set_active(True)
 
-		self.spb_network_location_refresh_time.set_value(self.cinnamon_prefs.read_int_from_preferences(PrefenceEnums.LOCATION_REFRESH_INTERVALS))
-		self.etr_latitude.set_text(str(self.settings_dict[PrefenceEnums.LATITUDE]))
-		self.etr_longitude.set_text(str(self.settings_dict[PrefenceEnums.LONGITUDE]))
 
 
 		########## Time diagram ##########
@@ -175,7 +140,7 @@ class Preferences:
 		
 	def on_toggle_button_image_set_clicked(self, button):
 		if button.get_active():
-			self.settings_dict[PrefenceEnums.IMAGE_SOURCE] = ImageSourceEnum.IMAGESET
+			self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] = ImageSourceEnum.IMAGESET
 			self.tb_heic_file.set_active(False)
 			self.tb_source_folder.set_active(False)
 
@@ -185,7 +150,7 @@ class Preferences:
 		
 	def on_toggle_button_heic_file_clicked(self, button):
 		if button.get_active():
-			self.settings_dict[PrefenceEnums.IMAGE_SOURCE] = ImageSourceEnum.HEICFILE
+			self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] = ImageSourceEnum.HEICFILE
 			self.tb_image_set.set_active(False)
 			self.tb_source_folder.set_active(False)
 
@@ -195,7 +160,7 @@ class Preferences:
 
 	def on_toggle_button_source_folder_clicked(self, button):
 		if button.get_active():
-			self.settings_dict[PrefenceEnums.IMAGE_SOURCE] = ImageSourceEnum.SOURCEFOLDER
+			self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] = ImageSourceEnum.SOURCEFOLDER
 			self.tb_image_set.set_active(False)
 			self.tb_heic_file.set_active(False)
 
@@ -208,7 +173,7 @@ class Preferences:
 
 	def on_toggle_button_network_location_clicked(self, button):
 		if button.get_active():
-			self.settings_dict[PrefenceEnums.PERIOD_SOURCE] = PeriodSourceEnum.NETWORKLOCATION
+			self.c_prefs.prefs[PrefenceEnums.PERIOD_SOURCE] = PeriodSourceEnum.NETWORKLOCATION
 			self.tb_custom_location.set_active(False)
 			self.tb_time_periods.set_active(False)
 
@@ -218,6 +183,9 @@ class Preferences:
 			self.lbr_custom_location_latitude.set_visible(False)
 			self.lbr_time_periods.set_visible(False)
 
+			self.spb_network_location_refresh_time.set_value(self.c_prefs.prefs[PrefenceEnums.LOCATION_REFRESH_INTERVALS])
+		
+
 			# Start a thread to get the current location
 			locationThread = Location()
 			locationThread.start()
@@ -226,17 +194,17 @@ class Preferences:
 			location = locationThread.result
 
 			# Display the location in the UI
-			self.lb_current_location.set_text("Latitude: " + str(location["latitude"]) + ", Longitude: " + \
-																		 str(location["longitude"]))
+			self.lb_current_location.set_text("Latitude: " + location["latitude"] + \
+																		 ", Longitude: " + location["longitude"])
 			
 			# Store the location to the preferences
-			self.settings_dict[PrefenceEnums.LATITUDE] = location["latitude"]
-			self.settings_dict[PrefenceEnums.LONGITUDE] = location["longitude"]
+			self.c_prefs.prefs[PrefenceEnums.LATITUDE_AUTO] = float(location["latitude"])
+			self.c_prefs.prefs[PrefenceEnums.LONGITUDE_AUTO] = float(location["longitude"])
 
 
 	def on_toggle_button_custom_location_clicked(self, button):
 		if button.get_active():
-			self.settings_dict[PrefenceEnums.PERIOD_SOURCE] = PeriodSourceEnum.CUSTOMLOCATION
+			self.c_prefs.prefs[PrefenceEnums.PERIOD_SOURCE] = PeriodSourceEnum.CUSTOMLOCATION
 			self.tb_network_location.set_active(False)
 			self.tb_time_periods.set_active(False)
 
@@ -246,10 +214,13 @@ class Preferences:
 			self.lbr_custom_location_latitude.set_visible(True)
 			self.lbr_time_periods.set_visible(False)
 
+			self.etr_latitude.set_text(str(self.c_prefs.prefs[PrefenceEnums.LATITUDE_CUSTOM]))
+			self.etr_longitude.set_text(str(self.c_prefs.prefs[PrefenceEnums.LONGITUDE_CUSTOM]))
+
 
 	def on_toggle_button_time_periods_clicked(self, button):
 		if button.get_active():
-			self.settings_dict[PrefenceEnums.PERIOD_SOURCE] = PeriodSourceEnum.CUSTOMTIMEPERIODS
+			self.c_prefs.prefs[PrefenceEnums.PERIOD_SOURCE] = PeriodSourceEnum.CUSTOMTIMEPERIODS
 			self.tb_network_location.set_active(False)
 			self.tb_custom_location.set_active(False)
 
@@ -261,15 +232,21 @@ class Preferences:
 
 
 	def on_spb_network_location_refresh_time_changed(self, spin_button):
-		self.settings_dict[PrefenceEnums.LOCATION_REFRESH_INTERVALS] = spin_button.get_value()
+		self.c_prefs.prefs[PrefenceEnums.LOCATION_REFRESH_INTERVALS] = spin_button.get_value()
 
 
 	def on_etr_longitude_changed(self, entry):
-		self.settings_dict[PrefenceEnums.LONGITUDE] = entry.get_text()
+		try:
+			self.c_prefs.prefs[PrefenceEnums.LONGITUDE_CUSTOM] = float(entry.get_text())
+		except:
+			pass
 
 
 	def on_etr_latitude_changed(self, entry):
-		self.settings_dict[PrefenceEnums.LATITUDE] = entry.get_text()
+		try:
+			self.c_prefs.prefs[PrefenceEnums.LATITUDE_CUSTOM] = float(entry.get_text())
+		except:
+			pass
 
 
 	# About
@@ -286,8 +263,7 @@ class Preferences:
 
 	def on_apply(self, *args):
 			# Store all values to the JSON file
-			for item in self.settings_dict:
-				self.cinnamon_prefs.write_to_preferences(item, self.settings_dict[item])
+			self.c_prefs.store_preferences()
 
 			# Close the window
 			self.on_destroy()

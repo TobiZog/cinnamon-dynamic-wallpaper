@@ -482,7 +482,7 @@
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/9.jpg</property>
+                        <property name="stock">gtk-missing-image</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
@@ -495,7 +495,7 @@
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/2.jpg</property>
+                        <property name="stock">gtk-missing-image</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
@@ -508,7 +508,7 @@
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/4.jpg</property>
+                        <property name="stock">gtk-missing-image</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
@@ -521,7 +521,7 @@
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/6.jpg</property>
+                        <property name="stock">gtk-missing-image</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
@@ -534,7 +534,7 @@
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/8.jpg</property>
+                        <property name="stock">gtk-missing-image</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
@@ -603,7 +603,7 @@
                   <object class="GtkImage" id="img_bar">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="pixbuf">../../../time_bar.svg</property>
+                    <property name="stock">gtk-missing-image</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -624,7 +624,7 @@
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/1.jpg</property>
+                        <property name="stock">gtk-missing-image</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
@@ -637,7 +637,7 @@
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/9.jpg</property>
+                        <property name="stock">gtk-missing-image</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
@@ -650,7 +650,7 @@
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/7.jpg</property>
+                        <property name="stock">gtk-missing-image</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
@@ -663,7 +663,7 @@
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/5.jpg</property>
+                        <property name="stock">gtk-missing-image</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
@@ -676,7 +676,7 @@
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="pixbuf">../../../../../Desktop/cdw-concept/image-set/3.jpg</property>
+                        <property name="stock">gtk-missing-image</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
@@ -1569,7 +1569,7 @@
                                 <property name="margin-end">8</property>
                                 <property name="label" translatable="yes">00:00</property>
                                 <attributes>
-                                  <attribute name="size" value="30720"/>
+                                  <attribute name="size" value="20480"/>
                                 </attributes>
                               </object>
                               <packing>

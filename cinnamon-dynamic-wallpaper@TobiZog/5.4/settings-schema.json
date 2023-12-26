@@ -3,12 +3,128 @@
     "type": "generic",
     "default": true
   },
+  "expand_over_all_displays": {
+    "type": "generic",
+    "default": "false"
+  },
+  "show_on_lock_screen": {
+    "type": "generic",
+    "default": "false"
+  },
   "image_source": {
     "type": "generic",
     "default": "image_set"
   },
+  "selected_image_set": {
+    "type": "generic",
+    "default": ""
+  },
+  "selected_source_folder": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_0_image": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_1_image": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_2_image": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_3_image": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_4_image": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_5_image": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_6_image": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_7_image": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_8_image": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_9_image": {
+    "type": "generic",
+    "default": ""
+  },
   "period_source": {
     "type": "generic",
     "default": "network_location"
+  },
+  "location_refresh_intervals": {
+    "type": "generic",
+    "default": 15
+  },
+  "latitude_auto": {
+    "type": "generic",
+    "default": 0
+  },
+  "longitude_auto": {
+    "type": "generic",
+    "default": 0
+  },
+  "latitude_custom": {
+    "type": "generic",
+    "default": 0
+  },
+  "longitude_custom": {
+    "type": "generic",
+    "default": 0
+  },
+  "period_0_start_time": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_1_start_time": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_2_start_time": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_3_start_time": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_4_start_time": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_5_start_time": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_6_start_time": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_7_start_time": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_8_start_time": {
+    "type": "generic",
+    "default": ""
+  },
+  "period_9_start_time": {
+    "type": "generic",
+    "default": ""
   }
 }

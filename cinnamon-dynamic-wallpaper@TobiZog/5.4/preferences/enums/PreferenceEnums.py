@@ -1,3 +1,5 @@
+from enum import Enum
+
 class PrefenceEnums(enumerate):
   EXPAND_OVER_ALL_DISPLAY = "expand_over_all_displays"
   SHOW_ON_LOCK_SCREEN = "show_on_lock_screen"
@@ -26,8 +28,10 @@ class PrefenceEnums(enumerate):
   PERIOD_SOURCE = "period_source"
 
   LOCATION_REFRESH_INTERVALS = "location_refresh_intervals"
-  LATITUDE = "latitude"
-  LONGITUDE = "longitude"
+  LATITUDE_AUTO = "latitude_auto"
+  LONGITUDE_AUTO = "longitude_auto"
+  LATITUDE_CUSTOM = "latitude_custom"
+  LONGITUDE_CUSTOM = "longitude_custom"
 
   PERIOD_0_STARTTIME = "period_0_start_time"
   PERIOD_1_STARTTIME = "period_1_start_time"

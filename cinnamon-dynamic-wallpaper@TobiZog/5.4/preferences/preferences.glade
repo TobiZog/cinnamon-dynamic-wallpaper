@@ -1204,43 +1204,21 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkListBoxRow" id="lbr_custom_location_longitude">
+                  <object class="GtkListBoxRow" id="lbr_current_location">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <child>
-                      <object class="GtkBox">
+                      <object class="GtkLabel" id="lb_current_location">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="margin-start">8</property>
                         <property name="margin-end">8</property>
                         <property name="margin-top">8</property>
                         <property name="margin-bottom">8</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="halign">start</property>
-                            <property name="label" translatable="yes">Longitude</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkEntry" id="etr_longitude">
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <signal name="changed" handler="on_etr_longitude_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
+                        <property name="label" translatable="yes">label</property>
+                        <attributes>
+                          <attribute name="style" value="italic"/>
+                        </attributes>
                       </object>
                     </child>
                   </object>
@@ -1277,6 +1255,48 @@
                             <property name="can-focus">True</property>
                             <property name="input-purpose">number</property>
                             <signal name="changed" handler="on_etr_latitude_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkListBoxRow" id="lbr_custom_location_longitude">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">8</property>
+                        <property name="margin-end">8</property>
+                        <property name="margin-top">8</property>
+                        <property name="margin-bottom">8</property>
+                        <property name="homogeneous">True</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Longitude</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="etr_longitude">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <signal name="changed" handler="on_etr_longitude_changed" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>

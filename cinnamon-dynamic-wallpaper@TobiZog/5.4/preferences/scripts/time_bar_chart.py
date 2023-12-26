@@ -20,7 +20,7 @@ class Time_Bar_Chart:
     self.bar_pos_x = []
 
 
-  def create_bar_chart(self, image_width: int, image_height: int, times: list):
+  def create_bar_chart(self, save_location: str, image_width: int, image_height: int, times: list):
     """ Create a time bar chart
 
     Args:
@@ -36,7 +36,7 @@ class Time_Bar_Chart:
     self.image_code.insert(0, '<svg xmlns="http://www.w3.org/2000/svg" width="%s" height="%s">' % (image_width, image_height))
     self.image_code.append('</svg>')
     
-    file = open("time_bar.svg", "w")
+    file = open(save_location + "/time_bar.svg", "w")
     for i in self.image_code:
       file.write(i + '\n')
 

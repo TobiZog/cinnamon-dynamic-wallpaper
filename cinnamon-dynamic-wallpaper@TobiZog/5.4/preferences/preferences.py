@@ -15,7 +15,8 @@ from gi.repository import Gtk, GdkPixbuf
 
 
 # Global definitions
-GLADE_URI = os.path.dirname(os.path.abspath(__file__)) + "/preferences.glade"
+PREFERENCES_URI = os.path.dirname(os.path.abspath(__file__))
+GLADE_URI = PREFERENCES_URI + "/preferences.glade"
 
 
 
@@ -93,6 +94,8 @@ class Preferences:
 
 		## Location & Times
 		self.tb_network_location = self.builder.get_object("tb_network_location")
+		self.lb_current_location = self.builder.get_object("lb_current_location")
+		self.lbr_current_location = self.builder.get_object("lbr_current_location")
 		self.tb_custom_location = self.builder.get_object("tb_custom_location")
 		self.tb_time_periods = self.builder.get_object("tb_time_periods")
 		self.lbr_network_location = self.builder.get_object("lbr_network_location")
@@ -149,10 +152,10 @@ class Preferences:
 			time_periods_min.append(time_range[0].hour * 60 + time_range[0].minute)
 		
 		# Create time bar
-		self.time_bar_chart.create_bar_chart(1200, 150, time_periods_min)
+		self.time_bar_chart.create_bar_chart(PREFERENCES_URI, 1200, 150, time_periods_min)
 
 		# Load to the view
-		pixbuf = GdkPixbuf.Pixbuf.new_from_file("time_bar.svg")
+		pixbuf = GdkPixbuf.Pixbuf.new_from_file(PREFERENCES_URI + "/time_bar.svg")
 		self.img_bar.set_from_pixbuf(pixbuf)
 
 
@@ -210,9 +213,26 @@ class Preferences:
 			self.tb_time_periods.set_active(False)
 
 			self.lbr_network_location.set_visible(True)
+			self.lbr_current_location.set_visible(True)
 			self.lbr_custom_location_longitude.set_visible(False)
 			self.lbr_custom_location_latitude.set_visible(False)
 			self.lbr_time_periods.set_visible(False)
+
+			# Start a thread to get the current location
+			locationThread = Location()
+			locationThread.start()
+			locationThread.join()
+
+			location = locationThread.result
+
+			# Display the location in the UI
+			self.lb_current_location.set_text("Latitude: " + str(location["latitude"]) + ", Longitude: " + \
+																		 str(location["longitude"]))
+			
+			# Store the location to the preferences
+			self.settings_dict[PrefenceEnums.LATITUDE] = location["latitude"]
+			self.settings_dict[PrefenceEnums.LONGITUDE] = location["longitude"]
+
 
 	def on_toggle_button_custom_location_clicked(self, button):
 		if button.get_active():
@@ -221,9 +241,11 @@ class Preferences:
 			self.tb_time_periods.set_active(False)
 
 			self.lbr_network_location.set_visible(False)
+			self.lbr_current_location.set_visible(False)
 			self.lbr_custom_location_longitude.set_visible(True)
 			self.lbr_custom_location_latitude.set_visible(True)
 			self.lbr_time_periods.set_visible(False)
+
 
 	def on_toggle_button_time_periods_clicked(self, button):
 		if button.get_active():
@@ -232,15 +254,19 @@ class Preferences:
 			self.tb_custom_location.set_active(False)
 
 			self.lbr_network_location.set_visible(False)
+			self.lbr_current_location.set_visible(False)
 			self.lbr_custom_location_longitude.set_visible(False)
 			self.lbr_custom_location_latitude.set_visible(False)
 			self.lbr_time_periods.set_visible(True)
 
+
 	def on_spb_network_location_refresh_time_changed(self, spin_button):
 		self.settings_dict[PrefenceEnums.LOCATION_REFRESH_INTERVALS] = spin_button.get_value()
 
+
 	def on_etr_longitude_changed(self, entry):
 		self.settings_dict[PrefenceEnums.LONGITUDE] = entry.get_text()
+
 
 	def on_etr_latitude_changed(self, entry):
 		self.settings_dict[PrefenceEnums.LATITUDE] = entry.get_text()

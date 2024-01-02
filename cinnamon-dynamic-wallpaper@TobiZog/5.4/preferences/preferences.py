@@ -37,8 +37,7 @@ class Preferences:
 		self.c_prefs = Cinnamon_Pref_Handler()
 
 		# Suntimes object
-		self.suntimes = Suntimes(float(self.c_prefs.prefs[PrefenceEnums.LATITUDE_AUTO]), 
-													 float(self.c_prefs.prefs[PrefenceEnums.LONGITUDE_AUTO]))
+		self.suntimes = Suntimes()
 		
 		########## UI objects ##########
 		
@@ -160,14 +159,27 @@ class Preferences:
 
 				time_periods_min.append(int(time_str[0:2]) * 60 + int(time_str[3:5]))
 		else:
+			if self.c_prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.NETWORKLOCATION:
+				self.suntimes.calc_suntimes(float(self.c_prefs.prefs[PrefenceEnums.LATITUDE_AUTO]), 
+																float(self.c_prefs.prefs[PrefenceEnums.LONGITUDE_AUTO]))
+			else:
+				self.suntimes.calc_suntimes(float(self.etr_latitude.get_text()), float(self.etr_longitude.get_text()))	
+
+			
 			# Get all time periods. Store the minutes to the list and print the values to the text views
 			for i in range(0, 10):
-				time_range = self.suntimes.get_time_period(i)
+				time_range_now = self.suntimes.day_periods[i]
+
+				if i != 9:
+					time_range_next = self.suntimes.day_periods[i + 1]
+				else:
+					time_range_next = time(hour=23, minute=59)
+
 				self.etr_periods[i].set_text(
-					str(time_range[0].hour).rjust(2, '0') + ":" + str(time_range[0].minute).rjust(2, '0') +\
-						" - " + str(time_range[1].hour).rjust(2, '0') + ":" + str(time_range[1].minute).rjust(2, '0'))
+					str(time_range_now.hour).rjust(2, '0') + ":" + str(time_range_now.minute).rjust(2, '0') +\
+						" - " + str(time_range_next.hour).rjust(2, '0') + ":" + str(time_range_next.minute).rjust(2, '0'))
 				
-				time_periods_min.append(time_range[0].hour * 60 + time_range[0].minute)
+				time_periods_min.append(time_range_now.hour * 60 + time_range_now.minute)
 
 		# Create time bar
 		self.time_bar_chart.create_bar_chart_with_polylines(PREFERENCES_URI, 1200, 150, time_periods_min)
@@ -291,23 +303,43 @@ class Preferences:
 
 
 	def on_spb_period_value_changed(self, spin_button):
-			spin_button_name = Gtk.Buildable.get_name(spin_button)
-			index = int(spin_button_name[11:12]) - 1
-			hours = self.spb_periods_hour[index].get_value()
-			minutes = self.spb_periods_minute[index].get_value()
+		""" Callback if one of the time spinners (minute or hour) will be clicked
 
-			time_value = datetime(2024,1,1, int(hours), int(minutes))
-			time_str = str(time_value.hour).rjust(2, '0') + ":" + str(time_value.minute).rjust(2, '0')
+					 (1)							 (2)							 (3)
+			Previous period		Current period		 Next period
+			12:34 - 14:40			14:41 - 16:20			16:21 - 17:30
+													^
+										Variable to change
 
-			self.c_prefs.prefs["period_%s_custom_start_time" % (index + 1)] = time_str
+		Args:
+				spin_button (_type_): _description_
+		"""
+		spin_button_name = Gtk.Buildable.get_name(spin_button)
+		index = int(spin_button_name[11:12]) - 1
 
-			next_time = time_value - timedelta(minutes=1)
-			time_str = str(next_time.hour).rjust(2, '0') + ":" + str(next_time.minute).rjust(2, '0')
+		# Determe time string and store to prefs
+		time_current_start = datetime(2024,1,1, int(self.spb_periods_hour[index].get_value()), int(self.spb_periods_minute[index].get_value()))
+		time_current_start_str = str(time_current_start.hour).rjust(2, '0') + ":" + str(time_current_start.minute).rjust(2, '0')
 
-			# Update the start time of the previous period
-			self.lb_period_end[index].set_text(time_str)
+		self.c_prefs.prefs["period_%s_custom_start_time" % (index + 1)] = time_current_start_str
+		
 
-			self.refresh_chart()
+		# (1) Update the start time of the previous period
+		time_previous_end = time_current_start - timedelta(minutes=1)
+		self.lb_period_end[index].set_text(str(time_previous_end.hour).rjust(2, '0') + ":" + str(time_previous_end.minute).rjust(2, '0'))
+
+		# todo:
+		# hours_next = self.spb_periods_hour[index + 1].get_value()
+		# minutes_next = self.spb_periods_minute[index + 1].get_value()
+		# time_next_start = datetime(2024, 1, 1, int(hours_next), int(minutes_next))
+
+		# if time_next_start < time_current_start:
+		# 	# (2) Update the end time of the current period
+		# 	current_time_end = time_current_start + timedelta(minutes=1)
+		# 	time_current_start_str = str(current_time_end.hour).rjust(2, '0') + ":" + str(current_time_end.minute).rjust(2, '0')
+
+
+		self.refresh_chart()
 
 
 	def on_spb_network_location_refresh_time_changed(self, spin_button):
@@ -317,6 +349,7 @@ class Preferences:
 	def on_etr_longitude_changed(self, entry):
 		try:
 			self.c_prefs.prefs[PrefenceEnums.LONGITUDE_CUSTOM] = float(entry.get_text())
+			self.refresh_chart()
 		except:
 			pass
 
@@ -324,6 +357,7 @@ class Preferences:
 	def on_etr_latitude_changed(self, entry):
 		try:
 			self.c_prefs.prefs[PrefenceEnums.LATITUDE_CUSTOM] = float(entry.get_text())
+			self.refresh_chart()
 		except:
 			pass
 

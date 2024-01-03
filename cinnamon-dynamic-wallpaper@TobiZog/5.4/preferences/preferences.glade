@@ -345,9 +345,10 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBox">
+                          <object class="GtkComboBox" id="cb_image_set">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
+                            <signal name="changed" handler="on_cb_image_set_changed" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -387,7 +388,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkFileChooserButton">
+                          <object class="GtkFileChooserButton" id="fc_heic_file">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="filter">filefilter1</property>
@@ -431,7 +432,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkFileChooserButton">
+                          <object class="GtkFileChooserButton" id="fc_source_folder">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="action">select-folder</property>
@@ -623,9 +624,10 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox">
+                      <object class="GtkComboBox" id="cb_period_0">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">0</property>
@@ -633,9 +635,10 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox">
+                      <object class="GtkComboBox" id="cb_period_2">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">1</property>
@@ -643,9 +646,10 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox">
+                      <object class="GtkComboBox" id="cb_period_4">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">2</property>
@@ -653,9 +657,10 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox">
+                      <object class="GtkComboBox" id="cb_period_6">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">3</property>
@@ -663,9 +668,10 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox">
+                      <object class="GtkComboBox" id="cb_period_8">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">4</property>
@@ -835,9 +841,10 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox">
+                      <object class="GtkComboBox" id="cb_period_1">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">0</property>
@@ -845,9 +852,10 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox">
+                      <object class="GtkComboBox" id="cb_period_3">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">1</property>
@@ -855,9 +863,10 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox">
+                      <object class="GtkComboBox" id="cb_period_5">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">3</property>
@@ -865,9 +874,10 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox">
+                      <object class="GtkComboBox" id="cb_period_7">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">2</property>
@@ -875,9 +885,10 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox">
+                      <object class="GtkComboBox" id="cb_period_9">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">4</property>

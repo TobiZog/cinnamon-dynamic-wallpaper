@@ -7,6 +7,7 @@ from scripts.time_bar_chart import Time_Bar_Chart
 from scripts.cinnamon_pref_handler import *
 from scripts.suntimes import *
 from scripts.location import *
+from scripts.images import *
 from enums.PreferenceEnums import PrefenceEnums
 from enums.ImageSourceEnum import ImageSourceEnum
 from enums.PeriodSourceEnum import PeriodSourceEnum
@@ -20,8 +21,6 @@ PREFERENCES_URI = os.path.dirname(os.path.abspath(__file__))
 GLADE_URI = PREFERENCES_URI + "/preferences.glade"
 
 
-
-
 class Preferences:
 	""" Preference window class
 	"""
@@ -33,21 +32,30 @@ class Preferences:
 		self.builder.add_from_file(GLADE_URI)
 		self.builder.connect_signals(self)
 
+		# Objects from external scripts
 		self.time_bar_chart = Time_Bar_Chart()
 		self.c_prefs = Cinnamon_Pref_Handler()
-
-		# Suntimes object
 		self.suntimes = Suntimes()
+		self.images = Images()
 		
 		########## UI objects ##########
 		
-		## Image Configuration
+		#### Page 1: Image Configuration
 		self.tb_image_set = self.builder.get_object("tb_image_set")
 		self.tb_heic_file = self.builder.get_object("tb_heic_file")
 		self.tb_source_folder = self.builder.get_object("tb_source_folder")
+
+		# Image set
 		self.lbr_image_set = self.builder.get_object("lbr_image_set")
+		self.cb_image_set = self.builder.get_object("cb_image_set")
+
+		# HEIC file		
 		self.lbr_heic_file = self.builder.get_object("lbr_heic_file")
+
+		# Source folder
 		self.lbr_source_folder = self.builder.get_object("lbr_source_folder")
+
+		# Time bar chart
 		self.img_bar_images = self.builder.get_object("img_bar_images")
 		self.sw_expand_over_all_displays = self.builder.get_object("sw_expand_over_all_displays")
 		self.sw_show_on_lock_screen = self.builder.get_object("sw_show_on_lock_screen")
@@ -59,7 +67,17 @@ class Preferences:
 			self.builder.get_object("etr_period_9"), self.builder.get_object("etr_period_10"),
 		]
 
-		## Location & Times
+		self.cb_periods = [
+			self.builder.get_object("cb_period_0"), self.builder.get_object("cb_period_1"), 
+			self.builder.get_object("cb_period_2"), self.builder.get_object("cb_period_3"), 
+			self.builder.get_object("cb_period_4"), self.builder.get_object("cb_period_5"), 
+			self.builder.get_object("cb_period_6"), self.builder.get_object("cb_period_7"), 
+			self.builder.get_object("cb_period_8"), self.builder.get_object("cb_period_9"), 
+		]
+
+
+
+		#### Page 2: Location & Times
 		self.tb_network_location = self.builder.get_object("tb_network_location")
 		self.lb_current_location = self.builder.get_object("lb_current_location")
 		self.lbr_current_location = self.builder.get_object("lbr_current_location")
@@ -119,6 +137,16 @@ class Preferences:
 		elif self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] == ImageSourceEnum.SOURCEFOLDER:
 			self.tb_source_folder.set_active(True)
 
+		image_set_choices = ["aurora", "beach", "bitday", "cliffs", "gradient", "lakeside", "mountains", "sahara"]
+		self.add_items_to_combo_box(self.cb_image_set, image_set_choices)
+
+		self.set_active_combobox_item(self.cb_image_set, self.c_prefs.prefs[PrefenceEnums.SELECTED_IMAGE_SET])
+
+		for i, combobox in enumerate(self.cb_periods):
+			selected_image_name = self.c_prefs.prefs["period_%s_image" % (i)]
+			self.set_active_combobox_item(combobox, selected_image_name)
+
+
 		self.sw_expand_over_all_displays.set_active(self.c_prefs.prefs[PrefenceEnums.EXPAND_OVER_ALL_DISPLAY])
 		self.sw_show_on_lock_screen.set_active(self.c_prefs.prefs[PrefenceEnums.SHOW_ON_LOCK_SCREEN])
 
@@ -129,6 +157,7 @@ class Preferences:
 			self.tb_custom_location.set_active(True)
 		elif self.c_prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.CUSTOMTIMEPERIODS:
 			self.tb_time_periods.set_active(True)
+
 
 		# Time diagram
 		try:
@@ -150,6 +179,8 @@ class Preferences:
 
 
 	def refresh_chart(self):
+		""" Recomputes both time bar charts and load it to the UI
+		"""
 		# Stores the start times of the periods in minutes since midnight
 		time_periods_min = []
 
@@ -193,6 +224,40 @@ class Preferences:
 		self.img_bar_times.set_from_pixbuf(pixbuf2)
 
 
+	def set_active_combobox_item(self, combobox: Gtk.ComboBoxText, active_item: str):
+		list_store = combobox.get_model()
+
+		for i in range(0, len(list_store)):
+			row = list_store[i]
+			if row[0] == active_item:
+				combobox.set_active(i)
+
+
+
+	def load_image_options_to_combo_boxes(self, options: list):
+		for combobox in self.cb_periods:
+			self.add_items_to_combo_box(combobox, options)
+
+
+	def load_images_to_preview(self, image_src: list):
+		"""_summary_
+		"""
+		# todo
+		pass
+
+
+	def add_items_to_combo_box(self, combobox: Gtk.ComboBox, items: list):
+		store = Gtk.ListStore(str)
+
+		for image_set in items:
+			store.append([image_set])
+
+		combobox.set_model(store)
+		renderer_text = Gtk.CellRendererText()
+		combobox.pack_start(renderer_text, True)
+		combobox.add_attribute(renderer_text, "text", 0)
+
+
 	#################### Callbacks ####################
 		
 		
@@ -227,6 +292,39 @@ class Preferences:
 			self.lbr_image_set.set_visible(False)
 			self.lbr_heic_file.set_visible(False)
 			self.lbr_source_folder.set_visible(True)
+
+	def on_cb_image_set_changed(self, combobox):
+		tree_iter = combobox.get_active_iter()
+
+		if tree_iter is not None:
+			# Get the selected value
+			model = combobox.get_model()
+			selected_image_set = model[tree_iter][0]
+
+			# Store to the preferences
+			self.c_prefs.prefs[PrefenceEnums.SELECTED_IMAGE_SET] = selected_image_set
+
+			# Update the ComboBoxes for image selection
+			image_path = os.path.abspath(os.path.join(PREFERENCES_URI, os.pardir)) + \
+				"/images/included_image_sets/" + selected_image_set + "/"
+			
+			image_names = self.images.get_images_from_folder(image_path)
+
+			self.load_image_options_to_combo_boxes(image_names)
+
+			# todo: Load images to preview
+	
+
+	def on_cb_period_changed(self, combobox):
+		tree_iter = combobox.get_active_iter()
+
+		combobox_name = Gtk.Buildable.get_name(combobox)
+		period_index = int(combobox_name[10:12])
+
+		if tree_iter is not None:
+			# Get the selected value
+			model = combobox.get_model()
+			self.c_prefs.prefs["period_%s_image" % (period_index)] = model[tree_iter][0]
 	
 
 	## Location & Times

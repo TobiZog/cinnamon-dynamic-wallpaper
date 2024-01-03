@@ -25,7 +25,9 @@ class Preferences:
 	""" Preference window class
 	"""
 
-	#################### Lifecycle ####################
+	############################################################
+	#													Lifecycle											 	 #
+	############################################################
 
 	def __init__(self) -> None:
 		self.builder = Gtk.Builder()
@@ -175,11 +177,13 @@ class Preferences:
 		Gtk.main_quit()
 
 
-	#################### Local methods ####################
 
+	############################################################
+	#												Local methods											 #
+	############################################################
 
 	def refresh_chart(self):
-		""" Recomputes both time bar charts and load it to the UI
+		""" Recomputes both time bar charts and load them to the UI
 		"""
 		# Stores the start times of the periods in minutes since midnight
 		time_periods_min = []
@@ -224,7 +228,32 @@ class Preferences:
 		self.img_bar_times.set_from_pixbuf(pixbuf2)
 
 
+	def load_image_options_to_combo_boxes(self, options: list):
+		""" Add a list of Strings to all image option comboboxes
+
+		Args:
+				options (list): All possible options
+		"""
+		for combobox in self.cb_periods:
+			self.add_items_to_combo_box(combobox, options)
+
+
+	def load_images_to_preview(self, image_src: list):
+		# todo
+		pass
+
+
+	############################################################
+	#										UI helper methods											 #
+	############################################################
+
 	def set_active_combobox_item(self, combobox: Gtk.ComboBoxText, active_item: str):
+		""" Change active item in combobox by String value
+
+		Args:
+				combobox (Gtk.ComboBoxText): ComboBox to set active
+				active_item (str): String item to set active
+		"""
 		list_store = combobox.get_model()
 
 		for i in range(0, len(list_store)):
@@ -233,20 +262,13 @@ class Preferences:
 				combobox.set_active(i)
 
 
-
-	def load_image_options_to_combo_boxes(self, options: list):
-		for combobox in self.cb_periods:
-			self.add_items_to_combo_box(combobox, options)
-
-
-	def load_images_to_preview(self, image_src: list):
-		"""_summary_
-		"""
-		# todo
-		pass
-
-
 	def add_items_to_combo_box(self, combobox: Gtk.ComboBox, items: list):
+		""" Add items to a combo box
+
+		Args:
+				combobox (Gtk.ComboBox): ComboBox where to add the options
+				items (list): Possible options
+		"""
 		store = Gtk.ListStore(str)
 
 		for image_set in items:
@@ -258,12 +280,14 @@ class Preferences:
 		combobox.add_attribute(renderer_text, "text", 0)
 
 
-	#################### Callbacks ####################
-		
-		
+
+	############################################################
+	#													Callbacks											 	 #
+	############################################################
+
 	## Image Configuration
-		
-	def on_toggle_button_image_set_clicked(self, button):
+	
+	def on_toggle_button_image_set_clicked(self, button: Gtk.Button):
 		if button.get_active():
 			self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] = ImageSourceEnum.IMAGESET
 			self.tb_heic_file.set_active(False)
@@ -273,7 +297,7 @@ class Preferences:
 			self.lbr_heic_file.set_visible(False)
 			self.lbr_source_folder.set_visible(False)
 		
-	def on_toggle_button_heic_file_clicked(self, button):
+	def on_toggle_button_heic_file_clicked(self, button: Gtk.Button):
 		if button.get_active():
 			self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] = ImageSourceEnum.HEICFILE
 			self.tb_image_set.set_active(False)
@@ -283,7 +307,7 @@ class Preferences:
 			self.lbr_heic_file.set_visible(True)
 			self.lbr_source_folder.set_visible(False)
 
-	def on_toggle_button_source_folder_clicked(self, button):
+	def on_toggle_button_source_folder_clicked(self, button: Gtk.Button):
 		if button.get_active():
 			self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] = ImageSourceEnum.SOURCEFOLDER
 			self.tb_image_set.set_active(False)
@@ -293,7 +317,7 @@ class Preferences:
 			self.lbr_heic_file.set_visible(False)
 			self.lbr_source_folder.set_visible(True)
 
-	def on_cb_image_set_changed(self, combobox):
+	def on_cb_image_set_changed(self, combobox: Gtk.ComboBox):
 		tree_iter = combobox.get_active_iter()
 
 		if tree_iter is not None:
@@ -315,7 +339,7 @@ class Preferences:
 			# todo: Load images to preview
 	
 
-	def on_cb_period_changed(self, combobox):
+	def on_cb_period_changed(self, combobox: Gtk.ComboBox):
 		tree_iter = combobox.get_active_iter()
 
 		combobox_name = Gtk.Buildable.get_name(combobox)
@@ -329,7 +353,7 @@ class Preferences:
 
 	## Location & Times
 
-	def on_toggle_button_network_location_clicked(self, button):
+	def on_toggle_button_network_location_clicked(self, button: Gtk.Button):
 		if button.get_active():
 			self.c_prefs.prefs[PrefenceEnums.PERIOD_SOURCE] = PeriodSourceEnum.NETWORKLOCATION
 			self.tb_custom_location.set_active(False)
@@ -362,7 +386,7 @@ class Preferences:
 			self.refresh_chart()
 
 
-	def on_toggle_button_custom_location_clicked(self, button):
+	def on_toggle_button_custom_location_clicked(self, button: Gtk.Button):
 		if button.get_active():
 			self.c_prefs.prefs[PrefenceEnums.PERIOD_SOURCE] = PeriodSourceEnum.CUSTOMLOCATION
 			self.tb_network_location.set_active(False)
@@ -378,7 +402,7 @@ class Preferences:
 			self.etr_longitude.set_text(str(self.c_prefs.prefs[PrefenceEnums.LONGITUDE_CUSTOM]))
 
 
-	def on_toggle_button_time_periods_clicked(self, button):
+	def on_toggle_button_time_periods_clicked(self, button: Gtk.Button):
 		if button.get_active():
 			self.c_prefs.prefs[PrefenceEnums.PERIOD_SOURCE] = PeriodSourceEnum.CUSTOMTIMEPERIODS
 			self.tb_network_location.set_active(False)
@@ -400,7 +424,7 @@ class Preferences:
 
 
 
-	def on_spb_period_value_changed(self, spin_button):
+	def on_spb_period_value_changed(self, spin_button: Gtk.SpinButton):
 		""" Callback if one of the time spinners (minute or hour) will be clicked
 
 					 (1)							 (2)							 (3)
@@ -410,7 +434,7 @@ class Preferences:
 										Variable to change
 
 		Args:
-				spin_button (_type_): _description_
+				spin_button (Gtk.SpinButton): SpinButton which was changed
 		"""
 		spin_button_name = Gtk.Buildable.get_name(spin_button)
 		index = int(spin_button_name[11:12]) - 1
@@ -422,19 +446,8 @@ class Preferences:
 		self.c_prefs.prefs["period_%s_custom_start_time" % (index + 1)] = time_current_start_str
 		
 
-		# (1) Update the start time of the previous period
 		time_previous_end = time_current_start - timedelta(minutes=1)
 		self.lb_period_end[index].set_text(str(time_previous_end.hour).rjust(2, '0') + ":" + str(time_previous_end.minute).rjust(2, '0'))
-
-		# todo:
-		# hours_next = self.spb_periods_hour[index + 1].get_value()
-		# minutes_next = self.spb_periods_minute[index + 1].get_value()
-		# time_next_start = datetime(2024, 1, 1, int(hours_next), int(minutes_next))
-
-		# if time_next_start < time_current_start:
-		# 	# (2) Update the end time of the current period
-		# 	current_time_end = time_current_start + timedelta(minutes=1)
-		# 	time_current_start_str = str(current_time_end.hour).rjust(2, '0') + ":" + str(current_time_end.minute).rjust(2, '0')
 
 
 		self.refresh_chart()
@@ -462,22 +475,41 @@ class Preferences:
 
 	# About
 
-	def on_cinnamon_spices_website_button_clicked(self, button):
+	def on_cinnamon_spices_website_button_clicked(self, button: Gtk.Button):
+		""" Callback for the button to navigate to the Cinnamon Spices web page of this project
+
+		Args:
+				button (Gtk.Button): Button which was clicked
+		"""
 		subprocess.Popen(["xdg-open", "https://cinnamon-spices.linuxmint.com/extensions/view/97"])
 
-	def on_github_website_button_clicked(self, button):
+
+	def on_github_website_button_clicked(self, button: Gtk.Button):
+		""" Callback for the button to navigate to the GitHub web page of this project
+
+		Args:
+				button (Gtk.Button): Button which was clicked
+		"""
 		subprocess.Popen(["xdg-open", "https://github.com/TobiZog/cinnamon-dynamic-wallpaper"])
 
+
 	def on_create_issue_button_clicked(self, button):
+		""" Callback for the button to navigate to the Issues page on GitHub of this project
+
+		Args:
+				button (Gtk.Button): Button which was clicked
+		"""
 		subprocess.Popen(["xdg-open", "https://github.com/TobiZog/cinnamon-dynamic-wallpaper/issues/new"])
 
 
 	def on_apply(self, *args):
-			# Store all values to the JSON file
-			self.c_prefs.store_preferences()
+		""" Callback for the Apply button in the top bar
+		"""
+		# Store all values to the JSON file
+		self.c_prefs.store_preferences()
 
-			# Close the window
-			self.on_destroy()
+		# Close the window
+		self.on_destroy()
 
 
 if __name__ == "__main__":

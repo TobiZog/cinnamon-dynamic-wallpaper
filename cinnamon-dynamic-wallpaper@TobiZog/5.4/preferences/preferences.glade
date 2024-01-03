@@ -559,7 +559,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkImage">
+                      <object class="GtkImage" id="img_period_0">
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -572,7 +572,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkImage">
+                      <object class="GtkImage" id="img_period_2">
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -585,7 +585,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkImage">
+                      <object class="GtkImage" id="img_period_4">
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -598,7 +598,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkImage">
+                      <object class="GtkImage" id="img_period_6">
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -611,7 +611,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkImage">
+                      <object class="GtkImage" id="img_period_8">
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -706,7 +706,7 @@
                     <property name="column-spacing">8</property>
                     <property name="column-homogeneous">True</property>
                     <child>
-                      <object class="GtkImage">
+                      <object class="GtkImage" id="img_period_1">
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -719,7 +719,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkImage">
+                      <object class="GtkImage" id="img_period_9">
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -732,7 +732,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkImage">
+                      <object class="GtkImage" id="img_period_7">
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -745,7 +745,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkImage">
+                      <object class="GtkImage" id="img_period_5">
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -758,7 +758,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkImage">
+                      <object class="GtkImage" id="img_period_3">
                         <property name="width-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -863,7 +863,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox" id="cb_period_5">
+                      <object class="GtkComboBox" id="cb_period_7">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
@@ -874,7 +874,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox" id="cb_period_7">
+                      <object class="GtkComboBox" id="cb_period_5">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <signal name="changed" handler="on_cb_period_changed" swapped="no"/>

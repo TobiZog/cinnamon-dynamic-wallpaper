@@ -69,6 +69,14 @@ class Preferences:
 			self.builder.get_object("etr_period_9"), self.builder.get_object("etr_period_10"),
 		]
 
+		self.img_periods = [
+			self.builder.get_object("img_period_0"), self.builder.get_object("img_period_1"),
+			self.builder.get_object("img_period_2"), self.builder.get_object("img_period_3"),
+			self.builder.get_object("img_period_4"), self.builder.get_object("img_period_5"),
+			self.builder.get_object("img_period_6"), self.builder.get_object("img_period_7"),
+			self.builder.get_object("img_period_8"), self.builder.get_object("img_period_9"),
+		]
+
 		self.cb_periods = [
 			self.builder.get_object("cb_period_0"), self.builder.get_object("cb_period_1"), 
 			self.builder.get_object("cb_period_2"), self.builder.get_object("cb_period_3"), 
@@ -238,9 +246,14 @@ class Preferences:
 			self.add_items_to_combo_box(combobox, options)
 
 
-	def load_images_to_preview(self, image_src: list):
-		# todo
-		pass
+	def load_image_to_preview(self, image_preview: Gtk.Image, image_src: list):
+		try:
+			pixbuf = GdkPixbuf.Pixbuf.new_from_file(image_src)
+			pixbuf = pixbuf.scale_simple(250, 175, GdkPixbuf.InterpType.BILINEAR)
+
+			image_preview.set_from_pixbuf(pixbuf)
+		except:
+			pass
 
 
 	############################################################
@@ -269,15 +282,18 @@ class Preferences:
 				combobox (Gtk.ComboBox): ComboBox where to add the options
 				items (list): Possible options
 		"""
+		model = combobox.get_model()
 		store = Gtk.ListStore(str)
 
 		for image_set in items:
 			store.append([image_set])
 
 		combobox.set_model(store)
-		renderer_text = Gtk.CellRendererText()
-		combobox.pack_start(renderer_text, True)
-		combobox.add_attribute(renderer_text, "text", 0)
+
+		if model == None:
+			renderer_text = Gtk.CellRendererText()
+			combobox.pack_start(renderer_text, True)
+			combobox.add_attribute(renderer_text, "text", 0)
 
 
 
@@ -335,20 +351,24 @@ class Preferences:
 			image_names = self.images.get_images_from_folder(image_path)
 
 			self.load_image_options_to_combo_boxes(image_names)
-
-			# todo: Load images to preview
 	
 
 	def on_cb_period_changed(self, combobox: Gtk.ComboBox):
 		tree_iter = combobox.get_active_iter()
 
 		combobox_name = Gtk.Buildable.get_name(combobox)
-		period_index = int(combobox_name[10:12])
+		period_index = int(combobox_name[10:11])
 
 		if tree_iter is not None:
 			# Get the selected value
 			model = combobox.get_model()
-			self.c_prefs.prefs["period_%s_image" % (period_index)] = model[tree_iter][0]
+			image_file_name = model[tree_iter][0]
+			self.c_prefs.prefs["period_%s_image" % (period_index)] = image_file_name
+
+			image_path = os.path.abspath(os.path.join(PREFERENCES_URI, os.pardir)) + \
+				"/images/included_image_sets/" + self.c_prefs.prefs[PrefenceEnums.SELECTED_IMAGE_SET] + "/"
+
+			self.load_image_to_preview(self.img_periods[period_index], image_path + image_file_name)
 	
 
 	## Location & Times

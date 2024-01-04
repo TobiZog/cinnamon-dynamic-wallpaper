@@ -393,6 +393,7 @@
                             <property name="can-focus">False</property>
                             <property name="filter">filefilter1</property>
                             <property name="title" translatable="yes"/>
+                            <signal name="file-set" handler="on_fc_heic_file_file_set" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -438,6 +439,7 @@
                             <property name="action">select-folder</property>
                             <property name="title" translatable="yes"/>
                             <signal name="file-set" handler="on_fc_source_folder_file_set" swapped="no"/>
+                            <signal name="selection-changed" handler="on_fc_source_folder_file_set" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>

@@ -17,7 +17,7 @@
   },
   "selected_image_set": {
     "type": "generic",
-    "default": ""
+    "default": "lakeside"
   },
   "source_folder": {
     "type": "generic",
@@ -25,43 +25,43 @@
   },
   "period_0_image": {
     "type": "generic",
-    "default": ""
+    "default": "9.jpg"
   },
   "period_1_image": {
     "type": "generic",
-    "default": ""
+    "default": "1.jpg"
   },
   "period_2_image": {
     "type": "generic",
-    "default": ""
+    "default": "2.jpg"
   },
   "period_3_image": {
     "type": "generic",
-    "default": ""
+    "default": "3.jpg"
   },
   "period_4_image": {
     "type": "generic",
-    "default": ""
+    "default": "4.jpg"
   },
   "period_5_image": {
     "type": "generic",
-    "default": ""
+    "default": "5.jpg"
   },
   "period_6_image": {
     "type": "generic",
-    "default": ""
+    "default": "6.jpg"
   },
   "period_7_image": {
     "type": "generic",
-    "default": ""
+    "default": "7.jpg"
   },
   "period_8_image": {
     "type": "generic",
-    "default": ""
+    "default": "8.jpg"
   },
   "period_9_image": {
     "type": "generic",
-    "default": ""
+    "default": "9.jpg"
   },
   "period_source": {
     "type": "generic",

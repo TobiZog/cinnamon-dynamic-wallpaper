@@ -1,7 +1,6 @@
 *.glade~
 *.glade#
-extracted/
-custom_images/
+extracted_images/
 *.txt
 selected/
 __pycache__

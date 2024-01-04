@@ -56,6 +56,7 @@ class Preferences:
 
 		# Source folder
 		self.lbr_source_folder = self.builder.get_object("lbr_source_folder")
+		self.fc_source_folder = self.builder.get_object("fc_source_folder")
 
 		# Time bar chart
 		self.img_bar_images = self.builder.get_object("img_bar_images")
@@ -147,14 +148,14 @@ class Preferences:
 		elif self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] == ImageSourceEnum.SOURCEFOLDER:
 			self.tb_source_folder.set_active(True)
 
-		image_set_choices = ["aurora", "beach", "bitday", "cliffs", "gradient", "lakeside", "mountains", "sahara"]
-		self.add_items_to_combo_box(self.cb_image_set, image_set_choices)
+		# image_set_choices = ["aurora", "beach", "bitday", "cliffs", "gradient", "lakeside", "mountains", "sahara"]
+		# self.add_items_to_combo_box(self.cb_image_set, image_set_choices)
 
-		self.set_active_combobox_item(self.cb_image_set, self.c_prefs.prefs[PrefenceEnums.SELECTED_IMAGE_SET])
+		# self.set_active_combobox_item(self.cb_image_set, self.c_prefs.prefs[PrefenceEnums.SELECTED_IMAGE_SET])
 
-		for i, combobox in enumerate(self.cb_periods):
-			selected_image_name = self.c_prefs.prefs["period_%s_image" % (i)]
-			self.set_active_combobox_item(combobox, selected_image_name)
+		# for i, combobox in enumerate(self.cb_periods):
+		# 	selected_image_name = self.c_prefs.prefs["period_%s_image" % (i)]
+		# 	self.set_active_combobox_item(combobox, selected_image_name)
 
 
 		self.sw_expand_over_all_displays.set_active(self.c_prefs.prefs[PrefenceEnums.EXPAND_OVER_ALL_DISPLAY])
@@ -317,6 +318,15 @@ class Preferences:
 			self.lbr_heic_file.set_visible(False)
 			self.lbr_source_folder.set_visible(False)
 
+			image_set_choices = ["aurora", "beach", "bitday", "cliffs", "gradient", "lakeside", "mountains", "sahara"]
+			self.add_items_to_combo_box(self.cb_image_set, image_set_choices)
+
+			self.set_active_combobox_item(self.cb_image_set, self.c_prefs.prefs[PrefenceEnums.SELECTED_IMAGE_SET])
+
+			for i, combobox in enumerate(self.cb_periods):
+				selected_image_name = self.c_prefs.prefs["period_%s_image" % (i)]
+				self.set_active_combobox_item(combobox, selected_image_name)
+
 			# Make the comboboxes invisible
 			for combobox in self.cb_periods:
 				combobox.set_visible(False)
@@ -347,26 +357,28 @@ class Preferences:
 			self.lbr_heic_file.set_visible(False)
 			self.lbr_source_folder.set_visible(True)
 
-			# Make the comboboxes invisible
+			# Make the comboboxes visible
 			for combobox in self.cb_periods:
 				combobox.set_visible(True)
+
+			# Load the source folder to the view
+			# This will update the comboboxes in the preview to contain the right items
+			self.fc_source_folder.set_filename(self.c_prefs.prefs[PrefenceEnums.SOURCE_FOLDER])
 
 
 
 	def on_cb_image_set_changed(self, combobox: Gtk.ComboBox):
 		tree_iter = combobox.get_active_iter()
 
-		if tree_iter is not None:
+		if tree_iter is not None and self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] == ImageSourceEnum.IMAGESET:
 			# Get the selected value
 			model = combobox.get_model()
 			selected_image_set = model[tree_iter][0]
 
 			# Store to the preferences
 			self.c_prefs.prefs[PrefenceEnums.SELECTED_IMAGE_SET] = selected_image_set
-
-			# Update the ComboBoxes for image selection
 			self.c_prefs.prefs[PrefenceEnums.SOURCE_FOLDER] = os.path.abspath(os.path.join(PREFERENCES_URI, os.pardir)) + \
-				  "/images/included_image_sets/" + selected_image_set + "/"
+				  "/5.4/images/included_image_sets/" + selected_image_set + "/"
 			
 			# Load all possible options to the comboboxes
 			image_names = self.images.get_images_from_folder(self.c_prefs.prefs[PrefenceEnums.SOURCE_FOLDER])
@@ -381,20 +393,51 @@ class Preferences:
 			for i in range(1, 10):
 				self.cb_periods[i].set_active(i - 1)
 
+
+	def on_fc_heic_file_file_set(self, fc_button: Gtk.FileChooser):
+		file_path = fc_button.get_filename()
+		extract_folder = os.path.abspath(os.path.join(PREFERENCES_URI, os.pardir)) + \
+				  "/images/extracted_images/"
+
+		file_name = file_path[file_path.rfind("/") + 1:]
+		file_name = file_name[:file_name.rfind(".")]
+
+		# Update the preferences
+		self.c_prefs.prefs[PrefenceEnums.SELECTED_IMAGE_SET] = ""
+		self.c_prefs.prefs[PrefenceEnums.SOURCE_FOLDER] = extract_folder
+
+		# Create the buffer folder
+		try:
+			os.mkdir(extract_folder)
+		except:
+			pass
+
+		# Extract the HEIC file
+		for file in self.images.get_images_from_folder(extract_folder):
+			os.remove(extract_folder + file)
+
+		os.system("heif-convert " + file_path + " " + extract_folder + file_name + ".jpg")
+
+		# Collect all extracted images and push them to the comboboxes
+		image_names = self.images.get_images_from_folder(self.c_prefs.prefs[PrefenceEnums.SOURCE_FOLDER])
+		self.load_image_options_to_combo_boxes(image_names)
+
 	
 
 	def on_fc_source_folder_file_set(self, fc_button: Gtk.FileChooser):
 		files = self.images.get_images_from_folder(fc_button.get_filename())
 
-		# Update the ComboBoxes for image selection
+		# Update the preferences
+		self.c_prefs.prefs[PrefenceEnums.SELECTED_IMAGE_SET] = ""
 		self.c_prefs.prefs[PrefenceEnums.SOURCE_FOLDER] = fc_button.get_filename() + "/"
 		
-		print(fc_button.get_filename())
-
 		if len(files) != 0:
 			self.load_image_options_to_combo_boxes(files)
+
+			# Load the values for the images from the preferences
+			for i in range(0, 10):
+				self.set_active_combobox_item(self.cb_periods[i], self.c_prefs.prefs["period_%s_image" % (i)])
 		else:
-			#todo
 			pass
 	
 

@@ -1,5 +1,4 @@
 import os, json
-from enums.PreferenceEnums import PrefenceEnums
 
 class Cinnamon_Pref_Handler:
   def __init__(self) -> None:

@@ -9,7 +9,7 @@ class PrefenceEnums(enumerate):
   IMAGE_SOURCE = "image_source"
 
   SELECTED_IMAGE_SET = "selected_image_set"
-  SELECTED_SOURCE_FOLDER = "selected_source_folder"
+  SOURCE_FOLDER = "source_folder"
 
   PERIOD_0_IMAGE = "period_0_image"
   PERIOD_1_IMAGE = "period_1_image"

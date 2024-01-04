@@ -19,7 +19,7 @@
     "type": "generic",
     "default": ""
   },
-  "selected_source_folder": {
+  "source_folder": {
     "type": "generic",
     "default": ""
   },

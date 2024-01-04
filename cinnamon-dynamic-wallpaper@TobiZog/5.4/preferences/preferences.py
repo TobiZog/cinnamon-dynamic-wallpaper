@@ -302,7 +302,11 @@ class Preferences:
 	############################################################
 
 	## Image Configuration
-	
+			
+	# +-----------+-----------+---------------+
+	# | Image Set | HEIC file | Source Folder |
+	# +-----------+-----------+---------------+
+
 	def on_toggle_button_image_set_clicked(self, button: Gtk.Button):
 		if button.get_active():
 			self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] = ImageSourceEnum.IMAGESET
@@ -312,7 +316,12 @@ class Preferences:
 			self.lbr_image_set.set_visible(True)
 			self.lbr_heic_file.set_visible(False)
 			self.lbr_source_folder.set_visible(False)
+
+			# Make the comboboxes invisible
+			for combobox in self.cb_periods:
+				combobox.set_visible(False)
 		
+	
 	def on_toggle_button_heic_file_clicked(self, button: Gtk.Button):
 		if button.get_active():
 			self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] = ImageSourceEnum.HEICFILE
@@ -323,6 +332,11 @@ class Preferences:
 			self.lbr_heic_file.set_visible(True)
 			self.lbr_source_folder.set_visible(False)
 
+			# Make the comboboxes visible
+			for combobox in self.cb_periods:
+				combobox.set_visible(True)
+
+
 	def on_toggle_button_source_folder_clicked(self, button: Gtk.Button):
 		if button.get_active():
 			self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] = ImageSourceEnum.SOURCEFOLDER
@@ -332,6 +346,12 @@ class Preferences:
 			self.lbr_image_set.set_visible(False)
 			self.lbr_heic_file.set_visible(False)
 			self.lbr_source_folder.set_visible(True)
+
+			# Make the comboboxes invisible
+			for combobox in self.cb_periods:
+				combobox.set_visible(True)
+
+
 
 	def on_cb_image_set_changed(self, combobox: Gtk.ComboBox):
 		tree_iter = combobox.get_active_iter()
@@ -345,15 +365,40 @@ class Preferences:
 			self.c_prefs.prefs[PrefenceEnums.SELECTED_IMAGE_SET] = selected_image_set
 
 			# Update the ComboBoxes for image selection
-			image_path = os.path.abspath(os.path.join(PREFERENCES_URI, os.pardir)) + \
-				"/images/included_image_sets/" + selected_image_set + "/"
+			self.c_prefs.prefs[PrefenceEnums.SOURCE_FOLDER] = os.path.abspath(os.path.join(PREFERENCES_URI, os.pardir)) + \
+				  "/images/included_image_sets/" + selected_image_set + "/"
 			
-			image_names = self.images.get_images_from_folder(image_path)
-
+			# Load all possible options to the comboboxes
+			image_names = self.images.get_images_from_folder(self.c_prefs.prefs[PrefenceEnums.SOURCE_FOLDER])
 			self.load_image_options_to_combo_boxes(image_names)
+
+			# Image sets have the same names for the images:
+			# 9.jpg = Period 0
+			# 1.jpg = Period 1
+			# 2.jpg = Period 2
+			# and so on....
+			self.cb_periods[0].set_active(8)
+			for i in range(1, 10):
+				self.cb_periods[i].set_active(i - 1)
+
 	
 
-	def on_cb_period_changed(self, combobox: Gtk.ComboBox):
+	def on_fc_source_folder_file_set(self, fc_button: Gtk.FileChooser):
+		files = self.images.get_images_from_folder(fc_button.get_filename())
+
+		# Update the ComboBoxes for image selection
+		self.c_prefs.prefs[PrefenceEnums.SOURCE_FOLDER] = fc_button.get_filename() + "/"
+		
+		print(fc_button.get_filename())
+
+		if len(files) != 0:
+			self.load_image_options_to_combo_boxes(files)
+		else:
+			#todo
+			pass
+	
+
+	def on_cb_period_preview_changed(self, combobox: Gtk.ComboBox):
 		tree_iter = combobox.get_active_iter()
 
 		combobox_name = Gtk.Buildable.get_name(combobox)
@@ -363,12 +408,14 @@ class Preferences:
 			# Get the selected value
 			model = combobox.get_model()
 			image_file_name = model[tree_iter][0]
+
+			# Store selection to preferences
 			self.c_prefs.prefs["period_%s_image" % (period_index)] = image_file_name
 
-			image_path = os.path.abspath(os.path.join(PREFERENCES_URI, os.pardir)) + \
-				"/images/included_image_sets/" + self.c_prefs.prefs[PrefenceEnums.SELECTED_IMAGE_SET] + "/"
+			# Build up image path
+			image_path = self.c_prefs.prefs[PrefenceEnums.SOURCE_FOLDER] + image_file_name
 
-			self.load_image_to_preview(self.img_periods[period_index], image_path + image_file_name)
+			self.load_image_to_preview(self.img_periods[period_index], image_path)
 	
 
 	## Location & Times

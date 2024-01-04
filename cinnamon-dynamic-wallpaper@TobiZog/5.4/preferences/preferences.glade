@@ -437,6 +437,7 @@
                             <property name="can-focus">False</property>
                             <property name="action">select-folder</property>
                             <property name="title" translatable="yes"/>
+                            <signal name="file-set" handler="on_fc_source_folder_file_set" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -627,7 +628,7 @@
                       <object class="GtkComboBox" id="cb_period_0">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
+                        <signal name="changed" handler="on_cb_period_preview_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">0</property>
@@ -638,7 +639,7 @@
                       <object class="GtkComboBox" id="cb_period_2">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
+                        <signal name="changed" handler="on_cb_period_preview_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">1</property>
@@ -649,7 +650,7 @@
                       <object class="GtkComboBox" id="cb_period_4">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
+                        <signal name="changed" handler="on_cb_period_preview_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">2</property>
@@ -660,7 +661,7 @@
                       <object class="GtkComboBox" id="cb_period_6">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
+                        <signal name="changed" handler="on_cb_period_preview_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">3</property>
@@ -671,7 +672,7 @@
                       <object class="GtkComboBox" id="cb_period_8">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
+                        <signal name="changed" handler="on_cb_period_preview_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">4</property>
@@ -844,7 +845,7 @@
                       <object class="GtkComboBox" id="cb_period_1">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
+                        <signal name="changed" handler="on_cb_period_preview_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">0</property>
@@ -855,7 +856,7 @@
                       <object class="GtkComboBox" id="cb_period_3">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
+                        <signal name="changed" handler="on_cb_period_preview_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">1</property>
@@ -866,7 +867,7 @@
                       <object class="GtkComboBox" id="cb_period_7">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
+                        <signal name="changed" handler="on_cb_period_preview_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">3</property>
@@ -877,7 +878,7 @@
                       <object class="GtkComboBox" id="cb_period_5">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
+                        <signal name="changed" handler="on_cb_period_preview_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">2</property>
@@ -888,7 +889,7 @@
                       <object class="GtkComboBox" id="cb_period_9">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <signal name="changed" handler="on_cb_period_changed" swapped="no"/>
+                        <signal name="changed" handler="on_cb_period_preview_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left-attach">4</property>
@@ -907,122 +908,6 @@
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">start</property>
-                <property name="margin-start">64</property>
-                <property name="label" translatable="yes">Behaviour</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">5</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkListBox">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="margin-start">64</property>
-                <property name="margin-end">64</property>
-                <property name="selection-mode">none</property>
-                <property name="activate-on-single-click">False</property>
-                <child>
-                  <object class="GtkListBoxRow">
-                    <property name="height-request">36</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <child>
-                      <object class="GtkBox">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="margin-start">12</property>
-                        <property name="margin-end">12</property>
-                        <property name="margin-top">12</property>
-                        <property name="margin-bottom">12</property>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="halign">start</property>
-                            <property name="label" translatable="yes">Expand image over all displays</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSwitch" id="sw_expand_over_all_displays">
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="halign">end</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkListBoxRow">
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <child>
-                      <object class="GtkBox">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="margin-start">12</property>
-                        <property name="margin-end">12</property>
-                        <property name="margin-top">12</property>
-                        <property name="margin-bottom">12</property>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="halign">start</property>
-                            <property name="label" translatable="yes">Show image on Lock Screen</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSwitch" id="sw_show_on_lock_screen">
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="halign">end</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="padding">3</property>
-                <property name="position">6</property>
               </packing>
             </child>
           </object>
@@ -2524,6 +2409,127 @@
           </packing>
         </child>
         <child>
+          <object class="GtkBox" id="gtkbox_behaviour">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="margin-start">8</property>
+            <property name="margin-end">8</property>
+            <property name="margin-top">8</property>
+            <property name="margin-bottom">8</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkListBox">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="margin-left">64</property>
+                <property name="margin-right">64</property>
+                <property name="margin-start">64</property>
+                <property name="margin-end">64</property>
+                <property name="selection-mode">none</property>
+                <property name="activate-on-single-click">False</property>
+                <child>
+                  <object class="GtkListBoxRow">
+                    <property name="height-request">36</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-left">12</property>
+                        <property name="margin-right">12</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-end">12</property>
+                        <property name="margin-top">12</property>
+                        <property name="margin-bottom">12</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Expand image over all displays</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSwitch" id="sw_expand_over_all_displays">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="halign">end</property>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkListBoxRow">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-left">12</property>
+                        <property name="margin-right">12</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-end">12</property>
+                        <property name="margin-top">12</property>
+                        <property name="margin-bottom">12</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Show image on Lock Screen</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSwitch" id="sw_show_on_lock_screen">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="halign">end</property>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="padding">3</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="name">behaviour</property>
+            <property name="title" translatable="yes">Behaviour</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkBox" id="gtkbox_about">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -2779,7 +2785,7 @@
           <packing>
             <property name="name">about</property>
             <property name="title" translatable="yes">About</property>
-            <property name="position">2</property>
+            <property name="position">3</property>
           </packing>
         </child>
       </object>

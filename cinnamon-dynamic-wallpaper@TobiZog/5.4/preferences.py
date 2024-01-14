@@ -223,8 +223,8 @@ class Preferences:
 				time_periods_min.append(time_range_now.hour * 60 + time_range_now.minute)
 
 		# Create time bar
-		self.time_bar_chart.create_bar_chart_with_polylines(PREFERENCES_URI, 1200, 150, time_periods_min)
-		self.time_bar_chart.create_bar_chart(PREFERENCES_URI, 1200, 150, time_periods_min)
+		self.time_bar_chart.create_bar_chart_with_polylines(PREFERENCES_URI, 1300, 150, time_periods_min)
+		self.time_bar_chart.create_bar_chart(PREFERENCES_URI, 1300, 150, time_periods_min)
 
 		# Load to the views
 		pixbuf = GdkPixbuf.Pixbuf.new_from_file(PREFERENCES_URI + "/time_bar_polylines.svg")

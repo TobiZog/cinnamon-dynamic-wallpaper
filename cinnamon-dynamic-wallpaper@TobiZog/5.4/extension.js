@@ -59,10 +59,8 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	_init: function(uuid) { 
 		this.settings = new Settings.ExtensionSettings(this, uuid);
 
-		this.bindSettings("expand_over_all_displays", this.settingsUpdated)
-
 		// Check for the first startup
-		if (this.settings.getValue("first_start")) {
+		if (!this.settings.getValue("first_start")) {
 
 			// Welcome notification
 			this.showNotification("Welcome to Cinnamon Dynamic Wallpaper", 
@@ -70,6 +68,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 			// Hide the notification on system restart
 			this.settings.setValue("first_start", false)
+			this.settings.setValue("source_folder", DIRECTORY["path"] + "/images/included_image_sets/lakeside/")
 		}
 
 		// Start the main loop, checks in fixed time periods the 
@@ -132,7 +131,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 
 			notification.connect("action-invoked", () =>
 				Util.spawnCommandLine("/usr/bin/env python3 " +
-					DIRECTORY.path + "/preferences/preferences.py"));
+					DIRECTORY.path + "/preferences.py"));
 		}
 
 		// Put all together

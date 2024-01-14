@@ -2449,7 +2449,8 @@
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="halign">start</property>
-                            <property name="label" translatable="yes">Expand image over all displays</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">Picture aspect</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2458,13 +2459,13 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSwitch" id="sw_expand_over_all_displays">
+                          <object class="GtkComboBox" id="cb_picture_aspect">
                             <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="halign">end</property>
+                            <property name="can-focus">False</property>
+                            <signal name="changed" handler="on_cb_picture_aspect_changed" swapped="no"/>
                           </object>
                           <packing>
-                            <property name="expand">True</property>
+                            <property name="expand">False</property>
                             <property name="fill">True</property>
                             <property name="position">1</property>
                           </packing>
@@ -2492,7 +2493,8 @@
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="halign">start</property>
-                            <property name="label" translatable="yes">Show image on Lock Screen</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">Dynamic Background color</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2501,13 +2503,13 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSwitch" id="sw_show_on_lock_screen">
+                          <object class="GtkSwitch" id="sw_dynamic_background_color">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
-                            <property name="halign">end</property>
+                            <signal name="state-set" handler="on_sw_dynamic_background_color_state_set" swapped="no"/>
                           </object>
                           <packing>
-                            <property name="expand">True</property>
+                            <property name="expand">False</property>
                             <property name="fill">True</property>
                             <property name="position">1</property>
                           </packing>

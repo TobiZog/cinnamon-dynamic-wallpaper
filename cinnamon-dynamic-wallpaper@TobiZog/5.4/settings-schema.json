@@ -3,13 +3,13 @@
     "type": "generic",
     "default": true
   },
-  "expand_over_all_displays": {
+  "picture_aspect": {
     "type": "generic",
-    "default": "false"
+    "default": "Scaled"
   },
-  "show_on_lock_screen": {
+  "dynamic_background_color": {
     "type": "generic",
-    "default": "false"
+    "default": true
   },
   "image_source": {
     "type": "generic",

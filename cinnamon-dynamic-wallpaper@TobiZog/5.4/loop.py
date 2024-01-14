@@ -6,10 +6,10 @@ from datetime import datetime, time
 from enums.PreferenceEnums import *
 from enums.PeriodSourceEnum import *
 from scripts.location import *
-import gi
 from gi.repository import Gio
+from PIL import Image
 
-prefs = Cinnamon_Pref_Handler()
+
 suntimes = Suntimes()
 location_thread = Location()
 
@@ -17,8 +17,10 @@ background_settings = Gio.Settings.new("org.cinnamon.desktop.background")
 
 class Loop():
   def __init__(self) -> None:
+    self.prefs = Cinnamon_Pref_Handler()
+
     # Position should estimate by network
-    if prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.NETWORKLOCATION:
+    if self.prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.NETWORKLOCATION:
       location_thread.start()
       location_thread.join()
 
@@ -28,8 +30,8 @@ class Loop():
       self.start_times = suntimes.day_periods
 
     # Position is given by user
-    elif prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.CUSTOMLOCATION:
-      suntimes.calc_suntimes(float(prefs.prefs[PrefenceEnums.LATITUDE_CUSTOM]), float(prefs.prefs[PrefenceEnums.LONGITUDE_CUSTOM]))
+    elif self.prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.CUSTOMLOCATION:
+      suntimes.calc_suntimes(float(self.prefs.prefs[PrefenceEnums.LATITUDE_CUSTOM]), float(self.prefs.prefs[PrefenceEnums.LONGITUDE_CUSTOM]))
       self.start_times = suntimes.day_periods
 
     # No position, concrete times
@@ -41,32 +43,65 @@ class Loop():
         return time(hour=int(hour), minute=int(minute))
       
       self.start_times = [
-        string_to_time_converter(prefs.prefs[PrefenceEnums.PERIOD_0_STARTTIME]),
-        string_to_time_converter(prefs.prefs[PrefenceEnums.PERIOD_1_STARTTIME]),
-        string_to_time_converter(prefs.prefs[PrefenceEnums.PERIOD_2_STARTTIME]),
-        string_to_time_converter(prefs.prefs[PrefenceEnums.PERIOD_3_STARTTIME]),
-        string_to_time_converter(prefs.prefs[PrefenceEnums.PERIOD_4_STARTTIME]),
-        string_to_time_converter(prefs.prefs[PrefenceEnums.PERIOD_5_STARTTIME]),
-        string_to_time_converter(prefs.prefs[PrefenceEnums.PERIOD_6_STARTTIME]),
-        string_to_time_converter(prefs.prefs[PrefenceEnums.PERIOD_7_STARTTIME]),
-        string_to_time_converter(prefs.prefs[PrefenceEnums.PERIOD_8_STARTTIME]),
-        string_to_time_converter(prefs.prefs[PrefenceEnums.PERIOD_9_STARTTIME])
+        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_0_STARTTIME]),
+        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_1_STARTTIME]),
+        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_2_STARTTIME]),
+        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_3_STARTTIME]),
+        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_4_STARTTIME]),
+        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_5_STARTTIME]),
+        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_6_STARTTIME]),
+        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_7_STARTTIME]),
+        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_8_STARTTIME]),
+        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_9_STARTTIME])
       ]
 
 
   def exchange_image(self):
     """ Replace the desktop image
     """
+    # Get the time of day
     time_now = time(datetime.now().hour, datetime.now().minute)
-        
+
+    # Assign the last image as fallback
+    self.current_image_uri = self.prefs.prefs[PrefenceEnums.SOURCE_FOLDER] + self.prefs.prefs[PrefenceEnums.PERIOD_9_IMAGE]
+
     for i in range(0, 9):
+      # Replace the image URI, if it's not the last time period of the day
       if self.start_times[i] <= time_now and time_now < self.start_times[i + 1]:
-        background_settings['picture-uri'] = "file://" + prefs.prefs[PrefenceEnums.SOURCE_FOLDER] + prefs.prefs["period_%d_image" % (i)]
-        return
+        self.current_image_uri = self.prefs.prefs[PrefenceEnums.SOURCE_FOLDER] + self.prefs.prefs["period_%d_image" % (i)]
+        break
+    
+    # Set the background
+    background_settings['picture-uri'] = "file://" + self.current_image_uri
 
-    background_settings['picture-uri'] = "file://" + prefs.prefs[PrefenceEnums.SOURCE_FOLDER] + prefs.prefs[PrefenceEnums.PERIOD_9_IMAGE]
+    # Set background stretching
+    background_settings['picture-options'] = self.prefs.prefs[PrefenceEnums.PICTURE_ASPECT]
+
+    if self.prefs.prefs[PrefenceEnums.DYNAMIC_BACKGROUND_COLOR]:
+      self.set_background_gradient()
+
+    
+  def set_background_gradient(self):
+    """ Setting a gradient background to hide images, which are not high enough
+    """
+    # Load the image
+    im = Image.open(self.current_image_uri)
+    pix = im.load()
+
+    # Width and height of the current setted image
+    width, height = im.size
+
+    # Color of the top and bottom pixel in the middle of the image
+    top_color = pix[width / 2,0]
+    bottom_color = pix[width / 2, height - 1]
+
+    # Create the gradient
+    background_settings['color-shading-type'] = "vertical"
+    background_settings['primary-color'] = f"#{top_color[0]:x}{top_color[1]:x}{top_color[2]:x}"
+    background_settings['secondary-color'] = f"#{bottom_color[0]:x}{bottom_color[1]:x}{bottom_color[2]:x}"
 
 
+# Needed for JavaScript
 if __name__ == "__main__":
   l = Loop()
   l.exchange_image()

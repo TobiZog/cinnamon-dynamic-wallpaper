@@ -1,8 +1,8 @@
 from enum import Enum
 
 class PrefenceEnums(enumerate):
-  EXPAND_OVER_ALL_DISPLAY = "expand_over_all_displays"
-  SHOW_ON_LOCK_SCREEN = "show_on_lock_screen"
+  PICTURE_ASPECT = "picture_aspect"
+  DYNAMIC_BACKGROUND_COLOR = "dynamic_background_color"
 
   # Which type of image source will be used
   # image_set, heic_file, source_folder

@@ -11,6 +11,7 @@ from scripts.images import *
 from enums.PreferenceEnums import PrefenceEnums
 from enums.ImageSourceEnum import ImageSourceEnum
 from enums.PeriodSourceEnum import PeriodSourceEnum
+from loop import *
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf
@@ -26,7 +27,7 @@ class Preferences:
 	"""
 
 	############################################################
-	#													Lifecycle											 	 #
+	#                         Lifecycle                        #
 	############################################################
 
 	def __init__(self) -> None:
@@ -60,8 +61,6 @@ class Preferences:
 
 		# Time bar chart
 		self.img_bar_images = self.builder.get_object("img_bar_images")
-		self.sw_expand_over_all_displays = self.builder.get_object("sw_expand_over_all_displays")
-		self.sw_show_on_lock_screen = self.builder.get_object("sw_show_on_lock_screen")
 		self.etr_periods = [
 			self.builder.get_object("etr_period_1"), self.builder.get_object("etr_period_2"),
 			self.builder.get_object("etr_period_3"), self.builder.get_object("etr_period_4"),
@@ -133,6 +132,11 @@ class Preferences:
 		]
 
 
+		# Page 3: Behaviour
+		self.cb_picture_aspect: Gtk.ComboBox = self.builder.get_object("cb_picture_aspect")
+		self.sw_dynamic_background_color: Gtk.Switch = self.builder.get_object("sw_dynamic_background_color")
+
+
 	def show(self):
 		""" Display the window to the screen
 		"""
@@ -148,18 +152,12 @@ class Preferences:
 		elif self.c_prefs.prefs[PrefenceEnums.IMAGE_SOURCE] == ImageSourceEnum.SOURCEFOLDER:
 			self.tb_source_folder.set_active(True)
 
-		# image_set_choices = ["aurora", "beach", "bitday", "cliffs", "gradient", "lakeside", "mountains", "sahara"]
-		# self.add_items_to_combo_box(self.cb_image_set, image_set_choices)
 
-		# self.set_active_combobox_item(self.cb_image_set, self.c_prefs.prefs[PrefenceEnums.SELECTED_IMAGE_SET])
+		picture_aspects = ["mosaic", "centered", "scaled", "stretched", "zoom", "spanned"]
+		self.add_items_to_combo_box(self.cb_picture_aspect, picture_aspects)
+		self.set_active_combobox_item(self.cb_picture_aspect, self.c_prefs.prefs[PrefenceEnums.PICTURE_ASPECT])
 
-		# for i, combobox in enumerate(self.cb_periods):
-		# 	selected_image_name = self.c_prefs.prefs["period_%s_image" % (i)]
-		# 	self.set_active_combobox_item(combobox, selected_image_name)
-
-
-		self.sw_expand_over_all_displays.set_active(self.c_prefs.prefs[PrefenceEnums.EXPAND_OVER_ALL_DISPLAY])
-		self.sw_show_on_lock_screen.set_active(self.c_prefs.prefs[PrefenceEnums.SHOW_ON_LOCK_SCREEN])
+		self.sw_dynamic_background_color.set_active(self.c_prefs.prefs[PrefenceEnums.DYNAMIC_BACKGROUND_COLOR])
 
 
 		if self.c_prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.NETWORKLOCATION:
@@ -583,6 +581,20 @@ class Preferences:
 			pass
 
 
+	# Behaviour
+		
+	def on_cb_picture_aspect_changed(self, combobox: Gtk.ComboBox):
+		tree_iter = combobox.get_active_iter()
+
+		if tree_iter is not None:
+			model = combobox.get_model()
+			self.c_prefs.prefs[PrefenceEnums.PICTURE_ASPECT] = model[tree_iter][0]
+			print(self.c_prefs.prefs[PrefenceEnums.PICTURE_ASPECT])
+		
+	def on_sw_dynamic_background_color_state_set(self, switch: Gtk.Switch, state):
+		self.c_prefs.prefs[PrefenceEnums.DYNAMIC_BACKGROUND_COLOR] = state
+
+
 	# About
 
 	def on_cinnamon_spices_website_button_clicked(self, button: Gtk.Button):
@@ -617,6 +629,10 @@ class Preferences:
 		"""
 		# Store all values to the JSON file
 		self.c_prefs.store_preferences()
+
+		# Use the new settings
+		loop = Loop()
+		loop.exchange_image()
 
 		# Close the window
 		self.on_destroy()

@@ -59,6 +59,8 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	_init: function(uuid) { 
 		this.settings = new Settings.ExtensionSettings(this, uuid);
 
+		this.bindSettings("expand_over_all_displays", this.settingsUpdated)
+
 		// Check for the first startup
 		if (this.settings.getValue("first_start")) {
 

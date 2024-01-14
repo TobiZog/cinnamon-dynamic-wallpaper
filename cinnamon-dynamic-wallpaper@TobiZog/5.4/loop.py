@@ -3,7 +3,6 @@
 from scripts.cinnamon_pref_handler import *
 from scripts.suntimes import *
 from datetime import datetime, time
-from enums.PreferenceEnums import *
 from enums.PeriodSourceEnum import *
 from scripts.location import *
 from gi.repository import Gio
@@ -20,7 +19,7 @@ class Loop():
     self.prefs = Cinnamon_Pref_Handler()
 
     # Position should estimate by network
-    if self.prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.NETWORKLOCATION:
+    if self.prefs.period_source == PeriodSourceEnum.NETWORKLOCATION:
       location_thread.start()
       location_thread.join()
 
@@ -31,7 +30,7 @@ class Loop():
 
     # Position is given by user
     elif self.prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.CUSTOMLOCATION:
-      suntimes.calc_suntimes(float(self.prefs.prefs[PrefenceEnums.LATITUDE_CUSTOM]), float(self.prefs.prefs[PrefenceEnums.LONGITUDE_CUSTOM]))
+      suntimes.calc_suntimes(float(self.prefs.latitude_custom), float(self.prefs.longitude_custom))
       self.start_times = suntimes.day_periods
 
     # No position, concrete times
@@ -43,16 +42,16 @@ class Loop():
         return time(hour=int(hour), minute=int(minute))
       
       self.start_times = [
-        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_0_STARTTIME]),
-        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_1_STARTTIME]),
-        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_2_STARTTIME]),
-        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_3_STARTTIME]),
-        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_4_STARTTIME]),
-        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_5_STARTTIME]),
-        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_6_STARTTIME]),
-        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_7_STARTTIME]),
-        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_8_STARTTIME]),
-        string_to_time_converter(self.prefs.prefs[PrefenceEnums.PERIOD_9_STARTTIME])
+        string_to_time_converter(self.prefs.period_custom_start_time[0]),
+        string_to_time_converter(self.prefs.period_custom_start_time[1]),
+        string_to_time_converter(self.prefs.period_custom_start_time[2]),
+        string_to_time_converter(self.prefs.period_custom_start_time[3]),
+        string_to_time_converter(self.prefs.period_custom_start_time[4]),
+        string_to_time_converter(self.prefs.period_custom_start_time[5]),
+        string_to_time_converter(self.prefs.period_custom_start_time[6]),
+        string_to_time_converter(self.prefs.period_custom_start_time[7]),
+        string_to_time_converter(self.prefs.period_custom_start_time[8]),
+        string_to_time_converter(self.prefs.period_custom_start_time[9])
       ]
 
 
@@ -63,21 +62,21 @@ class Loop():
     time_now = time(datetime.now().hour, datetime.now().minute)
 
     # Assign the last image as fallback
-    self.current_image_uri = self.prefs.prefs[PrefenceEnums.SOURCE_FOLDER] + self.prefs.prefs[PrefenceEnums.PERIOD_9_IMAGE]
+    self.current_image_uri = self.prefs.source_folder + self.prefs.period_images[9]
 
     for i in range(0, 9):
       # Replace the image URI, if it's not the last time period of the day
       if self.start_times[i] <= time_now and time_now < self.start_times[i + 1]:
-        self.current_image_uri = self.prefs.prefs[PrefenceEnums.SOURCE_FOLDER] + self.prefs.prefs["period_%d_image" % (i)]
+        self.current_image_uri = self.prefs.source_folder + self.prefs.period_images[i]
         break
     
     # Set the background
     background_settings['picture-uri'] = "file://" + self.current_image_uri
 
     # Set background stretching
-    background_settings['picture-options'] = self.prefs.prefs[PrefenceEnums.PICTURE_ASPECT]
+    background_settings['picture-options'] = self.prefs.picture_aspect
 
-    if self.prefs.prefs[PrefenceEnums.DYNAMIC_BACKGROUND_COLOR]:
+    if self.prefs.dynamic_background_color:
       self.set_background_gradient()
 
     

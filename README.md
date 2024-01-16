@@ -29,12 +29,16 @@ This extension switches the background image of your Cinnamon desktop multiple t
 - 5.2 (Mint 20.3)
 
 ### Technology
-- Using `JavaScript` for
-	- Location estimation
-	- Change of the desktop wallpapers
-- `Python` displays the preference window
-- Image Configurator UI was written with `Glade`
-
+- `JavaScript`
+	- Display desktop notifications
+	- Calling the Python loop script every 60 seconds to refresh the background image
+- `Python`
+	- Handles the preference window
+	- Esimates the location
+	- Changes of the desktop wallpapers
+- `Glade`
+	- Preference window UI design
+---
 ## Installation
 ### From Built-in Extension Manager
 ![](res/download-manager.png)
@@ -47,19 +51,21 @@ This extension switches the background image of your Cinnamon desktop multiple t
 1. Download the Repository
 2. Extract the files
 3. Copy the folder `cinnamon-dynamic-wallpaper@TobiZog` to `~/.local/share/cinnamon/extensions/`
-
-## How to use it
+---
+## Usage
 1. Active the Extension via Cinnamon Extension Manager
 2. Open the settings
-3. Keep `Estimate coordinates via network` active or disable it and insert latitude and longitude in the fields
-4. Choose a set of images or disable it and select for every daytime an image manually
-
-## Image Configurator
-The Cinnamon Dynamic Wallpaper extension offers an integrated image configuration assistant. Here, you can choose an included image set or import a HEIC-file from your system. You have to choose the images for the time periods after the import.
+3. Configure it to your 
+	- You can apply the setted settings without closing the window if you click on "Apply"
+4. If your config is complete, click on "OK"
+---
+## Preferences Window
+Because of the lack of configuration options in the standard Cinnamon configuration system for extensions offers this extension a custom preference window.  
+All configuration will be handled there. You can choose between included image sets, a HEIC file or a folder source and set the image to ten different daytime periods. Time periods will be estimated via network, custom coordinations or custom time periods. Some behaviour preferences (strech image, fill empty background with gradient color) are also here.
 
 ![](res/image_configurator.png)
 
-
+---
 ## Included image sets
 The image sets are from https://github.com/adi1090x/dynamic-wallpaper
 

@@ -1,9 +1,7 @@
 import urllib.request, json
-from threading import Thread
 
-class Location(Thread):
+class Location():
   def __init__(self):
-    Thread.__init__(self)
     self.GEO_URL = "https://get.geojs.io/v1/ip/geo.json"
 
   def run(self) -> dict:
@@ -11,7 +9,7 @@ class Location(Thread):
 
     data = json.load(request)
 
-    self.result = {
+    return {
       "latitude": data["latitude"],
       "longitude": data["longitude"]
     }

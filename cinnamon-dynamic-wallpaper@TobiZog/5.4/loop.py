@@ -9,29 +9,25 @@ from gi.repository import Gio
 from PIL import Image
 
 
-suntimes = Suntimes()
-location_thread = Location()
-
-background_settings = Gio.Settings.new("org.cinnamon.desktop.background")
-
 class Loop():
   def __init__(self) -> None:
     self.prefs = Cinnamon_Pref_Handler()
 
+    self.suntimes = Suntimes()
+    self.location = Location()
+    self.background_settings = Gio.Settings.new("org.cinnamon.desktop.background")
+
     # Position should estimate by network
     if self.prefs.period_source == PeriodSourceEnum.NETWORKLOCATION:
-      location_thread.start()
-      location_thread.join()
+      current_location = self.location.run()
 
-      location = location_thread.result
-
-      suntimes.calc_suntimes(float(location["latitude"]), float(location["longitude"]))
-      self.start_times = suntimes.day_periods
+      self.suntimes.calc_suntimes(float(current_location["latitude"]), float(current_location["longitude"]))
+      self.start_times = self.suntimes.day_periods
 
     # Position is given by user
     elif self.prefs.period_source == PeriodSourceEnum.CUSTOMLOCATION:
-      suntimes.calc_suntimes(float(self.prefs.latitude_custom), float(self.prefs.longitude_custom))
-      self.start_times = suntimes.day_periods
+      self.suntimes.calc_suntimes(float(self.prefs.latitude_custom), float(self.prefs.longitude_custom))
+      self.start_times = self.suntimes.day_periods
 
     # No position, concrete times
     else:
@@ -71,10 +67,10 @@ class Loop():
         break
     
     # Set the background
-    background_settings['picture-uri'] = "file://" + self.current_image_uri
+    self.background_settings['picture-uri'] = "file://" + self.current_image_uri
 
     # Set background stretching
-    background_settings['picture-options'] = self.prefs.picture_aspect
+    self.background_settings['picture-options'] = self.prefs.picture_aspect
 
     self.set_background_gradient()
 
@@ -94,14 +90,14 @@ class Loop():
     bottom_color = pix[width / 2, height - 1]
 
     # Create the gradient
-    background_settings['color-shading-type'] = "vertical"
+    self.background_settings['color-shading-type'] = "vertical"
 
     if self.prefs.dynamic_background_color:
-      background_settings['primary-color'] = f"#{top_color[0]:x}{top_color[1]:x}{top_color[2]:x}"
-      background_settings['secondary-color'] = f"#{bottom_color[0]:x}{bottom_color[1]:x}{bottom_color[2]:x}"
+      self.background_settings['primary-color'] = f"#{top_color[0]:x}{top_color[1]:x}{top_color[2]:x}"
+      self.background_settings['secondary-color'] = f"#{bottom_color[0]:x}{bottom_color[1]:x}{bottom_color[2]:x}"
     else:
-      background_settings['primary-color'] = "#000000"
-      background_settings['secondary-color'] = "#000000"
+      self.background_settings['primary-color'] = "#000000"
+      self.background_settings['secondary-color'] = "#000000"
 
 
 # Needed for JavaScript

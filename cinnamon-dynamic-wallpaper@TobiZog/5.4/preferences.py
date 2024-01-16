@@ -30,15 +30,17 @@ class Preferences:
 	############################################################
 
 	def __init__(self) -> None:
-		self.builder = Gtk.Builder()
-		self.builder.add_from_file(GLADE_URI)
-		self.builder.connect_signals(self)
-
 		# Objects from external scripts
 		self.time_bar_chart = Time_Bar_Chart()
 		self.c_prefs = Cinnamon_Pref_Handler()
 		self.suntimes = Suntimes()
 		self.images = Images()
+		self.location = Location()
+
+		# Glade
+		self.builder = Gtk.Builder()
+		self.builder.add_from_file(GLADE_URI)
+		self.builder.connect_signals(self)
 		
 		########## UI objects ##########
 		
@@ -97,9 +99,9 @@ class Preferences:
 		self.lbr_custom_location_longitude: Gtk.ListBoxRow = self.builder.get_object("lbr_custom_location_longitude")
 		self.lbr_custom_location_latitude: Gtk.ListBoxRow = self.builder.get_object("lbr_custom_location_latitude")
 		self.lbr_time_periods: Gtk.ListBoxRow = self.builder.get_object("lbr_time_periods")
-		self.etr_longitude = self.builder.get_object("etr_longitude")
-		self.etr_latitude = self.builder.get_object("etr_latitude")
-		self.img_bar_times = self.builder.get_object("img_bar_times")
+		self.etr_longitude: Gtk.Entry = self.builder.get_object("etr_longitude")
+		self.etr_latitude: Gtk.Entry = self.builder.get_object("etr_latitude")
+		self.img_bar_times: Gtk.Image = self.builder.get_object("img_bar_times")
 		self.spb_periods_hour: list[Gtk.SpinButton] = [
 			self.builder.get_object("spb_period_1_hour"),
 			self.builder.get_object("spb_period_2_hour"),
@@ -477,20 +479,14 @@ class Preferences:
 			self.spb_network_location_refresh_time.set_value(self.c_prefs.location_refresh_intervals)
 		
 
-			# Start a thread to get the current location
-			locationThread = Location()
-			locationThread.start()
-			locationThread.join()
-
-			location = locationThread.result
-
 			# Display the location in the UI
-			self.lb_current_location.set_text("Latitude: " + location["latitude"] + \
-																		 ", Longitude: " + location["longitude"])
+			current_location = self.location.run()
+			self.lb_current_location.set_text("Latitude: " + current_location["latitude"] + \
+																		 ", Longitude: " + current_location["longitude"])
 			
 			# Store the location to the preferences
-			self.c_prefs.latitude_auto = float(location["latitude"])
-			self.c_prefs.longitude_auto = float(location["longitude"])
+			self.c_prefs.latitude_auto = float(current_location["latitude"])
+			self.c_prefs.longitude_auto = float(current_location["longitude"])
 
 			self.refresh_chart()
 

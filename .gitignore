@@ -1,7 +1,8 @@
 *.glade~
 *.glade#
-extracted_images/
 *.txt
+*.json
+extracted_images/
 selected/
 __pycache__
 time_bar.svg

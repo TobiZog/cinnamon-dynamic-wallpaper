@@ -29,7 +29,7 @@ class Loop():
       self.start_times = suntimes.day_periods
 
     # Position is given by user
-    elif self.prefs.prefs[PrefenceEnums.PERIOD_SOURCE] == PeriodSourceEnum.CUSTOMLOCATION:
+    elif self.prefs.period_source == PeriodSourceEnum.CUSTOMLOCATION:
       suntimes.calc_suntimes(float(self.prefs.latitude_custom), float(self.prefs.longitude_custom))
       self.start_times = suntimes.day_periods
 

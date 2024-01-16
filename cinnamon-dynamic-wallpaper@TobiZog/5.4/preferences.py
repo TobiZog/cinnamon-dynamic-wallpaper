@@ -622,6 +622,15 @@ class Preferences:
 		subprocess.Popen(["xdg-open", "https://github.com/TobiZog/cinnamon-dynamic-wallpaper/issues/new"])
 
 
+	def on_ok(self, *args):
+		""" Callback for the OK button in the top bar
+		"""
+		self.on_apply()
+
+		# Close the window
+		self.on_destroy()
+
+
 	def on_apply(self, *args):
 		""" Callback for the Apply button in the top bar
 		"""
@@ -631,9 +640,6 @@ class Preferences:
 		# Use the new settings
 		loop = Loop()
 		loop.exchange_image()
-
-		# Close the window
-		self.on_destroy()
 
 
 if __name__ == "__main__":

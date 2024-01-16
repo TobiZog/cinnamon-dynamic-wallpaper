@@ -60,7 +60,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 		this.settings = new Settings.ExtensionSettings(this, uuid);
 
 		// Check for the first startup
-		if (!this.settings.getValue("first_start")) {
+		if (this.settings.getValue("first_start")) {
 
 			// Welcome notification
 			this.showNotification("Welcome to Cinnamon Dynamic Wallpaper", 

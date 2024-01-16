@@ -2806,6 +2806,20 @@
             <property name="can-focus">False</property>
             <property name="stack">stack_main</property>
           </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton">
+            <property name="label">gtk-ok</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="use-stock">True</property>
+            <property name="always-show-image">True</property>
+            <signal name="clicked" handler="on_ok" swapped="no"/>
+          </object>
         </child>
         <child>
           <object class="GtkButton">
@@ -2818,6 +2832,9 @@
             <property name="always-show-image">True</property>
             <signal name="clicked" handler="on_apply" swapped="no"/>
           </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
     </child>

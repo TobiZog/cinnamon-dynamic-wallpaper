@@ -76,8 +76,7 @@ class Loop():
     # Set background stretching
     background_settings['picture-options'] = self.prefs.picture_aspect
 
-    if self.prefs.dynamic_background_color:
-      self.set_background_gradient()
+    self.set_background_gradient()
 
     
   def set_background_gradient(self):
@@ -96,8 +95,13 @@ class Loop():
 
     # Create the gradient
     background_settings['color-shading-type'] = "vertical"
-    background_settings['primary-color'] = f"#{top_color[0]:x}{top_color[1]:x}{top_color[2]:x}"
-    background_settings['secondary-color'] = f"#{bottom_color[0]:x}{bottom_color[1]:x}{bottom_color[2]:x}"
+
+    if self.prefs.dynamic_background_color:
+      background_settings['primary-color'] = f"#{top_color[0]:x}{top_color[1]:x}{top_color[2]:x}"
+      background_settings['secondary-color'] = f"#{bottom_color[0]:x}{bottom_color[1]:x}{bottom_color[2]:x}"
+    else:
+      background_settings['primary-color'] = "#000000"
+      background_settings['secondary-color'] = "#000000"
 
 
 # Needed for JavaScript

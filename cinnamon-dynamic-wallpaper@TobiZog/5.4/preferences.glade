@@ -121,8 +121,8 @@
           <object class="GtkBox" id="gtkbox_imageset">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="margin-start">24</property>
-            <property name="margin-end">24</property>
+            <property name="margin-start">16</property>
+            <property name="margin-end">16</property>
             <property name="margin-top">8</property>
             <property name="margin-bottom">8</property>
             <property name="orientation">vertical</property>
@@ -132,7 +132,6 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="margin-start">64</property>
                 <property name="label" translatable="yes">Image Source</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
@@ -312,8 +311,6 @@
               <object class="GtkListBox">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="margin-start">64</property>
-                <property name="margin-end">64</property>
                 <property name="selection-mode">none</property>
                 <property name="activate-on-single-click">False</property>
                 <child>
@@ -464,7 +461,6 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="margin-start">64</property>
                 <property name="label" translatable="yes">Image Selection</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
@@ -480,16 +476,14 @@
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="margin-start">64</property>
-                <property name="margin-end">64</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <!-- n-columns=5 n-rows=3 -->
                   <object class="GtkGrid">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="row-spacing">8</property>
-                    <property name="column-spacing">8</property>
+                    <property name="row-spacing">4</property>
+                    <property name="column-spacing">4</property>
                     <property name="column-homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="etr_period_1">
@@ -705,8 +699,8 @@
                   <object class="GtkGrid">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="row-spacing">8</property>
-                    <property name="column-spacing">8</property>
+                    <property name="row-spacing">4</property>
+                    <property name="column-spacing">4</property>
                     <property name="column-homogeneous">True</property>
                     <child>
                       <object class="GtkImage" id="img_period_1">

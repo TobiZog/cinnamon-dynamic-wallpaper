@@ -43,24 +43,24 @@ class Preferences:
 		########## UI objects ##########
 		
 		#### Page 1: Image Configuration
-		self.tb_image_set = self.builder.get_object("tb_image_set")
-		self.tb_heic_file = self.builder.get_object("tb_heic_file")
-		self.tb_source_folder = self.builder.get_object("tb_source_folder")
+		self.tb_image_set: Gtk.ToggleButton = self.builder.get_object("tb_image_set")
+		self.tb_heic_file: Gtk.ToggleButton = self.builder.get_object("tb_heic_file")
+		self.tb_source_folder: Gtk.ToggleButton = self.builder.get_object("tb_source_folder")
 
 		# Image set
-		self.lbr_image_set = self.builder.get_object("lbr_image_set")
-		self.cb_image_set = self.builder.get_object("cb_image_set")
+		self.lbr_image_set: Gtk.ListBoxRow = self.builder.get_object("lbr_image_set")
+		self.cb_image_set: Gtk.ComboBox = self.builder.get_object("cb_image_set")
 
 		# HEIC file		
-		self.lbr_heic_file = self.builder.get_object("lbr_heic_file")
+		self.lbr_heic_file: Gtk.ListBoxRow = self.builder.get_object("lbr_heic_file")
 
 		# Source folder
-		self.lbr_source_folder = self.builder.get_object("lbr_source_folder")
-		self.fc_source_folder = self.builder.get_object("fc_source_folder")
+		self.lbr_source_folder: Gtk.ListBoxRow = self.builder.get_object("lbr_source_folder")
+		self.fc_source_folder: Gtk.FileChooser = self.builder.get_object("fc_source_folder")
 
 		# Time bar chart
-		self.img_bar_images = self.builder.get_object("img_bar_images")
-		self.etr_periods = [
+		self.img_bar_images: Gtk.Image = self.builder.get_object("img_bar_images")
+		self.etr_periods: list[Gtk.Entry] = [
 			self.builder.get_object("etr_period_1"), self.builder.get_object("etr_period_2"),
 			self.builder.get_object("etr_period_3"), self.builder.get_object("etr_period_4"),
 			self.builder.get_object("etr_period_5"), self.builder.get_object("etr_period_6"),
@@ -68,7 +68,7 @@ class Preferences:
 			self.builder.get_object("etr_period_9"), self.builder.get_object("etr_period_10"),
 		]
 
-		self.img_periods = [
+		self.img_periods: list[Gtk.Image] = [
 			self.builder.get_object("img_period_0"), self.builder.get_object("img_period_1"),
 			self.builder.get_object("img_period_2"), self.builder.get_object("img_period_3"),
 			self.builder.get_object("img_period_4"), self.builder.get_object("img_period_5"),
@@ -76,7 +76,7 @@ class Preferences:
 			self.builder.get_object("img_period_8"), self.builder.get_object("img_period_9"),
 		]
 
-		self.cb_periods = [
+		self.cb_periods: list[Gtk.ComboBox] = [
 			self.builder.get_object("cb_period_0"), self.builder.get_object("cb_period_1"), 
 			self.builder.get_object("cb_period_2"), self.builder.get_object("cb_period_3"), 
 			self.builder.get_object("cb_period_4"), self.builder.get_object("cb_period_5"), 
@@ -87,20 +87,20 @@ class Preferences:
 
 
 		#### Page 2: Location & Times
-		self.tb_network_location = self.builder.get_object("tb_network_location")
-		self.lb_current_location = self.builder.get_object("lb_current_location")
-		self.lbr_current_location = self.builder.get_object("lbr_current_location")
-		self.tb_custom_location = self.builder.get_object("tb_custom_location")
-		self.tb_time_periods = self.builder.get_object("tb_time_periods")
-		self.lbr_network_location = self.builder.get_object("lbr_network_location")
-		self.spb_network_location_refresh_time = self.builder.get_object("spb_network_location_refresh_time")
-		self.lbr_custom_location_longitude = self.builder.get_object("lbr_custom_location_longitude")
-		self.lbr_custom_location_latitude = self.builder.get_object("lbr_custom_location_latitude")
-		self.lbr_time_periods = self.builder.get_object("lbr_time_periods")
+		self.tb_network_location: Gtk.ToggleButton = self.builder.get_object("tb_network_location")
+		self.lb_current_location: Gtk.Label = self.builder.get_object("lb_current_location")
+		self.lbr_current_location: Gtk.ListBoxRow = self.builder.get_object("lbr_current_location")
+		self.tb_custom_location: Gtk.ToggleButton = self.builder.get_object("tb_custom_location")
+		self.tb_time_periods: Gtk.ToggleButton = self.builder.get_object("tb_time_periods")
+		self.lbr_network_location: Gtk.ListBoxRow = self.builder.get_object("lbr_network_location")
+		self.spb_network_location_refresh_time: Gtk.SpinButton = self.builder.get_object("spb_network_location_refresh_time")
+		self.lbr_custom_location_longitude: Gtk.ListBoxRow = self.builder.get_object("lbr_custom_location_longitude")
+		self.lbr_custom_location_latitude: Gtk.ListBoxRow = self.builder.get_object("lbr_custom_location_latitude")
+		self.lbr_time_periods: Gtk.ListBoxRow = self.builder.get_object("lbr_time_periods")
 		self.etr_longitude = self.builder.get_object("etr_longitude")
 		self.etr_latitude = self.builder.get_object("etr_latitude")
 		self.img_bar_times = self.builder.get_object("img_bar_times")
-		self.spb_periods_hour = [
+		self.spb_periods_hour: list[Gtk.SpinButton] = [
 			self.builder.get_object("spb_period_1_hour"),
 			self.builder.get_object("spb_period_2_hour"),
 			self.builder.get_object("spb_period_3_hour"),
@@ -111,7 +111,7 @@ class Preferences:
 			self.builder.get_object("spb_period_8_hour"),
 			self.builder.get_object("spb_period_9_hour"),
 		]
-		self.spb_periods_minute = [
+		self.spb_periods_minute: list[Gtk.SpinButton] = [
 			self.builder.get_object("spb_period_1_minute"),
 			self.builder.get_object("spb_period_2_minute"),
 			self.builder.get_object("spb_period_3_minute"),
@@ -122,7 +122,7 @@ class Preferences:
 			self.builder.get_object("spb_period_8_minute"),
 			self.builder.get_object("spb_period_9_minute")
 		]
-		self.lb_period_end = [
+		self.lb_period_end: list[Gtk.Label] = [
 			self.builder.get_object("lb_period_0_end"), self.builder.get_object("lb_period_1_end"),
 			self.builder.get_object("lb_period_2_end"), self.builder.get_object("lb_period_3_end"),
 			self.builder.get_object("lb_period_4_end"), self.builder.get_object("lb_period_5_end"),
@@ -142,6 +142,8 @@ class Preferences:
 		window = self.builder.get_object("window_main")
 		window.show_all()
 
+		# todo: Remove after HEIC implementation
+		self.tb_heic_file.set_visible(False)
 
 		# Load from preferences
 		if self.c_prefs.image_source == ImageSourceEnum.IMAGESET:

@@ -79,23 +79,27 @@ class Loop():
     """ Setting a gradient background to hide images, which are not high enough
     """
     # Load the image
-    im = Image.open(self.current_image_uri)
-    pix = im.load()
+    try:
+      im = Image.open(self.current_image_uri)
+      pix = im.load()
 
-    # Width and height of the current setted image
-    width, height = im.size
+      # Width and height of the current setted image
+      width, height = im.size
 
-    # Color of the top and bottom pixel in the middle of the image
-    top_color = pix[width / 2,0]
-    bottom_color = pix[width / 2, height - 1]
+      # Color of the top and bottom pixel in the middle of the image
+      top_color = pix[width / 2,0]
+      bottom_color = pix[width / 2, height - 1]
 
-    # Create the gradient
-    self.background_settings['color-shading-type'] = "vertical"
+      # Create the gradient
+      self.background_settings['color-shading-type'] = "vertical"
 
-    if self.prefs.dynamic_background_color:
-      self.background_settings['primary-color'] = f"#{top_color[0]:x}{top_color[1]:x}{top_color[2]:x}"
-      self.background_settings['secondary-color'] = f"#{bottom_color[0]:x}{bottom_color[1]:x}{bottom_color[2]:x}"
-    else:
+      if self.prefs.dynamic_background_color:
+        self.background_settings['primary-color'] = f"#{top_color[0]:x}{top_color[1]:x}{top_color[2]:x}"
+        self.background_settings['secondary-color'] = f"#{bottom_color[0]:x}{bottom_color[1]:x}{bottom_color[2]:x}"
+      else:
+        self.background_settings['primary-color'] = "#000000"
+        self.background_settings['secondary-color'] = "#000000"
+    except:
       self.background_settings['primary-color'] = "#000000"
       self.background_settings['secondary-color'] = "#000000"
 

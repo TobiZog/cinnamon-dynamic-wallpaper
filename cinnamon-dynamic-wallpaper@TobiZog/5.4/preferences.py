@@ -147,9 +147,6 @@ class Preferences:
 		window = self.builder.get_object("window_main")
 		window.show_all()
 
-		# todo: Remove after HEIC implementation
-		self.tb_heic_file.set_visible(False)
-
 		# Load from preferences
 		if self.prefs.image_source == ImageSourceEnum.IMAGESET:
 			self.tb_image_set.set_active(True)
@@ -253,7 +250,13 @@ class Preferences:
 			self.add_items_to_combo_box(combobox, options)
 
 
-	def load_image_to_preview(self, image_preview: Gtk.Image, image_src: list):
+	def load_image_to_preview(self, image_preview: Gtk.Image, image_src: str):
+		""" Scales the image to a lower resoultion and put them into the time bar chart
+
+		Args:
+				image_preview (Gtk.Image): Gtk Image where it will be displayed
+				image_src (str): Absolute path to the image
+		"""
 		try:
 			pixbuf = GdkPixbuf.Pixbuf.new_from_file(image_src)
 			pixbuf = pixbuf.scale_simple(260, 175, GdkPixbuf.InterpType.BILINEAR)
@@ -352,6 +355,19 @@ class Preferences:
 			for combobox in self.cb_periods:
 				combobox.set_visible(True)
 
+			# Load images from source folder
+			files = self.images.get_images_from_folder(self.prefs.source_folder)
+
+			if len(files) != 0:
+				self.load_image_options_to_combo_boxes(files)
+
+				# Load the values for the images from the preferences
+				for i in range(0, 10):
+					self.set_active_combobox_item(self.cb_periods[i], self.prefs.period_images[i])
+			else:
+				# todo: Message to user
+				print("No image files!")
+
 
 	def on_toggle_button_source_folder_clicked(self, button: Gtk.ToggleButton):
 		if button.get_active():
@@ -371,7 +387,24 @@ class Preferences:
 			# This will update the comboboxes in the preview to contain the right items
 			self.lbl_source_folder.set_label(self.prefs.source_folder)
 
+			# Load files from saved source folder
+			files = self.images.get_images_from_folder(self.prefs.source_folder)
 
+			if len(files) != 0:
+				self.load_image_options_to_combo_boxes(files)
+
+				# Load the values for the images from the preferences
+				for i in range(0, 10):
+					self.set_active_combobox_item(self.cb_periods[i], self.prefs.period_images[i])
+			else:
+				# todo: Message to user
+				print("No image files!")
+
+
+
+	# +------------------------------------+
+	# | Select an image set     | aurora ▼ |
+	# +------------------------------------+
 
 	def on_cb_image_set_changed(self, combobox: Gtk.ComboBox):
 		tree_iter = combobox.get_active_iter()
@@ -400,34 +433,43 @@ class Preferences:
 				self.cb_periods[i].set_active(i)
 
 
-	def on_fc_heic_file_file_set(self, fc_button: Gtk.FileChooser):
-		file_path = fc_button.get_filename()
-		extract_folder = os.path.abspath(os.path.join(PREFERENCES_URI, os.pardir)) + \
-				  "/images/extracted_images/"
+	# +----------------------------------------------+
+	# | Select a heic file to import     | (None) 📄 |
+	# +----------------------------------------------+
 
-		file_name = file_path[file_path.rfind("/") + 1:]
+	def on_fc_heic_file_file_set(self, fc_button: Gtk.FileChooser):
+		file_path: str = fc_button.get_filename()
+		extract_folder: str = PREFERENCES_URI + "/images/extracted_images/"
+		
+		file_name: str = file_path[file_path.rfind("/") + 1:]
 		file_name = file_name[:file_name.rfind(".")]
 
 		# Update the preferences
 		self.prefs.selected_image_set = ""
 		self.prefs.source_folder = extract_folder
 
-		# Create the buffer folder
+		# Create the buffer folder if its not existing
 		try:
 			os.mkdir(extract_folder)
 		except:
 			pass
 
-		# Extract the HEIC file
+		# Cleanup the folder
 		for file in self.images.get_images_from_folder(extract_folder):
 			os.remove(extract_folder + file)
 
-		os.system("heif-convert " + file_path + " " + extract_folder + file_name + ".jpg")
+		# Extract the HEIC file
+		os.system("heif-convert '" + file_path + "' '" + extract_folder + file_name + ".jpg'")
 
 		# Collect all extracted images and push them to the comboboxes
 		image_names = self.images.get_images_from_folder(self.prefs.source_folder)
 		self.load_image_options_to_combo_boxes(image_names)
 
+
+	# +------------------------------------------------------------+
+	# | Select a source folder     | 📂 Open file selection dialog |
+	# |             /home/developer/Downloads/
+	# +------------------------------------------------------------+
 
 	def on_btn_source_folder_clicked(self, button: Gtk.Button):
 		""" Button to choose an image source folder was clicked
@@ -442,18 +484,25 @@ class Preferences:
 		self.prefs.selected_image_set = ""
 		self.prefs.source_folder = folder + "/"
 
-		# Update the button
-		button.set_label(folder)
+		# Update the label
+		self.lbl_source_folder.set_label(folder)
 
 		# Update the image comboboxes
-		if len(files) != 0:
-			self.load_image_options_to_combo_boxes(files)
+		self.load_image_options_to_combo_boxes(files)
 
-			# Load the values for the images from the preferences
-			for i in range(0, 10):
-				self.set_active_combobox_item(self.cb_periods[i], self.prefs.period_images[i])
-		else:
+		# Load the values for the images from the preferences
+		for i in range(0, 10):
+			self.cb_periods[i].set_active(0)
+			#self.set_active_combobox_item(self.cb_periods[i], "") #self.prefs.period_images[i])
+
+
+		if len(files) != 0:
 			pass
+
+			
+		else:
+			# todo: Message to user
+			print("No image files!")
 	
 
 	def on_cb_period_preview_changed(self, combobox: Gtk.ComboBox):

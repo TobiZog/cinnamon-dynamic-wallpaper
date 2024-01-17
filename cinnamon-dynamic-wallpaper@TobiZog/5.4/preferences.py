@@ -11,6 +11,7 @@ from scripts.images import *
 from enums.ImageSourceEnum import ImageSourceEnum
 from enums.PeriodSourceEnum import PeriodSourceEnum
 from loop import *
+from scripts.file_chooser import *
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf
@@ -32,10 +33,11 @@ class Preferences:
 	def __init__(self) -> None:
 		# Objects from external scripts
 		self.time_bar_chart = Time_Bar_Chart()
-		self.c_prefs = Cinnamon_Pref_Handler()
+		self.prefs = Cinnamon_Pref_Handler()
 		self.suntimes = Suntimes()
 		self.images = Images()
 		self.location = Location()
+		self.file_chooser = FileChooser()
 
 		# Glade
 		self.builder = Gtk.Builder()
@@ -58,7 +60,8 @@ class Preferences:
 
 		# Source folder
 		self.lbr_source_folder: Gtk.ListBoxRow = self.builder.get_object("lbr_source_folder")
-		self.fc_source_folder: Gtk.FileChooser = self.builder.get_object("fc_source_folder")
+		self.btn_source_folder: Gtk.Button = self.builder.get_object("btn_source_folder")
+		self.lbl_source_folder: Gtk.Label = self.builder.get_object("lbl_source_folder")
 
 		# Time bar chart
 		self.img_bar_images: Gtk.Image = self.builder.get_object("img_bar_images")
@@ -148,26 +151,26 @@ class Preferences:
 		self.tb_heic_file.set_visible(False)
 
 		# Load from preferences
-		if self.c_prefs.image_source == ImageSourceEnum.IMAGESET:
+		if self.prefs.image_source == ImageSourceEnum.IMAGESET:
 			self.tb_image_set.set_active(True)
-		elif self.c_prefs.image_source == ImageSourceEnum.HEICFILE:
+		elif self.prefs.image_source == ImageSourceEnum.HEICFILE:
 			self.tb_heic_file.set_active(True)
-		elif self.c_prefs.image_source == ImageSourceEnum.SOURCEFOLDER:
+		elif self.prefs.image_source == ImageSourceEnum.SOURCEFOLDER:
 			self.tb_source_folder.set_active(True)
 
 
-		picture_aspects = ["mosaic", "centered", "scaled", "stretched", "zoom", "spanned"]
+		picture_aspects = ["centered", "scaled", "stretched", "zoom", "spanned"]
 		self.add_items_to_combo_box(self.cb_picture_aspect, picture_aspects)
-		self.set_active_combobox_item(self.cb_picture_aspect, self.c_prefs.picture_aspect)
+		self.set_active_combobox_item(self.cb_picture_aspect, self.prefs.picture_aspect)
 
-		self.sw_dynamic_background_color.set_active(self.c_prefs.dynamic_background_color)
+		self.sw_dynamic_background_color.set_active(self.prefs.dynamic_background_color)
 
 
-		if self.c_prefs.period_source == PeriodSourceEnum.NETWORKLOCATION:
+		if self.prefs.period_source == PeriodSourceEnum.NETWORKLOCATION:
 			self.tb_network_location.set_active(True)
-		elif self.c_prefs.period_source == PeriodSourceEnum.CUSTOMLOCATION:
+		elif self.prefs.period_source == PeriodSourceEnum.CUSTOMLOCATION:
 			self.tb_custom_location.set_active(True)
-		elif self.c_prefs.period_source == PeriodSourceEnum.CUSTOMTIMEPERIODS:
+		elif self.prefs.period_source == PeriodSourceEnum.CUSTOMTIMEPERIODS:
 			self.tb_time_periods.set_active(True)
 
 
@@ -198,15 +201,15 @@ class Preferences:
 		# Stores the start times of the periods in minutes since midnight
 		time_periods_min = []
 
-		if self.c_prefs.period_source == PeriodSourceEnum.CUSTOMTIMEPERIODS:
+		if self.prefs.period_source == PeriodSourceEnum.CUSTOMTIMEPERIODS:
 			for i in range(0, 10):
-				time_str = self.c_prefs.period_custom_start_time[i]
+				time_str = self.prefs.period_custom_start_time[i]
 
 				time_periods_min.append(int(time_str[0:2]) * 60 + int(time_str[3:5]))
 		else:
-			if self.c_prefs.period_source == PeriodSourceEnum.NETWORKLOCATION:
-				self.suntimes.calc_suntimes(float(self.c_prefs.latitude_auto), 
-																float(self.c_prefs.longitude_auto))
+			if self.prefs.period_source == PeriodSourceEnum.NETWORKLOCATION:
+				self.suntimes.calc_suntimes(float(self.prefs.latitude_auto), 
+																float(self.prefs.longitude_auto))
 			else:
 				self.suntimes.calc_suntimes(float(self.etr_latitude.get_text()), float(self.etr_longitude.get_text()))	
 
@@ -244,6 +247,8 @@ class Preferences:
 		Args:
 				options (list): All possible options
 		"""
+		options.insert(0, "")
+
 		for combobox in self.cb_periods:
 			self.add_items_to_combo_box(combobox, options)
 
@@ -251,7 +256,7 @@ class Preferences:
 	def load_image_to_preview(self, image_preview: Gtk.Image, image_src: list):
 		try:
 			pixbuf = GdkPixbuf.Pixbuf.new_from_file(image_src)
-			pixbuf = pixbuf.scale_simple(250, 175, GdkPixbuf.InterpType.BILINEAR)
+			pixbuf = pixbuf.scale_simple(260, 175, GdkPixbuf.InterpType.BILINEAR)
 
 			image_preview.set_from_pixbuf(pixbuf)
 		except:
@@ -309,9 +314,9 @@ class Preferences:
 	# | Image Set | HEIC file | Source Folder |
 	# +-----------+-----------+---------------+
 
-	def on_toggle_button_image_set_clicked(self, button: Gtk.Button):
+	def on_toggle_button_image_set_clicked(self, button: Gtk.ToggleButton):
 		if button.get_active():
-			self.c_prefs.image_source = ImageSourceEnum.IMAGESET
+			self.prefs.image_source = ImageSourceEnum.IMAGESET
 			self.tb_heic_file.set_active(False)
 			self.tb_source_folder.set_active(False)
 
@@ -322,10 +327,10 @@ class Preferences:
 			image_set_choices = ["aurora", "beach", "bitday", "cliffs", "gradient", "lakeside", "mountains", "sahara"]
 			self.add_items_to_combo_box(self.cb_image_set, image_set_choices)
 
-			self.set_active_combobox_item(self.cb_image_set, self.c_prefs.selected_image_set)
+			self.set_active_combobox_item(self.cb_image_set, self.prefs.selected_image_set)
 
 			for i, combobox in enumerate(self.cb_periods):
-				selected_image_name = self.c_prefs.period_images[i]
+				selected_image_name = self.prefs.period_images[i]
 				self.set_active_combobox_item(combobox, selected_image_name)
 
 			# Make the comboboxes invisible
@@ -333,9 +338,9 @@ class Preferences:
 				combobox.set_visible(False)
 		
 	
-	def on_toggle_button_heic_file_clicked(self, button: Gtk.Button):
+	def on_toggle_button_heic_file_clicked(self, button: Gtk.ToggleButton):
 		if button.get_active():
-			self.c_prefs.image_source = ImageSourceEnum.HEICFILE
+			self.prefs.image_source = ImageSourceEnum.HEICFILE
 			self.tb_image_set.set_active(False)
 			self.tb_source_folder.set_active(False)
 
@@ -348,9 +353,9 @@ class Preferences:
 				combobox.set_visible(True)
 
 
-	def on_toggle_button_source_folder_clicked(self, button: Gtk.Button):
+	def on_toggle_button_source_folder_clicked(self, button: Gtk.ToggleButton):
 		if button.get_active():
-			self.c_prefs.image_source = ImageSourceEnum.SOURCEFOLDER
+			self.prefs.image_source = ImageSourceEnum.SOURCEFOLDER
 			self.tb_image_set.set_active(False)
 			self.tb_heic_file.set_active(False)
 
@@ -364,25 +369,25 @@ class Preferences:
 
 			# Load the source folder to the view
 			# This will update the comboboxes in the preview to contain the right items
-			self.fc_source_folder.set_filename(self.c_prefs.source_folder)
+			self.lbl_source_folder.set_label(self.prefs.source_folder)
 
 
 
 	def on_cb_image_set_changed(self, combobox: Gtk.ComboBox):
 		tree_iter = combobox.get_active_iter()
 
-		if tree_iter is not None and self.c_prefs.image_source == ImageSourceEnum.IMAGESET:
+		if tree_iter is not None and self.prefs.image_source == ImageSourceEnum.IMAGESET:
 			# Get the selected value
 			model = combobox.get_model()
 			selected_image_set = model[tree_iter][0]
 
 			# Store to the preferences
-			self.c_prefs.selected_image_set = selected_image_set
-			self.c_prefs.source_folder = os.path.abspath(os.path.join(PREFERENCES_URI, os.pardir)) + \
+			self.prefs.selected_image_set = selected_image_set
+			self.prefs.source_folder = os.path.abspath(os.path.join(PREFERENCES_URI, os.pardir)) + \
 				  "/5.4/images/included_image_sets/" + selected_image_set + "/"
 			
 			# Load all possible options to the comboboxes
-			image_names = self.images.get_images_from_folder(self.c_prefs.source_folder)
+			image_names = self.images.get_images_from_folder(self.prefs.source_folder)
 			self.load_image_options_to_combo_boxes(image_names)
 
 			# Image sets have the same names for the images:
@@ -390,9 +395,9 @@ class Preferences:
 			# 1.jpg = Period 1
 			# 2.jpg = Period 2
 			# and so on....
-			self.cb_periods[0].set_active(8)
+			self.cb_periods[0].set_active(9)
 			for i in range(1, 10):
-				self.cb_periods[i].set_active(i - 1)
+				self.cb_periods[i].set_active(i)
 
 
 	def on_fc_heic_file_file_set(self, fc_button: Gtk.FileChooser):
@@ -404,8 +409,8 @@ class Preferences:
 		file_name = file_name[:file_name.rfind(".")]
 
 		# Update the preferences
-		self.c_prefs.selected_image_set = ""
-		self.c_prefs.source_folder = extract_folder
+		self.prefs.selected_image_set = ""
+		self.prefs.source_folder = extract_folder
 
 		# Create the buffer folder
 		try:
@@ -420,24 +425,33 @@ class Preferences:
 		os.system("heif-convert " + file_path + " " + extract_folder + file_name + ".jpg")
 
 		# Collect all extracted images and push them to the comboboxes
-		image_names = self.images.get_images_from_folder(self.c_prefs.source_folder)
+		image_names = self.images.get_images_from_folder(self.prefs.source_folder)
 		self.load_image_options_to_combo_boxes(image_names)
 
-	
 
-	def on_fc_source_folder_file_set(self, fc_button: Gtk.FileChooser):
-		files = self.images.get_images_from_folder(fc_button.get_filename())
+	def on_btn_source_folder_clicked(self, button: Gtk.Button):
+		""" Button to choose an image source folder was clicked
+
+		Args:
+				button (Gtk.Button): The clicked button
+		"""
+		folder = self.file_chooser.on_btn_source_folder_clicked()
+		files = self.images.get_images_from_folder(folder)
 
 		# Update the preferences
-		self.c_prefs.selected_image_set = ""
-		self.c_prefs.source_folder = fc_button.get_filename() + "/"
-		
+		self.prefs.selected_image_set = ""
+		self.prefs.source_folder = folder + "/"
+
+		# Update the button
+		button.set_label(folder)
+
+		# Update the image comboboxes
 		if len(files) != 0:
 			self.load_image_options_to_combo_boxes(files)
 
 			# Load the values for the images from the preferences
 			for i in range(0, 10):
-				self.set_active_combobox_item(self.cb_periods[i], self.c_prefs.period_images[i])
+				self.set_active_combobox_item(self.cb_periods[i], self.prefs.period_images[i])
 		else:
 			pass
 	
@@ -454,10 +468,10 @@ class Preferences:
 			image_file_name = model[tree_iter][0]
 
 			# Store selection to preferences
-			self.c_prefs.period_images[period_index] = image_file_name
+			self.prefs.period_images[period_index] = image_file_name
 
 			# Build up image path
-			image_path = self.c_prefs.source_folder + image_file_name
+			image_path = self.prefs.source_folder + image_file_name
 
 			self.load_image_to_preview(self.img_periods[period_index], image_path)
 	
@@ -466,7 +480,7 @@ class Preferences:
 
 	def on_toggle_button_network_location_clicked(self, button: Gtk.Button):
 		if button.get_active():
-			self.c_prefs.period_source = PeriodSourceEnum.NETWORKLOCATION
+			self.prefs.period_source = PeriodSourceEnum.NETWORKLOCATION
 			self.tb_custom_location.set_active(False)
 			self.tb_time_periods.set_active(False)
 
@@ -476,7 +490,7 @@ class Preferences:
 			self.lbr_custom_location_latitude.set_visible(False)
 			self.lbr_time_periods.set_visible(False)
 
-			self.spb_network_location_refresh_time.set_value(self.c_prefs.location_refresh_intervals)
+			self.spb_network_location_refresh_time.set_value(self.prefs.location_refresh_intervals)
 		
 
 			# Display the location in the UI
@@ -485,15 +499,15 @@ class Preferences:
 																		 ", Longitude: " + current_location["longitude"])
 			
 			# Store the location to the preferences
-			self.c_prefs.latitude_auto = float(current_location["latitude"])
-			self.c_prefs.longitude_auto = float(current_location["longitude"])
+			self.prefs.latitude_auto = float(current_location["latitude"])
+			self.prefs.longitude_auto = float(current_location["longitude"])
 
 			self.refresh_chart()
 
 
 	def on_toggle_button_custom_location_clicked(self, button: Gtk.Button):
 		if button.get_active():
-			self.c_prefs.period_source = PeriodSourceEnum.CUSTOMLOCATION
+			self.prefs.period_source = PeriodSourceEnum.CUSTOMLOCATION
 			self.tb_network_location.set_active(False)
 			self.tb_time_periods.set_active(False)
 
@@ -503,13 +517,13 @@ class Preferences:
 			self.lbr_custom_location_latitude.set_visible(True)
 			self.lbr_time_periods.set_visible(False)
 
-			self.etr_latitude.set_text(str(self.c_prefs.latitude_custom))
-			self.etr_longitude.set_text(str(self.c_prefs.longitude_custom))
+			self.etr_latitude.set_text(str(self.prefs.latitude_custom))
+			self.etr_longitude.set_text(str(self.prefs.longitude_custom))
 
 
 	def on_toggle_button_time_periods_clicked(self, button: Gtk.Button):
 		if button.get_active():
-			self.c_prefs.period_source = PeriodSourceEnum.CUSTOMTIMEPERIODS
+			self.prefs.period_source = PeriodSourceEnum.CUSTOMTIMEPERIODS
 			self.tb_network_location.set_active(False)
 			self.tb_custom_location.set_active(False)
 
@@ -521,7 +535,7 @@ class Preferences:
 			
 			
 			for i in range(0, 9):
-				pref_value = self.c_prefs.period_custom_start_time[i + 1]
+				pref_value = self.prefs.period_custom_start_time[i + 1]
 				time_parts = [int(pref_value[0:pref_value.find(":")]), int(pref_value[pref_value.find(":") + 1:])]
 
 				self.spb_periods_hour[i].set_value(time_parts[0])
@@ -548,7 +562,7 @@ class Preferences:
 		time_current_start = datetime(2024,1,1, int(self.spb_periods_hour[index].get_value()), int(self.spb_periods_minute[index].get_value()))
 		time_current_start_str = str(time_current_start.hour).rjust(2, '0') + ":" + str(time_current_start.minute).rjust(2, '0')
 
-		self.c_prefs.period_custom_start_time[index + 1] = time_current_start_str
+		self.prefs.period_custom_start_time[index + 1] = time_current_start_str
 		
 
 		time_previous_end = time_current_start - timedelta(minutes=1)
@@ -559,12 +573,12 @@ class Preferences:
 
 
 	def on_spb_network_location_refresh_time_changed(self, spin_button):
-		self.c_prefs.location_refresh_intervals = spin_button.get_value()
+		self.prefs.location_refresh_intervals = spin_button.get_value()
 
 
 	def on_etr_longitude_changed(self, entry):
 		try:
-			self.c_prefs.longitude_custom = float(entry.get_text())
+			self.prefs.longitude_custom = float(entry.get_text())
 			self.refresh_chart()
 		except:
 			pass
@@ -572,7 +586,7 @@ class Preferences:
 
 	def on_etr_latitude_changed(self, entry):
 		try:
-			self.c_prefs.latitude_custom = float(entry.get_text())
+			self.prefs.latitude_custom = float(entry.get_text())
 			self.refresh_chart()
 		except:
 			pass
@@ -585,10 +599,10 @@ class Preferences:
 
 		if tree_iter is not None:
 			model = combobox.get_model()
-			self.c_prefs.picture_aspect = model[tree_iter][0]
+			self.prefs.picture_aspect = model[tree_iter][0]
 		
 	def on_sw_dynamic_background_color_state_set(self, switch: Gtk.Switch, state):
-		self.c_prefs.dynamic_background_color = state
+		self.prefs.dynamic_background_color = state
 
 
 	# About
@@ -633,7 +647,7 @@ class Preferences:
 		""" Callback for the Apply button in the top bar
 		"""
 		# Store all values to the JSON file
-		self.c_prefs.store_preferences()
+		self.prefs.store_preferences()
 
 		# Use the new settings
 		loop = Loop()

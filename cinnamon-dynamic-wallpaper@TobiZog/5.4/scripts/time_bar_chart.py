@@ -1,6 +1,8 @@
 import math
 
 class Time_Bar_Chart:
+  """ Class to handle the creation of the day time period bar
+  """
   def __init__(self) -> None:
     self.image_code = []
 
@@ -21,9 +23,10 @@ class Time_Bar_Chart:
 
 
   def create_bar_chart_with_polylines(self, save_location: str, image_width: int, image_height: int, times: list):
-    """ Create a time bar chart
+    """ Create a time bar chart WITH polylines
 
     Args:
+        save_location (str): Absolute path to store
         image_width (int): Width of the image in pixel
         image_height (int): Height of the image in pixel
         times (list): List of start times of the periods in minutes since midnight
@@ -45,6 +48,14 @@ class Time_Bar_Chart:
 
 
   def create_bar_chart(self, save_location: str, image_width: int, image_height: int, times: list):
+    """ Create a time bar chart WITHOUT polylines
+
+    Args:
+        save_location (str): Absolute path to store
+        image_width (int): Width of the image in pixel
+        image_height (int): Height of the image in pixel
+        times (list): List of start times of the periods in minutes since midnight
+    """
     self.create_bar(image_width, image_height, times)
     self.create_time_markers(image_width, image_height)
 

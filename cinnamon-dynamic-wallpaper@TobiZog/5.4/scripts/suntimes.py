@@ -19,6 +19,12 @@ class Suntimes:
 
 
   def calc_suntimes(self, latitude: float, longitude: float) -> None:
+    """ Start the calculation process
+
+    Args:
+        latitude (float): Current latitude
+        longitude (float): Current longitude
+    """
     self.latitude = latitude
     self.longitude = longitude
     self.calc_sun_events()
@@ -43,6 +49,8 @@ class Suntimes:
 
 
   def calc_sun_events(self):
+    """ Parent sun event calculater. Calls calc_sunrise_sunset_time() for every time period
+    """
     civial_dawn_start = self.calc_sunrise_sunset_time(True, 96)
     sunrise_start = self.calc_sunrise_sunset_time(True)
     morning_start = self.calc_sunrise_sunset_time(True, 89.167)
@@ -69,8 +77,6 @@ class Suntimes:
       time(civial_dusk_start.hour, civial_dusk_start.minute),
       time(night_start.hour, night_start.minute),
     ]
-
-
 
 
   def calc_sunrise_sunset_time(self, is_sunrise: bool, zenith=90.833) -> datetime:

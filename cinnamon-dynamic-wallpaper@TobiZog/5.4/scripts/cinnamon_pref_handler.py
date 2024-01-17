@@ -1,6 +1,8 @@
 import os, json
 
 class Cinnamon_Pref_Handler:
+  """ Class to work with the Cinnamon Extension preference format
+  """
   def __init__(self) -> None:
     # Location of the Cinnamon preference file since Cinnamon 5.4
     self.pref_location = os.path.expanduser("~") + \
@@ -53,6 +55,7 @@ class Cinnamon_Pref_Handler:
       pref_data['period_8_custom_start_time']['value'],
       pref_data['period_9_custom_start_time']['value']
   ]
+
 
   def store_preferences(self):
     """ Store the values of the Preference object to the JSON file

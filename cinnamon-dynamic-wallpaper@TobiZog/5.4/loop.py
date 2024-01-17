@@ -19,7 +19,7 @@ class Loop():
 
     # Position should estimate by network
     if self.prefs.period_source == PeriodSourceEnum.NETWORKLOCATION:
-      current_location = self.location.run()
+      current_location = self.location.get_location()
 
       self.suntimes.calc_suntimes(float(current_location["latitude"]), float(current_location["longitude"]))
       self.start_times = self.suntimes.day_periods

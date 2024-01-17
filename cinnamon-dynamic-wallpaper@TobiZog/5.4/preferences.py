@@ -8,10 +8,10 @@ from scripts.cinnamon_pref_handler import *
 from scripts.suntimes import *
 from scripts.location import *
 from scripts.images import *
+from scripts.dialogs import *
 from enums.ImageSourceEnum import ImageSourceEnum
 from enums.PeriodSourceEnum import PeriodSourceEnum
 from loop import *
-from scripts.file_chooser import *
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf
@@ -37,7 +37,7 @@ class Preferences:
 		self.suntimes = Suntimes()
 		self.images = Images()
 		self.location = Location()
-		self.file_chooser = FileChooser()
+		self.dialogs = Dialogs()
 
 		# Glade
 		self.builder = Gtk.Builder()
@@ -365,7 +365,6 @@ class Preferences:
 				for i in range(0, 10):
 					self.set_active_combobox_item(self.cb_periods[i], self.prefs.period_images[i])
 			else:
-				# todo: Message to user
 				print("No image files!")
 
 
@@ -397,7 +396,6 @@ class Preferences:
 				for i in range(0, 10):
 					self.set_active_combobox_item(self.cb_periods[i], self.prefs.period_images[i])
 			else:
-				# todo: Message to user
 				print("No image files!")
 
 
@@ -438,32 +436,29 @@ class Preferences:
 	# +----------------------------------------------+
 
 	def on_fc_heic_file_file_set(self, fc_button: Gtk.FileChooser):
+		""" User has a heic file selected with the FileChooserDialog
+
+		Args:
+				fc_button (Gtk.FileChooser): Parameter about the selected file
+		"""
+		# The the absolute path to the heic file
 		file_path: str = fc_button.get_filename()
-		extract_folder: str = PREFERENCES_URI + "/images/extracted_images/"
-		
-		file_name: str = file_path[file_path.rfind("/") + 1:]
-		file_name = file_name[:file_name.rfind(".")]
+
+		# Extract the heic file
+		result = self.images.extract_heic_file(file_path)
+
+		# Load images only if the extraction was successfully
+		if result:
+			# Collect all extracted images and push them to the comboboxes
+			image_names = self.images.get_images_from_folder(self.prefs.source_folder)
+			self.load_image_options_to_combo_boxes(image_names)
+		else:
+			self.dialogs.message_dialog("Error during extraction")
+
 
 		# Update the preferences
 		self.prefs.selected_image_set = ""
-		self.prefs.source_folder = extract_folder
-
-		# Create the buffer folder if its not existing
-		try:
-			os.mkdir(extract_folder)
-		except:
-			pass
-
-		# Cleanup the folder
-		for file in self.images.get_images_from_folder(extract_folder):
-			os.remove(extract_folder + file)
-
-		# Extract the HEIC file
-		os.system("heif-convert '" + file_path + "' '" + extract_folder + file_name + ".jpg'")
-
-		# Collect all extracted images and push them to the comboboxes
-		image_names = self.images.get_images_from_folder(self.prefs.source_folder)
-		self.load_image_options_to_combo_boxes(image_names)
+		self.prefs.source_folder = PREFERENCES_URI + "/images/extracted_images/"
 
 
 	# +------------------------------------------------------------+
@@ -477,7 +472,7 @@ class Preferences:
 		Args:
 				button (Gtk.Button): The clicked button
 		"""
-		folder = self.file_chooser.on_btn_source_folder_clicked()
+		folder = self.dialogs.source_folder_dialog()
 		files = self.images.get_images_from_folder(folder)
 
 		# Update the preferences
@@ -495,14 +490,8 @@ class Preferences:
 			self.cb_periods[i].set_active(0)
 			#self.set_active_combobox_item(self.cb_periods[i], "") #self.prefs.period_images[i])
 
-
-		if len(files) != 0:
-			pass
-
-			
-		else:
-			# todo: Message to user
-			print("No image files!")
+		if len(files) == 1:
+			self.dialogs.message_dialog("No image files found!")
 	
 
 	def on_cb_period_preview_changed(self, combobox: Gtk.ComboBox):
@@ -543,7 +532,7 @@ class Preferences:
 		
 
 			# Display the location in the UI
-			current_location = self.location.run()
+			current_location = self.location.get_location()
 			self.lb_current_location.set_text("Latitude: " + current_location["latitude"] + \
 																		 ", Longitude: " + current_location["longitude"])
 			

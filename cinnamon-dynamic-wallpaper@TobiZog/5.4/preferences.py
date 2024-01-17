@@ -259,7 +259,7 @@ class Preferences:
 		"""
 		try:
 			pixbuf = GdkPixbuf.Pixbuf.new_from_file(image_src)
-			pixbuf = pixbuf.scale_simple(260, 175, GdkPixbuf.InterpType.BILINEAR)
+			pixbuf = pixbuf.scale_simple(260, 150, GdkPixbuf.InterpType.BILINEAR)
 
 			image_preview.set_from_pixbuf(pixbuf)
 		except:
@@ -327,7 +327,7 @@ class Preferences:
 			self.lbr_heic_file.set_visible(False)
 			self.lbr_source_folder.set_visible(False)
 
-			image_set_choices = ["aurora", "beach", "bitday", "cliffs", "gradient", "lakeside", "mountains", "sahara"]
+			image_set_choices = ["aurora", "beach", "bitday", "cliffs", "earth", "gradient", "lakeside", "mountains", "sahara"]
 			self.add_items_to_combo_box(self.cb_image_set, image_set_choices)
 
 			self.set_active_combobox_item(self.cb_image_set, self.prefs.selected_image_set)
@@ -426,9 +426,8 @@ class Preferences:
 			# 1.jpg = Period 1
 			# 2.jpg = Period 2
 			# and so on....
-			self.cb_periods[0].set_active(9)
-			for i in range(1, 10):
-				self.cb_periods[i].set_active(i)
+			for i in range(0, 10):
+				self.cb_periods[i].set_active(i + 1)
 
 
 	# +----------------------------------------------+

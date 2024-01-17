@@ -7,7 +7,7 @@
 This extension switches the background image of your Cinnamon desktop multiple times in a day, based on a location or custom time periods. You can choose between included image-sets, your own HEIC-file or a source folder with single images. Configuration through a user-friendly configuration window.
 
 ### Features
-- 8 included image sets
+- 9 included image sets
 - 10 day periods
 - HEIF converter
 - Image configuration assistent with simple one-click setup for image choices
@@ -73,10 +73,10 @@ The image sets are from https://github.com/adi1090x/dynamic-wallpaper
 | ------ | ----- | ------ |
 | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/aurora/5.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/beach/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/bitday/4.jpg) |
 
-| Cliffs | Gradient | Lakeside | 
+| Cliffs | Earth | Gradient | 
 | -------- | --------- | ------ |
-| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/cliffs/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/gradient/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/lakeside/4.jpg) |
+| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/cliffs/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/earth/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/gradient/4.jpg) | 
 
-| Mountains | Sahara |
-| --------- | ------ |
-| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/mountains/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/sahara/4.jpg) |
+| Lakeside | Mountains | Sahara |
+| --------- | ------ | ------ |
+| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/lakeside/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/mountains/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/sahara/4.jpg) |

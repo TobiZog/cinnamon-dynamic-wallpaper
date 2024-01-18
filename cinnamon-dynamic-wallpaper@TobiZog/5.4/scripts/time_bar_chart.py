@@ -10,9 +10,9 @@ class Time_Bar_Chart:
         "00193d", 
         "05597f", 
         "54babf", 
-        "bfe3c2", 
-        "ffbf6b", 
-        "fdb55c", 
+        "9ec3a1", 
+        "ffb95e", 
+        "fcae4e", 
         "f37f73", 
         "b45bbc", 
         "7e38ce", 
@@ -107,13 +107,22 @@ class Time_Bar_Chart:
         image_height (int): Total height of the image
     """
     for i in range(0, 8):
+      # 3 hour vertical line
       self.image_code.append(
-        '<line x1="%s" y1="40" x2="%s" y2="%s" stroke="gray" stroke-width="2" />' %
+        '<line x1="%s" y1="40" x2="%s" y2="%s" stroke="white" stroke-width="2" />' %
           (i * (image_width // 8), i * (image_width // 8), image_height - 40)
       )
+
+      # The two hours between the 3 hour lines
+      for j in range(1, 3):
+        self.image_code.append(
+          '<line x1="%s" y1="40" x2="%s" y2="%s" stroke="white" stroke-width="0.5" />' %
+            (i * (image_width // 8) + image_width // 24 * j, i * (image_width // 8) + image_width // 24 * j, image_height - 40)
+        )
       
+      # Time labels
       self.image_code.append(
-        '<text x="%s" y="%s" fill="gray" font-size="20" font-family="Liberation Sans">%s</text>' %
+        '<text x="%s" y="%s" fill="white" font-size="20" font-family="Liberation Sans">%s</text>' %
           (i * (image_width // 8) + 5, image_height - 45, i * 3)
       )
 

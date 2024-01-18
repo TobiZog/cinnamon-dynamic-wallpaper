@@ -205,8 +205,7 @@ class Preferences:
 				time_periods_min.append(int(time_str[0:2]) * 60 + int(time_str[3:5]))
 		else:
 			if self.prefs.period_source == PeriodSourceEnum.NETWORKLOCATION:
-				self.suntimes.calc_suntimes(float(self.prefs.latitude_auto), 
-																float(self.prefs.longitude_auto))
+				self.suntimes.calc_suntimes(float(self.prefs.latitude_auto), float(self.prefs.longitude_auto))
 			else:
 				self.suntimes.calc_suntimes(float(self.etr_latitude.get_text()), float(self.etr_longitude.get_text()))	
 
@@ -221,7 +220,7 @@ class Preferences:
 					time_range_next = time(hour=23, minute=59)
 
 				self.etr_periods[i].set_text(
-					str(time_range_now.hour).rjust(2, '0') + ":" + str(time_range_now.minute).rjust(2, '0') +\
+					str(time_range_now.hour).rjust(2, '0') + ":" + str(time_range_now.minute).rjust(2, '0') + \
 						" - " + str(time_range_next.hour).rjust(2, '0') + ":" + str(time_range_next.minute).rjust(2, '0'))
 				
 				time_periods_min.append(time_range_now.hour * 60 + time_range_now.minute)
@@ -318,6 +317,11 @@ class Preferences:
 	# +-----------+-----------+---------------+
 
 	def on_toggle_button_image_set_clicked(self, button: Gtk.ToggleButton):
+		""" Clicked on ToggleButton "Image Set"
+
+		Args:
+				button (Gtk.ToggleButton): Clicked ToggleButton
+		"""
 		if button.get_active():
 			self.prefs.image_source = ImageSourceEnum.IMAGESET
 			self.tb_heic_file.set_active(False)
@@ -342,6 +346,11 @@ class Preferences:
 		
 	
 	def on_toggle_button_heic_file_clicked(self, button: Gtk.ToggleButton):
+		""" Clicked on ToggleButton "Heic file"
+
+		Args:
+				button (Gtk.ToggleButton): Clicked ToggleButton
+		"""
 		if button.get_active():
 			self.prefs.image_source = ImageSourceEnum.HEICFILE
 			self.tb_image_set.set_active(False)
@@ -369,6 +378,11 @@ class Preferences:
 
 
 	def on_toggle_button_source_folder_clicked(self, button: Gtk.ToggleButton):
+		""" Clicked on ToggleButton "Source Folder"
+
+		Args:
+				button (Gtk.ToggleButton): Clicked ToggleButton
+		"""
 		if button.get_active():
 			self.prefs.image_source = ImageSourceEnum.SOURCEFOLDER
 			self.tb_image_set.set_active(False)
@@ -405,6 +419,11 @@ class Preferences:
 	# +------------------------------------+
 
 	def on_cb_image_set_changed(self, combobox: Gtk.ComboBox):
+		""" User select on of the included image sets
+
+		Args:
+				combobox (Gtk.ComboBox): The used ComboBox
+		"""
 		tree_iter = combobox.get_active_iter()
 
 		if tree_iter is not None and self.prefs.image_source == ImageSourceEnum.IMAGESET:
@@ -446,6 +465,10 @@ class Preferences:
 		# Extract the heic file
 		result = self.images.extract_heic_file(file_path)
 
+		# Update the preferences
+		self.prefs.selected_image_set = ""
+		self.prefs.source_folder = PREFERENCES_URI + "/images/extracted_images/"
+
 		# Load images only if the extraction was successfully
 		if result:
 			# Collect all extracted images and push them to the comboboxes
@@ -453,11 +476,6 @@ class Preferences:
 			self.load_image_options_to_combo_boxes(image_names)
 		else:
 			self.dialogs.message_dialog("Error during extraction")
-
-
-		# Update the preferences
-		self.prefs.selected_image_set = ""
-		self.prefs.source_folder = PREFERENCES_URI + "/images/extracted_images/"
 
 
 	# +------------------------------------------------------------+
@@ -494,6 +512,11 @@ class Preferences:
 	
 
 	def on_cb_period_preview_changed(self, combobox: Gtk.ComboBox):
+		""" User select an image from the ComboBox for the time period
+
+		Args:
+				combobox (Gtk.ComboBox): The used ComboBox
+		"""
 		tree_iter = combobox.get_active_iter()
 
 		combobox_name = Gtk.Buildable.get_name(combobox)
@@ -609,7 +632,12 @@ class Preferences:
 		self.refresh_chart()
 
 
-	def on_spb_network_location_refresh_time_changed(self, spin_button):
+	def on_spb_network_location_refresh_time_changed(self, spin_button: Gtk.SpinButton):
+		""" User changed the refresh time of network location estimation
+
+		Args:
+				spin_button (Gtk.SpinButton): The used SpinButton
+		"""
 		self.prefs.location_refresh_intervals = spin_button.get_value()
 
 

@@ -1,4 +1,8 @@
-# Version 2.0 (upcoming)
+# Version 2.1
+- Bugfixes
+- Smaller UI for displays with reduced resolution (< 1000px height)
+
+# Version 2.0
 - New App icon
 - Preferences window redesign - All settings are now in one window accessable!
 - Graphic visualizing of the time periods of a day with a bar chart

@@ -23,11 +23,6 @@ This extension switches the background image of your Cinnamon desktop multiple t
 - 5.8 (Mint 21.2)
 - 6.0 (Mint 21.3)
 
-#### Only supported with version 1.x
-- 4.8 (Mint 20.1)
-- 5.0 (Mint 20.2)
-- 5.2 (Mint 20.3)
-
 ### Technology
 - `JavaScript`
 	- Display desktop notifications

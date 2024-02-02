@@ -1221,6 +1221,7 @@
                           <object class="GtkComboBox" id="cb_network_provider">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
+                            <signal name="changed" handler="on_cb_network_provider_changed" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>

@@ -1,5 +1,4 @@
-from enum import Enum
-
-class NetworkLocationProvider(Enum):
-  GEOJS = "https://get.geojs.io/v1/ip/geo.json"
-  IPAPI = "http://ip-api.com/json/?fields=61439"
+class NetworkLocationProvider(enumerate):
+  GEOJS = "geojs.io"
+  IPAPI = "ip-api.com"
+  IPWHOIS = "ipwho.is"

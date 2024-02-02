@@ -43,7 +43,7 @@ class Dialogs(Gtk.Window):
     return location
   
   
-  def message_dialog(self, message: str):
+  def message_dialog(self, message: str, type: Gtk.MessageType = Gtk.MessageType.INFO):
     """ Displaying a Gtk Message dialog to the user
 
     Args:
@@ -52,7 +52,7 @@ class Dialogs(Gtk.Window):
     dialog = Gtk.MessageDialog(
       transient_for=self,
       flags=0,
-      message_type=Gtk.MessageType.INFO,
+      message_type=type,
       buttons=Gtk.ButtonsType.OK,
       text=message
     )

@@ -14,7 +14,6 @@ from datetime import timedelta
 # Local scripts
 from model.main_view_model import *
 from service.images import *
-from service.location import *
 from service.suntimes import *
 from service.time_bar_chart import *
 from ui.dialogs import *
@@ -46,7 +45,6 @@ class Main_Window:
 		# Objects from scripts
 		self.images = Images()
 		self.dialogs = Dialogs()
-		self.location = Location()
 		self.suntimes = Suntimes()
 		self.time_bar_chart = Time_Bar_Chart()
 
@@ -160,6 +158,8 @@ class Main_Window:
 
 
 	def show(self):
+		""" Display the window to the screen
+		"""
 		self.builder.get_object("window_main").show_all()
 
 		# Smaller UI handling
@@ -265,9 +265,12 @@ class Main_Window:
 
 			image_preview.set_from_pixbuf(pixbuf)
 		except:
-			pass
+			self.dialogs.message_dialog("Error on load images. Please check the configuration!", Gtk.MessageType.ERROR)
+
 
 	def refresh_charts(self):
+		""" Refresh the charts and put them to the image views
+		"""
 		self.view_model.refresh_charts()
 
 		# Load to the views
@@ -285,7 +288,21 @@ class Main_Window:
 	############################################################
 
 	## Image Configuration
-			
+	
+	def show_image_configuration_entries(self, button_id: int):
+		self.tb_image_set.set_active(button_id == 1)
+		self.tb_heic_file.set_active(button_id == 2)
+		self.tb_source_folder.set_active(button_id == 3)
+
+		self.lbr_image_set.set_visible(button_id == 1)
+		self.lbr_heic_file.set_visible(button_id == 2)
+		self.lbr_source_folder.set_visible(button_id == 3)
+
+		# Make the comboboxes invisible
+		for combobox in self.cb_periods:
+			combobox.set_visible(button_id != 1)
+
+
 	# +-----------+-----------+---------------+
 	# | Image Set | HEIC file | Source Folder |
 	# +-----------+-----------+---------------+
@@ -298,12 +315,7 @@ class Main_Window:
 		"""
 		if button.get_active():
 			self.view_model.cinnamon_prefs.image_source = ImageSourceEnum.IMAGESET
-			self.tb_heic_file.set_active(False)
-			self.tb_source_folder.set_active(False)
-
-			self.lbr_image_set.set_visible(True)
-			self.lbr_heic_file.set_visible(False)
-			self.lbr_source_folder.set_visible(False)
+			self.show_image_configuration_entries(1)
 
 			self.set_active_combobox_item(self.cb_image_set, self.view_model.cinnamon_prefs.selected_image_set)
 
@@ -311,10 +323,6 @@ class Main_Window:
 				selected_image_name = self.view_model.cinnamon_prefs.period_images[i]
 				self.set_active_combobox_item(combobox, selected_image_name)
 
-			# Make the comboboxes invisible
-			for combobox in self.cb_periods:
-				combobox.set_visible(False)
-		
 	
 	def on_toggle_button_heic_file_clicked(self, button: Gtk.ToggleButton):
 		""" Clicked on ToggleButton "Heic file"
@@ -324,16 +332,7 @@ class Main_Window:
 		"""
 		if button.get_active():
 			self.view_model.cinnamon_prefs.image_source = ImageSourceEnum.HEICFILE
-			self.tb_image_set.set_active(False)
-			self.tb_source_folder.set_active(False)
-
-			self.lbr_image_set.set_visible(False)
-			self.lbr_heic_file.set_visible(True)
-			self.lbr_source_folder.set_visible(False)
-
-			# Make the comboboxes visible
-			for combobox in self.cb_periods:
-				combobox.set_visible(True)
+			self.show_image_configuration_entries(2)
 
 			# Load images from source folder
 			files = self.images.get_images_from_folder(self.view_model.cinnamon_prefs.source_folder)
@@ -356,16 +355,7 @@ class Main_Window:
 		"""
 		if button.get_active():
 			self.view_model.cinnamon_prefs.image_source = ImageSourceEnum.SOURCEFOLDER
-			self.tb_image_set.set_active(False)
-			self.tb_heic_file.set_active(False)
-
-			self.lbr_image_set.set_visible(False)
-			self.lbr_heic_file.set_visible(False)
-			self.lbr_source_folder.set_visible(True)
-
-			# Make the comboboxes visible
-			for combobox in self.cb_periods:
-				combobox.set_visible(True)
+			self.show_image_configuration_entries(3)
 
 			# Load the source folder to the view
 			# This will update the comboboxes in the preview to contain the right items
@@ -414,8 +404,7 @@ class Main_Window:
 			# Image sets have the same names for the images:
 			# 9.jpg = Period 0
 			# 1.jpg = Period 1
-			# 2.jpg = Period 2
-			# and so on....
+			# 2.jpg = Period 2...
 			for i in range(0, 10):
 				self.cb_periods[i].set_active(i + 1)
 
@@ -446,7 +435,7 @@ class Main_Window:
 			image_names = self.images.get_images_from_folder(self.view_model.cinnamon_prefs.source_folder)
 			self.load_image_options_to_combo_boxes(image_names)
 		else:
-			self.dialogs.message_dialog("Error during extraction")
+			self.dialogs.message_dialog("Error during extraction!", Gtk.MessageType.ERROR)
 
 
 	# +------------------------------------------------------------+
@@ -507,6 +496,25 @@ class Main_Window:
 	
 
 	## Location & Times
+			
+	def show_location_times_entries(self, button_id: int):
+		""" Show or hide parts of the Locations & Times menu
+
+		Args:
+				button_id (int): ID of the button, 1 = Network, 2 = Custom Location, 3 = Custom Time Periods
+		"""
+		self.tb_network_location.set_active(button_id == 1)
+		self.tb_custom_location.set_active(button_id == 2)
+		self.tb_time_periods.set_active(button_id == 3)
+
+		# Show/Hide the right ListBoxRows
+		self.lbr_network_refresh_time.set_visible(button_id == 1)
+		self.lbr_network_provider.set_visible(button_id == 1)
+		self.lbr_current_location.set_visible(button_id == 1)
+		self.lbr_custom_location_longitude.set_visible(button_id == 2)
+		self.lbr_custom_location_latitude.set_visible(button_id == 2)
+		self.lbr_time_periods.set_visible(button_id == 3)
+
 
 	def on_toggle_button_network_location_clicked(self, button: Gtk.ToggleButton):
 		""" User clicks on the ToggleButton for the network location
@@ -516,26 +524,10 @@ class Main_Window:
 		"""
 		if button.get_active():
 			self.view_model.cinnamon_prefs.period_source = PeriodSourceEnum.NETWORKLOCATION
-			self.tb_custom_location.set_active(False)
-			self.tb_time_periods.set_active(False)
-
-			self.lbr_network_refresh_time.set_visible(True)
-			self.lbr_current_location.set_visible(True)
-			self.lbr_custom_location_longitude.set_visible(False)
-			self.lbr_custom_location_latitude.set_visible(False)
-			self.lbr_time_periods.set_visible(False)
+			self.show_location_times_entries(1)
 
 			self.spb_network_refresh_time.set_value(self.view_model.cinnamon_prefs.location_refresh_intervals)
-		
-
-			# Display the location in the UI
-			current_location = self.location.get_location(NetworkLocationProvider.GEOJS)
-			self.lb_current_location.set_text("Latitude: " + current_location["latitude"] + \
-																		 ", Longitude: " + current_location["longitude"])
-			
-			# Store the location to the preferences
-			self.view_model.cinnamon_prefs.latitude_auto = float(current_location["latitude"])
-			self.view_model.cinnamon_prefs.longitude_auto = float(current_location["longitude"])
+			self.set_active_combobox_item(self.cb_network_provider, self.view_model.cinnamon_prefs.network_location_provider)
 
 			self.refresh_charts()
 
@@ -543,14 +535,7 @@ class Main_Window:
 	def on_toggle_button_custom_location_clicked(self, button: Gtk.ToggleButton):
 		if button.get_active():
 			self.view_model.cinnamon_prefs.period_source = PeriodSourceEnum.CUSTOMLOCATION
-			self.tb_network_location.set_active(False)
-			self.tb_time_periods.set_active(False)
-
-			self.lbr_network_refresh_time.set_visible(False)
-			self.lbr_current_location.set_visible(False)
-			self.lbr_custom_location_longitude.set_visible(True)
-			self.lbr_custom_location_latitude.set_visible(True)
-			self.lbr_time_periods.set_visible(False)
+			self.show_location_times_entries(2)
 
 			self.etr_latitude.set_text(str(self.view_model.cinnamon_prefs.latitude_custom))
 			self.etr_longitude.set_text(str(self.view_model.cinnamon_prefs.longitude_custom))
@@ -559,15 +544,7 @@ class Main_Window:
 	def on_toggle_button_time_periods_clicked(self, button: Gtk.ToggleButton):
 		if button.get_active():
 			self.view_model.cinnamon_prefs.period_source = PeriodSourceEnum.CUSTOMTIMEPERIODS
-			self.tb_network_location.set_active(False)
-			self.tb_custom_location.set_active(False)
-
-			self.lbr_network_refresh_time.set_visible(False)
-			self.lbr_current_location.set_visible(False)
-			self.lbr_custom_location_longitude.set_visible(False)
-			self.lbr_custom_location_latitude.set_visible(False)
-			self.lbr_time_periods.set_visible(True)
-			
+			self.show_location_times_entries(3)
 			
 			for i in range(0, 9):
 				pref_value = self.view_model.cinnamon_prefs.period_custom_start_time[i + 1]
@@ -575,7 +552,6 @@ class Main_Window:
 
 				self.spb_periods_hour[i].set_value(time_parts[0])
 				self.spb_periods_minute[i].set_value(time_parts[1])
-
 
 
 	def on_spb_period_value_changed(self, spin_button: Gtk.SpinButton):
@@ -616,6 +592,28 @@ class Main_Window:
 		self.view_model.cinnamon_prefs.location_refresh_intervals = spin_button.get_value()
 
 
+	def on_cb_network_provider_changed(self, combobox: Gtk.ComboBox):
+		""" User changed the provider to estimate the location
+
+		Args:
+				combobox (Gtk.ComboBox): The used ComboBox
+		"""
+		tree_iter = combobox.get_active_iter()
+
+		if tree_iter is not None:
+			model = combobox.get_model()
+			self.view_model.cinnamon_prefs.network_location_provider = model[tree_iter][0]
+
+		success = self.view_model.refresh_location()
+
+		if success:
+			self.lb_current_location.set_text(\
+				"Latitude: " + str(self.view_model.cinnamon_prefs.latitude_auto) + ", Longitude: " + str(self.view_model.cinnamon_prefs.longitude_auto))
+		else:
+			self.dialogs.message_dialog("Error during fetching location. Are you connected to the network?", Gtk.MessageType.ERROR)
+			self.lb_current_location.set_text("Latitude: ?, Longitude: ?")
+
+
 	def on_etr_longitude_changed(self, entry: Gtk.Entry):
 		""" User changes the value of the longitude Entry
 
@@ -624,7 +622,7 @@ class Main_Window:
 		"""
 		try:
 			self.view_model.cinnamon_prefs.longitude_custom = float(entry.get_text())
-			self.refresh_chart()
+			self.refresh_charts()
 		except:
 			pass
 
@@ -637,7 +635,7 @@ class Main_Window:
 		"""
 		try:
 			self.view_model.cinnamon_prefs.latitude_custom = float(entry.get_text())
-			self.refresh_chart()
+			self.refresh_charts()
 		except:
 			pass
 
@@ -645,13 +643,25 @@ class Main_Window:
 	# Behaviour
 	
 	def on_cb_picture_aspect_changed(self, combobox: Gtk.ComboBox):
+		""" User changes the value for the picture aspect ratio
+
+		Args:
+				combobox (Gtk.ComboBox): The used ComboBox
+		"""
 		tree_iter = combobox.get_active_iter()
 
 		if tree_iter is not None:
 			model = combobox.get_model()
 			self.view_model.cinnamon_prefs.picture_aspect = model[tree_iter][0]
-		
-	def on_sw_dynamic_background_color_state_set(self, switch: Gtk.Switch, state):
+
+
+	def on_sw_dynamic_background_color_state_set(self, _: Gtk.Switch, state: bool):
+		""" User switches dynamic background on or off
+
+		Args:
+				_ (Gtk.Switch): Used Switch
+				state (bool): Current state
+		"""
 		self.view_model.cinnamon_prefs.dynamic_background_color = state
 
 

@@ -96,7 +96,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 	_loop: function () {
 		if (looping) {
 			try {
-				Util.spawnCommandLine("/usr/bin/env python3 " + DIRECTORY.path + "/loop.py")
+				Util.spawnCommandLine("/usr/bin/env python3 " + DIRECTORY.path + "/src/main.py loop")
 			} catch(e) {
 				this.showNotification("Error!", 
 					"Cinnamon Dynamic Wallpaper got an error while running the loop script. Please create an issue on GitHub.")

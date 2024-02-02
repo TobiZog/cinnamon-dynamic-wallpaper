@@ -1147,7 +1147,7 @@
                 <property name="selection-mode">none</property>
                 <property name="activate-on-single-click">False</property>
                 <child>
-                  <object class="GtkListBoxRow" id="lbr_network_location">
+                  <object class="GtkListBoxRow" id="lbr_network_refresh_time">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <child>
@@ -1173,11 +1173,54 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSpinButton" id="spb_network_location_refresh_time">
+                          <object class="GtkSpinButton" id="spb_network_refresh_time">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="adjustment">adjustment1</property>
                             <signal name="changed" handler="on_spb_network_location_refresh_time_changed" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkListBoxRow" id="lbr_network_provider">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-left">8</property>
+                        <property name="margin-right">8</property>
+                        <property name="margin-start">8</property>
+                        <property name="margin-end">8</property>
+                        <property name="margin-top">8</property>
+                        <property name="margin-bottom">8</property>
+                        <property name="homogeneous">True</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Location provider</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkComboBox" id="cb_network_provider">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>

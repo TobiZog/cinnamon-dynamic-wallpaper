@@ -8,17 +8,13 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf
 
 # Packages
-import time, subprocess
+import subprocess
 from datetime import timedelta
 
 # Local scripts
 from model.main_view_model import *
-from service.images import *
-from service.suntimes import *
-from service.time_bar_chart import *
-from ui.dialogs import *
+from view.dialogs import *
 from enums.ImageSourceEnum import *
-from enums.NetworkLocationProvider import *
 from enums.PeriodSourceEnum import *
 
 
@@ -43,10 +39,8 @@ class Main_Window:
 
 
 		# Objects from scripts
-		self.images = Images()
 		self.dialogs = Dialogs()
-		self.suntimes = Suntimes()
-		self.time_bar_chart = Time_Bar_Chart()
+
 
 
     # Page 1: Image Configuration
@@ -72,7 +66,7 @@ class Main_Window:
 
 		# Time bar chart
 		self.img_bar_images: Gtk.Image = self.builder.get_object("img_bar_images")
-		self.etr_periods: list[Gtk.Entry] = [
+		self.etr_periods: list[Gtk.Label] = [
 			self.builder.get_object("etr_period_1"), self.builder.get_object("etr_period_2"),
 			self.builder.get_object("etr_period_3"), self.builder.get_object("etr_period_4"),
 			self.builder.get_object("etr_period_5"), self.builder.get_object("etr_period_6"),
@@ -173,17 +167,11 @@ class Main_Window:
 
 		# Page 1: Image Configuration
 		self.add_items_to_combo_box(self.cb_image_set, self.view_model.image_sets)
-
-		self.tb_image_set.set_active(self.view_model.cinnamon_prefs.image_source == ImageSourceEnum.IMAGESET)
-		self.tb_heic_file.set_active(self.view_model.cinnamon_prefs.image_source == ImageSourceEnum.HEICFILE)
-		self.tb_source_folder.set_active(self.view_model.cinnamon_prefs.image_source == ImageSourceEnum.SOURCEFOLDER)
+		self.image_source = self.image_source  # This triggers the @image_source.setter
 
 		# Page 2: Location & Times
 		self.add_items_to_combo_box(self.cb_network_provider, self.view_model.network_location_provider)
-		
-		self.tb_network_location.set_active(self.view_model.cinnamon_prefs.period_source == PeriodSourceEnum.NETWORKLOCATION)
-		self.tb_custom_location.set_active(self.view_model.cinnamon_prefs.period_source == PeriodSourceEnum.CUSTOMLOCATION)
-		self.tb_time_periods.set_active(self.view_model.cinnamon_prefs.period_source == PeriodSourceEnum.CUSTOMTIMEPERIODS)
+		self.period_source = self.period_source	# This triggers the  @period_source.setter
 
 		# Page 3: Behaviour
 		self.add_items_to_combo_box(self.cb_picture_aspect, self.view_model.picture_aspects)
@@ -193,6 +181,81 @@ class Main_Window:
 
 		# Show the main window
 		Gtk.main()
+
+
+	############################################################
+	#                        Observer                          #
+	############################################################
+	
+
+	@property
+	def selected_image_set(self):
+		return self.view_model.cinnamon_prefs.selected_image_set
+	
+	@selected_image_set.setter
+	def selected_image_set(self, new_value):
+		# Save to the preferences
+		self.view_model.cinnamon_prefs.selected_image_set = new_value
+
+		# Refresh images
+		image_names = self.view_model.get_images_from_folder(self.view_model.cinnamon_prefs.source_folder)
+		self.load_image_options_to_combo_boxes(image_names)
+
+		# Image sets have the same names for the images:
+		# 9.jpg = Period 0
+		# 1.jpg = Period 1
+		# 2.jpg = Period 2...
+		for i in range(0, 10):
+			self.cb_periods[i].set_active(i + 1)
+
+
+	@property
+	def image_source(self):
+		return self.view_model.cinnamon_prefs.image_source
+	
+	@image_source.setter
+	def image_source(self, new_value):
+		self.view_model.cinnamon_prefs.image_source = new_value
+
+		# Disable the wrong ToggleButtons
+		self.tb_image_set.set_active(new_value == ImageSourceEnum.IMAGESET)
+		self.tb_heic_file.set_active(new_value == ImageSourceEnum.HEICFILE)
+		self.tb_source_folder.set_active(new_value == ImageSourceEnum.SOURCEFOLDER)
+
+		# Show or hide ListBoxRows
+		self.lbr_image_set.set_visible(new_value == ImageSourceEnum.IMAGESET)
+		self.lbr_heic_file.set_visible(new_value == ImageSourceEnum.HEICFILE)
+		self.lbr_source_folder.set_visible(new_value == ImageSourceEnum.SOURCEFOLDER)
+
+		# Make the comboboxes invisible
+		for combobox in self.cb_periods:
+			combobox.set_visible(new_value != ImageSourceEnum.IMAGESET)
+
+
+	@property
+	def period_source(self):
+		return self.view_model.cinnamon_prefs.period_source
+
+
+	@period_source.setter
+	def period_source(self, new_value):
+		self.view_model.cinnamon_prefs.period_source = new_value
+
+		self.tb_network_location.set_active(new_value == PeriodSourceEnum.NETWORKLOCATION)
+		self.tb_custom_location.set_active(new_value == PeriodSourceEnum.CUSTOMLOCATION)
+		self.tb_time_periods.set_active(new_value == PeriodSourceEnum.CUSTOMTIMEPERIODS)
+
+		# Show/Hide the right ListBoxRows
+		self.lbr_network_refresh_time.set_visible(new_value == PeriodSourceEnum.NETWORKLOCATION)
+		self.lbr_network_provider.set_visible(new_value == PeriodSourceEnum.NETWORKLOCATION)
+		self.lbr_current_location.set_visible(new_value == PeriodSourceEnum.NETWORKLOCATION)
+		self.lbr_custom_location_longitude.set_visible(new_value == PeriodSourceEnum.CUSTOMLOCATION)
+		self.lbr_custom_location_latitude.set_visible(new_value == PeriodSourceEnum.CUSTOMLOCATION)
+		self.lbr_time_periods.set_visible(new_value == PeriodSourceEnum.CUSTOMTIMEPERIODS)
+
+		self.refresh_charts_and_times()
+
+
 
 
 	############################################################
@@ -212,6 +275,21 @@ class Main_Window:
 			row = list_store[i]
 			if row[0] == active_item:
 				combobox.set_active(i)
+
+
+	def get_active_combobox_item(self, combobox: Gtk.ComboBox) -> str:
+		""" Request the current selected combobox label
+
+		Args:
+				combobox (Gtk.ComboBox): ComboBox where to get value from
+
+		Returns:
+				str: Selected value
+		"""
+		tree_iter = combobox.get_active_iter()
+
+		model = combobox.get_model()
+		return model[tree_iter][0]
 
 
 	def add_items_to_combo_box(self, combobox: Gtk.ComboBox, items: list):
@@ -265,13 +343,24 @@ class Main_Window:
 
 			image_preview.set_from_pixbuf(pixbuf)
 		except:
-			self.dialogs.message_dialog("Error on load images. Please check the configuration!", Gtk.MessageType.ERROR)
+			pass
 
 
-	def refresh_charts(self):
+	def refresh_charts_and_times(self):
 		""" Refresh the charts and put them to the image views
 		"""
 		self.view_model.refresh_charts()
+		start_times = self.view_model.calulate_time_periods()
+
+		for i in range(0, 10):
+			label_txt = self.view_model.time_to_string_converter(start_times[i]) + " - "
+
+			if i != 9:
+				label_txt += self.view_model.time_to_string_converter(start_times[i + 1])
+			else:
+				label_txt += "23:59"
+
+			self.etr_periods[i].set_text(label_txt)
 
 		# Load to the views
 		pixbuf = GdkPixbuf.Pixbuf.new_from_file(self.view_model.TIMEBAR_URI_POLYLINES)
@@ -287,22 +376,6 @@ class Main_Window:
 	#													Callbacks											 	 #
 	############################################################
 
-	## Image Configuration
-	
-	def show_image_configuration_entries(self, button_id: int):
-		self.tb_image_set.set_active(button_id == 1)
-		self.tb_heic_file.set_active(button_id == 2)
-		self.tb_source_folder.set_active(button_id == 3)
-
-		self.lbr_image_set.set_visible(button_id == 1)
-		self.lbr_heic_file.set_visible(button_id == 2)
-		self.lbr_source_folder.set_visible(button_id == 3)
-
-		# Make the comboboxes invisible
-		for combobox in self.cb_periods:
-			combobox.set_visible(button_id != 1)
-
-
 	# +-----------+-----------+---------------+
 	# | Image Set | HEIC file | Source Folder |
 	# +-----------+-----------+---------------+
@@ -314,10 +387,9 @@ class Main_Window:
 				button (Gtk.ToggleButton): Clicked ToggleButton
 		"""
 		if button.get_active():
-			self.view_model.cinnamon_prefs.image_source = ImageSourceEnum.IMAGESET
-			self.show_image_configuration_entries(1)
+			self.image_source = ImageSourceEnum.IMAGESET
 
-			self.set_active_combobox_item(self.cb_image_set, self.view_model.cinnamon_prefs.selected_image_set)
+			self.set_active_combobox_item(self.cb_image_set, self.selected_image_set)
 
 			for i, combobox in enumerate(self.cb_periods):
 				selected_image_name = self.view_model.cinnamon_prefs.period_images[i]
@@ -331,11 +403,10 @@ class Main_Window:
 				button (Gtk.ToggleButton): Clicked ToggleButton
 		"""
 		if button.get_active():
-			self.view_model.cinnamon_prefs.image_source = ImageSourceEnum.HEICFILE
-			self.show_image_configuration_entries(2)
+			self.image_source = ImageSourceEnum.HEICFILE
 
 			# Load images from source folder
-			files = self.images.get_images_from_folder(self.view_model.cinnamon_prefs.source_folder)
+			files = self.view_model.get_images_from_folder(self.view_model.cinnamon_prefs.source_folder)
 
 			if len(files) != 0:
 				self.load_image_options_to_combo_boxes(files)
@@ -354,15 +425,14 @@ class Main_Window:
 				button (Gtk.ToggleButton): Clicked ToggleButton
 		"""
 		if button.get_active():
-			self.view_model.cinnamon_prefs.image_source = ImageSourceEnum.SOURCEFOLDER
-			self.show_image_configuration_entries(3)
+			self.image_source = ImageSourceEnum.SOURCEFOLDER
 
 			# Load the source folder to the view
 			# This will update the comboboxes in the preview to contain the right items
 			self.lbl_source_folder.set_label(self.view_model.cinnamon_prefs.source_folder)
 
 			# Load files from saved source folder
-			files = self.images.get_images_from_folder(self.view_model.cinnamon_prefs.source_folder)
+			files = self.view_model.get_images_from_folder(self.view_model.cinnamon_prefs.source_folder)
 
 			if len(files) != 0:
 				self.load_image_options_to_combo_boxes(files)
@@ -385,29 +455,16 @@ class Main_Window:
 		Args:
 				combobox (Gtk.ComboBox): The used ComboBox
 		"""
-		tree_iter = combobox.get_active_iter()
-
-		if tree_iter is not None and self.view_model.cinnamon_prefs.image_source == ImageSourceEnum.IMAGESET:
+		if self.view_model.cinnamon_prefs.image_source == ImageSourceEnum.IMAGESET:
 			# Get the selected value
-			model = combobox.get_model()
-			selected_image_set = model[tree_iter][0]
+			selected_image_set = self.get_active_combobox_item(combobox)
 
 			# Store to the preferences
-			self.view_model.cinnamon_prefs.selected_image_set = selected_image_set
 			self.view_model.cinnamon_prefs.source_folder = \
 				self.view_model.IMAGES_DIR + "/included_image_sets/" + selected_image_set + "/"
 			
-			# Load all possible options to the comboboxes
-			image_names = self.images.get_images_from_folder(self.view_model.cinnamon_prefs.source_folder)
-			self.load_image_options_to_combo_boxes(image_names)
-
-			# Image sets have the same names for the images:
-			# 9.jpg = Period 0
-			# 1.jpg = Period 1
-			# 2.jpg = Period 2...
-			for i in range(0, 10):
-				self.cb_periods[i].set_active(i + 1)
-
+			self.selected_image_set = selected_image_set
+	
 
 	# +----------------------------------------------+
 	# | Select a heic file to import     | (None) 📄 |
@@ -423,7 +480,7 @@ class Main_Window:
 		file_path: str = fc_button.get_filename()
 
 		# Extract the heic file
-		result = self.images.extract_heic_file(file_path)
+		result = self.view_model.extract_heic_file(file_path)
 
 		# Update the preferences
 		self.view_model.cinnamon_prefs.selected_image_set = ""
@@ -432,7 +489,7 @@ class Main_Window:
 		# Load images only if the extraction was successfully
 		if result:
 			# Collect all extracted images and push them to the comboboxes
-			image_names = self.images.get_images_from_folder(self.view_model.cinnamon_prefs.source_folder)
+			image_names = self.view_model.get_images_from_folder(self.view_model.cinnamon_prefs.source_folder)
 			self.load_image_options_to_combo_boxes(image_names)
 		else:
 			self.dialogs.message_dialog("Error during extraction!", Gtk.MessageType.ERROR)
@@ -450,7 +507,7 @@ class Main_Window:
 				button (Gtk.Button): The clicked button
 		"""
 		folder = self.dialogs.source_folder_dialog()
-		files = self.images.get_images_from_folder(folder)
+		files = self.view_model.get_images_from_folder(folder)
 
 		# Update the preferences
 		self.view_model.cinnamon_prefs.selected_image_set = ""
@@ -476,45 +533,22 @@ class Main_Window:
 		Args:
 				combobox (Gtk.ComboBox): The used ComboBox
 		"""
-		tree_iter = combobox.get_active_iter()
-
 		combobox_name = Gtk.Buildable.get_name(combobox)
 		period_index = int(combobox_name[10:11])
 
-		if tree_iter is not None:
-			# Get the selected value
-			model = combobox.get_model()
-			image_file_name = model[tree_iter][0]
+		# Get the selected value
+		image_file_name = self.get_active_combobox_item(combobox)
 
-			# Store selection to preferences
-			self.view_model.cinnamon_prefs.period_images[period_index] = image_file_name
+		# Store selection to preferences
+		self.view_model.cinnamon_prefs.period_images[period_index] = image_file_name
 
-			# Build up image path
-			image_path = self.view_model.cinnamon_prefs.source_folder + image_file_name
+		# Build up image path
+		image_path = self.view_model.cinnamon_prefs.source_folder + image_file_name
 
-			self.load_image_to_preview(self.img_periods[period_index], image_path)
+		self.load_image_to_preview(self.img_periods[period_index], image_path)
 	
 
 	## Location & Times
-			
-	def show_location_times_entries(self, button_id: int):
-		""" Show or hide parts of the Locations & Times menu
-
-		Args:
-				button_id (int): ID of the button, 1 = Network, 2 = Custom Location, 3 = Custom Time Periods
-		"""
-		self.tb_network_location.set_active(button_id == 1)
-		self.tb_custom_location.set_active(button_id == 2)
-		self.tb_time_periods.set_active(button_id == 3)
-
-		# Show/Hide the right ListBoxRows
-		self.lbr_network_refresh_time.set_visible(button_id == 1)
-		self.lbr_network_provider.set_visible(button_id == 1)
-		self.lbr_current_location.set_visible(button_id == 1)
-		self.lbr_custom_location_longitude.set_visible(button_id == 2)
-		self.lbr_custom_location_latitude.set_visible(button_id == 2)
-		self.lbr_time_periods.set_visible(button_id == 3)
-
 
 	def on_toggle_button_network_location_clicked(self, button: Gtk.ToggleButton):
 		""" User clicks on the ToggleButton for the network location
@@ -523,19 +557,15 @@ class Main_Window:
 				button (Gtk.ToggleButton): Clicked ToggleButton
 		"""
 		if button.get_active():
-			self.view_model.cinnamon_prefs.period_source = PeriodSourceEnum.NETWORKLOCATION
-			self.show_location_times_entries(1)
+			self.period_source = PeriodSourceEnum.NETWORKLOCATION
 
 			self.spb_network_refresh_time.set_value(self.view_model.cinnamon_prefs.location_refresh_intervals)
 			self.set_active_combobox_item(self.cb_network_provider, self.view_model.cinnamon_prefs.network_location_provider)
 
-			self.refresh_charts()
-
 
 	def on_toggle_button_custom_location_clicked(self, button: Gtk.ToggleButton):
 		if button.get_active():
-			self.view_model.cinnamon_prefs.period_source = PeriodSourceEnum.CUSTOMLOCATION
-			self.show_location_times_entries(2)
+			self.period_source = PeriodSourceEnum.CUSTOMLOCATION
 
 			self.etr_latitude.set_text(str(self.view_model.cinnamon_prefs.latitude_custom))
 			self.etr_longitude.set_text(str(self.view_model.cinnamon_prefs.longitude_custom))
@@ -543,8 +573,7 @@ class Main_Window:
 
 	def on_toggle_button_time_periods_clicked(self, button: Gtk.ToggleButton):
 		if button.get_active():
-			self.view_model.cinnamon_prefs.period_source = PeriodSourceEnum.CUSTOMTIMEPERIODS
-			self.show_location_times_entries(3)
+			self.period_source = PeriodSourceEnum.CUSTOMTIMEPERIODS
 			
 			for i in range(0, 9):
 				pref_value = self.view_model.cinnamon_prefs.period_custom_start_time[i + 1]
@@ -580,7 +609,7 @@ class Main_Window:
 		self.lb_period_end[index].set_text(str(time_previous_end.hour).rjust(2, '0') + ":" + str(time_previous_end.minute).rjust(2, '0'))
 
 
-		self.refresh_charts()
+		self.refresh_charts_and_times()
 
 
 	def on_spb_network_location_refresh_time_changed(self, spin_button: Gtk.SpinButton):
@@ -598,11 +627,7 @@ class Main_Window:
 		Args:
 				combobox (Gtk.ComboBox): The used ComboBox
 		"""
-		tree_iter = combobox.get_active_iter()
-
-		if tree_iter is not None:
-			model = combobox.get_model()
-			self.view_model.cinnamon_prefs.network_location_provider = model[tree_iter][0]
+		self.view_model.cinnamon_prefs.network_location_provider = self.get_active_combobox_item(combobox)
 
 		success = self.view_model.refresh_location()
 
@@ -622,7 +647,7 @@ class Main_Window:
 		"""
 		try:
 			self.view_model.cinnamon_prefs.longitude_custom = float(entry.get_text())
-			self.refresh_charts()
+			self.refresh_charts_and_times()
 		except:
 			pass
 
@@ -635,7 +660,7 @@ class Main_Window:
 		"""
 		try:
 			self.view_model.cinnamon_prefs.latitude_custom = float(entry.get_text())
-			self.refresh_charts()
+			self.refresh_charts_and_times()
 		except:
 			pass
 
@@ -648,11 +673,7 @@ class Main_Window:
 		Args:
 				combobox (Gtk.ComboBox): The used ComboBox
 		"""
-		tree_iter = combobox.get_active_iter()
-
-		if tree_iter is not None:
-			model = combobox.get_model()
-			self.view_model.cinnamon_prefs.picture_aspect = model[tree_iter][0]
+		self.view_model.cinnamon_prefs.picture_aspect = self.get_active_combobox_item(combobox)
 
 
 	def on_sw_dynamic_background_color_state_set(self, _: Gtk.Switch, state: bool):
@@ -700,7 +721,10 @@ class Main_Window:
 		try:
 			self.on_apply()
 		except:
-			pass
+			self.dialogs.message_dialog(
+				"Error on apply the settings. Please check the settings and contact the developer.", 
+				Gtk.MessageType.ERROR
+			)
 
 		# Close the window
 		self.on_destroy()
@@ -713,8 +737,9 @@ class Main_Window:
 		self.view_model.cinnamon_prefs.store_preferences()
 
 		# Use the new settings
-		# todo loop = Loop()
-		#loop.exchange_image()
+		self.view_model.refresh_image()
+		self.view_model.set_background_gradient()
+
 
 	def on_destroy(self, *args):
 		""" Lifecycle handler when window will be destroyed

@@ -127,8 +127,7 @@ CinnamonDynamicWallpaperExtension.prototype = {
 			notification.addButton("open-settings", _("Open settings"));
 
 			notification.connect("action-invoked", () =>
-				Util.spawnCommandLine("/usr/bin/env python3 " +
-					DIRECTORY.path + "/preferences.py"));
+				Util.spawnCommandLine("/usr/bin/env python3 " + DIRECTORY.path + "/src/main.py"));
 		}
 
 		// Put all together

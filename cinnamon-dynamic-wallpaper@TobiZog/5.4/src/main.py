@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import sys
-from ui.main_window import *
+from view.main_window import *
 from model.main_view_model import *
 
 if __name__ == "__main__":

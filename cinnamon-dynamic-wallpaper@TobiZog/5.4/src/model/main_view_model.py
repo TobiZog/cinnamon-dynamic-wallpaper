@@ -1,8 +1,7 @@
-import os, json
+import os
 from PIL import Image
-from gi.repository import Gio
+from gi.repository import Gio, Gdk
 
-from service.display import *
 from service.cinnamon_pref_handler import *
 from service.suntimes import *
 from service.time_bar_chart import *
@@ -10,7 +9,12 @@ from service.location import *
 from enums.PeriodSourceEnum import *
 
 class Main_View_Model:
+	""" The main ViewModel for the application
+	"""
+
 	def __init__(self) -> None:
+		""" Initialization
+		"""
 		# Paths
 		self.WORKING_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 		self.RES_DIR = self.WORKING_DIR + "/res"
@@ -27,7 +31,6 @@ class Main_View_Model:
 		self.network_location_provider = ["geojs.io", "ip-api.com", "ipwho.is"]
 
 		# Objects from scripts
-		self.screen_height = Display().get_screen_height()
 		self.cinnamon_prefs = Cinnamon_Pref_Handler()
 		self.time_bar_chart = Time_Bar_Chart()
 		self.suntimes = Suntimes()
@@ -35,11 +38,15 @@ class Main_View_Model:
 
 		self.background_settings = Gio.Settings.new("org.cinnamon.desktop.background")
 
-		# Breakpoint for smaller UI
+		# Other Variables
+		self.display = Gdk.Display.get_default()
+		self.screen_height = self.display.get_monitor(0).get_geometry().height
 		self.breakpoint_ui = 1000
 
 
 	def refresh_charts(self):
+		""" Refreshes the two variants of the time bar charts
+		"""
 		# Stores the start times of the periods in minutes since midnight
 		time_periods_min = []
 
@@ -89,7 +96,7 @@ class Main_View_Model:
 		return current_location['success']
 	
 
-	def string_to_time_converter(raw_str: str) -> time:
+	def string_to_time_converter(self, raw_str: str) -> time:
 		""" Convert a time string like "12:34" to a time object
 
 		Args:
@@ -102,23 +109,32 @@ class Main_View_Model:
 		minute = raw_str[raw_str.find(":") + 1:]
 
 		return time(hour=int(hour), minute=int(minute))
+	
+
+	def time_to_string_converter(self, time: time) -> str:
+		""" Convert a time object to a string like "12:34"
+
+		Args:
+				time (time): Given time object to convert
+
+		Returns:
+				str: Converted string
+		"""
+		return "{:0>2}:{:0>2}".format(time.hour, time.minute)
 
 
-	def calulate_time_periods(self) -> list:
+	def calulate_time_periods(self) -> list[time]:
+		""" Calculate the ten time periods based on the period source in the preferences
+
+		Returns:
+				list[time]: Time periods
+		"""
+		result = []
+
 		if self.cinnamon_prefs.period_source == PeriodSourceEnum.CUSTOMTIMEPERIODS:
 			# User uses custom time periods
-			return [
-				self.string_to_time_converter(self.cinnamon_prefs.period_custom_start_time[0]),
-        self.string_to_time_converter(self.cinnamon_prefs.period_custom_start_time[1]),
-        self.string_to_time_converter(self.cinnamon_prefs.period_custom_start_time[2]),
-        self.string_to_time_converter(self.cinnamon_prefs.period_custom_start_time[3]),
-        self.string_to_time_converter(self.cinnamon_prefs.period_custom_start_time[4]),
-        self.string_to_time_converter(self.cinnamon_prefs.period_custom_start_time[5]),
-        self.string_to_time_converter(self.cinnamon_prefs.period_custom_start_time[6]),
-        self.string_to_time_converter(self.cinnamon_prefs.period_custom_start_time[7]),
-        self.string_to_time_converter(self.cinnamon_prefs.period_custom_start_time[8]),
-        self.string_to_time_converter(self.cinnamon_prefs.period_custom_start_time[9])
-			]
+			for i in range(0, 10):
+				result.append(self.string_to_time_converter(self.cinnamon_prefs.period_custom_start_time[i]))
 		else:
 			# Time periods have to be estimate by coordinates
 			if self.cinnamon_prefs.period_source == PeriodSourceEnum.NETWORKLOCATION:
@@ -131,7 +147,9 @@ class Main_View_Model:
 				self.suntimes.calc_suntimes(self.cinnamon_prefs.latitude_custom, self.cinnamon_prefs.longitude_custom)
 
 			# Return the time periods
-			return self.suntimes.day_periods
+			result = self.suntimes.day_periods
+		
+		return result
 
 
 	def refresh_image(self):
@@ -149,13 +167,65 @@ class Main_View_Model:
 			# Replace the image URI, if it's not the last time period of the day
 			if start_times[i] <= time_now and time_now < start_times[i + 1]:
 				self.current_image_uri = self.cinnamon_prefs.source_folder + self.cinnamon_prefs.period_images[i]
-			break
+				break
 
 		# Set the background
 		self.background_settings['picture-uri'] = "file://" + self.current_image_uri
 
 		# Set background stretching
 		self.background_settings['picture-options'] = self.cinnamon_prefs.picture_aspect
+
+	
+	def get_images_from_folder(self, URI: str) -> list:
+		""" List all images in a folder
+
+		Args:
+				URI (str): Absolute path of the folder
+
+		Returns:
+				list: List of file names which are images
+		"""
+		items = []
+
+		for file in os.listdir(URI):
+			if file.endswith(("jpg", "jpeg", "png", "bmp", "svg")):
+				items.append(file)
+
+		items.sort()
+		return items
+	
+
+	def extract_heic_file(self, file_uri: str) -> bool:
+		""" Extract a heic file to an internal folder
+
+		Args:
+				file_uri (str): Absolute path to the heic file
+
+		Returns:
+				bool: Extraction was successful
+		"""
+		try:
+			extract_folder = self.IMAGES_DIR + "/extracted_images/"
+
+			file_name: str = file_uri[file_uri.rfind("/") + 1:]
+			file_name = file_name[:file_name.rfind(".")]
+
+			# Create the buffer folder if its not existing
+			try:
+				os.mkdir(extract_folder)
+			except:
+				pass
+
+			# Cleanup the folder
+			for file in self.get_images_from_folder(extract_folder):
+				os.remove(extract_folder + file)
+
+			# Extract the HEIC file
+			os.system("heif-convert '" + file_uri + "' '" + extract_folder + file_name + ".jpg'")
+
+			return True
+		except:
+			return False
 
 
 	def set_background_gradient(self):

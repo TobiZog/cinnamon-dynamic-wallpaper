@@ -32,11 +32,10 @@ class Dialogs(Gtk.Window):
     dialog.set_default_size(800, 400)
 
     response = dialog.run()
+    location = ""
 
     if response == Gtk.ResponseType.OK:
       location = dialog.get_filename()
-    elif response == Gtk.ResponseType.CANCEL:
-      location = ""
 
     dialog.destroy()
 

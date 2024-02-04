@@ -8,8 +8,8 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf
 
 # Packages
-import subprocess
-from datetime import timedelta
+import subprocess, threading, time
+from datetime import timedelta, datetime, date
 
 # Local scripts
 from model.main_view_model import *
@@ -335,7 +335,7 @@ class Main_Window:
 		try:
 			pixbuf = GdkPixbuf.Pixbuf.new_from_file(image_src)
 
-			# Scaling the images smaller for screens
+			# Scaling the images for smaller screens
 			if self.view_model.screen_height < self.view_model.breakpoint_ui:
 				pixbuf = pixbuf.scale_simple(221, 128, GdkPixbuf.InterpType.BILINEAR)
 			else:
@@ -356,7 +356,9 @@ class Main_Window:
 			label_txt = self.view_model.time_to_string_converter(start_times[i]) + " - "
 
 			if i != 9:
-				label_txt += self.view_model.time_to_string_converter(start_times[i + 1])
+				diff = timedelta(hours=start_times[i + 1].hour, minutes=start_times[i + 1].minute) - timedelta(minutes=1)
+				prev_time = time(hour=diff.seconds // 3600, minute=diff.seconds // 60 % 60)
+				label_txt += self.view_model.time_to_string_converter(prev_time)
 			else:
 				label_txt += "23:59"
 
@@ -627,16 +629,21 @@ class Main_Window:
 		Args:
 				combobox (Gtk.ComboBox): The used ComboBox
 		"""
+		def network_refresh_thread():
+			success = self.view_model.refresh_location()
+
+			if success:
+				self.lb_current_location.set_text(\
+					"Latitude: " + str(self.view_model.cinnamon_prefs.latitude_auto) + ", Longitude: " + str(self.view_model.cinnamon_prefs.longitude_auto))
+			else:
+				self.dialogs.message_dialog("Error during fetching location. Are you connected to the network?", Gtk.MessageType.ERROR)
+				self.lb_current_location.set_text("Latitude: ?, Longitude: ?")
+
+
 		self.view_model.cinnamon_prefs.network_location_provider = self.get_active_combobox_item(combobox)
 
-		success = self.view_model.refresh_location()
-
-		if success:
-			self.lb_current_location.set_text(\
-				"Latitude: " + str(self.view_model.cinnamon_prefs.latitude_auto) + ", Longitude: " + str(self.view_model.cinnamon_prefs.longitude_auto))
-		else:
-			self.dialogs.message_dialog("Error during fetching location. Are you connected to the network?", Gtk.MessageType.ERROR)
-			self.lb_current_location.set_text("Latitude: ?, Longitude: ?")
+		thread = threading.Thread(target=network_refresh_thread)
+		thread.start()
 
 
 	def on_etr_longitude_changed(self, entry: Gtk.Entry):

@@ -2471,6 +2471,23 @@
             <property name="margin-top">8</property>
             <property name="margin-bottom">8</property>
             <property name="orientation">vertical</property>
+            <property name="spacing">8</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Scaling</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
             <child>
               <object class="GtkListBox">
                 <property name="visible">True</property>
@@ -2492,6 +2509,7 @@
                         <property name="margin-end">12</property>
                         <property name="margin-top">12</property>
                         <property name="margin-bottom">12</property>
+                        <property name="homogeneous">True</property>
                         <child>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
@@ -2522,6 +2540,36 @@
                     </child>
                   </object>
                 </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="padding">3</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Dynamic Background color</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkListBox">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="selection-mode">none</property>
+                <property name="activate-on-single-click">False</property>
                 <child>
                   <object class="GtkListBoxRow">
                     <property name="visible">True</property>
@@ -2542,7 +2590,7 @@
                             <property name="can-focus">False</property>
                             <property name="halign">start</property>
                             <property name="hexpand">True</property>
-                            <property name="label" translatable="yes">Dynamic Background color</property>
+                            <property name="label" translatable="yes">Use dynamic Background color to create a gradient</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2554,7 +2602,6 @@
                           <object class="GtkSwitch" id="sw_dynamic_background_color">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
-                            <signal name="state-set" handler="on_sw_dynamic_background_color_state_set" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2571,7 +2618,19 @@
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="padding">3</property>
-                <property name="position">0</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="pixbuf">images/dynamic_background_example.png</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
               </packing>
             </child>
           </object>

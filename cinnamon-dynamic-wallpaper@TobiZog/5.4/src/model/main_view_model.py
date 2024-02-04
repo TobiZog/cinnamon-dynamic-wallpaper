@@ -1,4 +1,4 @@
-import os
+import os, time
 from PIL import Image
 from gi.repository import Gio, Gdk
 
@@ -83,6 +83,7 @@ class Main_View_Model:
 	
 	def refresh_location(self) -> bool:
 		""" Updating the location by IP, store the result to cinnamon_prefs
+				Run it in a parallel thread to avoid UI freeze!
 
 		Returns:
 				bool: Successful or not
@@ -108,10 +109,12 @@ class Main_View_Model:
 		hour = raw_str[0:raw_str.find(":")]
 		minute = raw_str[raw_str.find(":") + 1:]
 
+		time(1, 2)
+
 		return time(hour=int(hour), minute=int(minute))
 	
 
-	def time_to_string_converter(self, time: time) -> str:
+	def time_to_string_converter(self, _time: time) -> str:
 		""" Convert a time object to a string like "12:34"
 
 		Args:
@@ -120,7 +123,7 @@ class Main_View_Model:
 		Returns:
 				str: Converted string
 		"""
-		return "{:0>2}:{:0>2}".format(time.hour, time.minute)
+		return "{:0>2}:{:0>2}".format(_time.hour, _time.minute)
 
 
 	def calulate_time_periods(self) -> list[time]:
@@ -139,7 +142,6 @@ class Main_View_Model:
 			# Time periods have to be estimate by coordinates
 			if self.cinnamon_prefs.period_source == PeriodSourceEnum.NETWORKLOCATION:
 				# Get coordinates from the network
-				self.refresh_location()
 				self.suntimes.calc_suntimes(self.cinnamon_prefs.latitude_auto, self.cinnamon_prefs.longitude_auto)
 
 			elif self.cinnamon_prefs.period_source == PeriodSourceEnum.CUSTOMLOCATION:

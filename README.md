@@ -1,5 +1,5 @@
 # Cinnamon Dynamic Wallpaper
-<img src="cinnamon-dynamic-wallpaper@TobiZog/5.4/icons/icon.svg" alt="drawing" width="200" style="margin-left:auto; margin-right:auto; width:50%; display:block"/>
+<img src="cinnamon-dynamic-wallpaper@TobiZog/5.4/res/icons/icon.svg" alt="drawing" width="200" style="margin-left:auto; margin-right:auto; width:50%; display:block"/>
 
 ![](res/wallpaper_merged.jpg)
 
@@ -43,7 +43,7 @@ This extension switches the background image of your Cinnamon desktop multiple t
 3. Search and download it
 
 ### From the repo
-1. Download the Repository
+1. Download the latest from the Releases page on GitHub: https://github.com/TobiZog/cinnamon-dynamic-wallpaper/releases
 2. Extract the files
 3. Copy the folder `cinnamon-dynamic-wallpaper@TobiZog` to `~/.local/share/cinnamon/extensions/`
 ---
@@ -66,12 +66,12 @@ The image sets are from https://github.com/adi1090x/dynamic-wallpaper
 
 | Aurora | Beach | Bitday |
 | ------ | ----- | ------ |
-| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/aurora/5.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/beach/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/bitday/4.jpg) |
+| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/aurora/5.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/beach/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/bitday/4.jpg) |
 
 | Cliffs | Earth | Gradient | 
 | -------- | --------- | ------ |
-| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/cliffs/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/earth/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/gradient/4.jpg) | 
+| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/cliffs/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/earth/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/gradient/4.jpg) | 
 
 | Lakeside | Mountains | Sahara |
 | --------- | ------ | ------ |
-| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/lakeside/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/mountains/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/images/included_image_sets/sahara/4.jpg) |
+| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/lakeside/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/mountains/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/sahara/4.jpg) |

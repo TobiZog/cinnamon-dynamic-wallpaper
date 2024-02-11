@@ -1,0 +1,237 @@
+# SOME DESCRIPTIVE TITLE.
+# This file is put in the public domain.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: cinnamon-dynamic-wallpaper@TobiZog 2.2\n"
+"Report-Msgid-Bugs-To: https://github.com/linuxmint/cinnamon-spices-"
+"extensions/issues\n"
+"POT-Creation-Date: 2024-02-11 19:14+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: 5.4/extension.js:127
+msgid "Open settings"
+msgstr ""
+
+#. metadata.json->name
+msgid "Cinnamon Dynamic Wallpaper"
+msgstr ""
+
+#. metadata.json->description
+msgid ""
+"Cinnamon extension for dynamic desktop backgrounds based on time and location"
+msgstr ""
+
+#: 5.4/res/preferences.glade:135
+msgid "Image Source"
+msgstr ""
+
+#: 5.4/res/preferences.glade:186
+msgid "Image Set"
+msgstr ""
+
+#: 5.4/res/preferences.glade:236
+msgid "HEIC file"
+msgstr ""
+
+#: 5.4/res/preferences.glade:286
+msgid "Source Folder"
+msgstr ""
+
+#: 5.4/res/preferences.glade:336
+msgid "Select an image set"
+msgstr ""
+
+#: 5.4/res/preferences.glade:379
+msgid "Select a heic file to import"
+msgstr ""
+
+#: 5.4/res/preferences.glade:430
+msgid "Select a source folder"
+msgstr ""
+
+#: 5.4/res/preferences.glade:440
+msgid "Open file selection dialog"
+msgstr ""
+
+#: 5.4/res/preferences.glade:492
+msgid "Image Selection"
+msgstr ""
+
+#: 5.4/res/preferences.glade:930
+msgid "Image Configuration"
+msgstr ""
+
+#: 5.4/res/preferences.glade:948
+msgid "Period estimation"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1001
+msgid "Use Network Location"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1051
+msgid "Custom Location"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1103
+msgid "Custom Time Periods"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1132
+msgid "Location estimation"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1167
+msgid "Interval time to refresh location via network (min)"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1212
+msgid "Location provider"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1274
+msgid "Latitude"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1317
+msgid "Longitude"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1357
+msgid "Period 1"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1371
+msgid "Period 2"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1385
+msgid "Period 3"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1399
+msgid "Period 4"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1413
+msgid "Period 5"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1914
+msgid "Period 6"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1928
+msgid "Period 7"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1942
+msgid "Period 9"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1956
+msgid "Period 8"
+msgstr ""
+
+#: 5.4/res/preferences.glade:1970
+msgid "Period 10"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2461
+msgid "Location & Times"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2480
+msgid "Scaling"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2519
+msgid "Picture aspect"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2556
+msgid "Dynamic Background color"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2593
+msgid "Use dynamic Background color to create a gradient"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2639
+msgid "Behaviour"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2658
+msgid "About the project"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2687
+msgid ""
+"Based on a location or by user choice, this extensions calculates the "
+"periods of a day and switches the background image of your Cinnamon desktop. "
+"The extension offers as image sources a set of preconfigured wallpapers, a "
+"heic image import by the user or a custom folder with single images."
+msgstr ""
+
+#: 5.4/res/preferences.glade:2706
+msgid "Developed by TobiZog"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2723
+msgid ""
+"If you need more information or want to rate the extension, you can visit "
+"the Cinnamon Spices Website."
+msgstr ""
+
+#: 5.4/res/preferences.glade:2734
+msgid "Cinnamon Dynamic Wallpaper at Cinnamon Spices Website"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2759
+msgid "Source Code"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2788
+msgid ""
+"This project is Open Source. You can take a look inside the whole source "
+"code of this extension on GitHub."
+msgstr ""
+
+#: 5.4/res/preferences.glade:2799
+msgid "Source Code on GitHub"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2824
+msgid "Issues and Enhancements"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2853
+msgid ""
+"Do you find an issue? Or want a new feature? Go to the GitHub repository and "
+"create a new issue."
+msgstr ""
+
+#: 5.4/res/preferences.glade:2864
+msgid "Create a new issue on GitHub"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2889
+msgid "About"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2917
+msgid "Apply and close this window"
+msgstr ""
+
+#: 5.4/res/preferences.glade:2929
+msgid "Apply the settings without closing this window"
+msgstr ""

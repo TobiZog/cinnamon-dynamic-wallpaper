@@ -8,7 +8,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf
 
 # Packages
-import subprocess, threading, time
+import subprocess, threading, time, locale
 from datetime import timedelta, datetime, date
 
 # Local scripts
@@ -16,6 +16,11 @@ from model.main_view_model import *
 from view.dialogs import *
 from enums.ImageSourceEnum import *
 from enums.PeriodSourceEnum import *
+
+UUID = "cinnamon-dynamic-wallpaper@TobiZog"
+
+localeDir = os.path.expanduser("~") + "/.local/share/locale"
+locale.bindtextdomain(UUID, localeDir)
 
 
 class Main_Window:
@@ -34,6 +39,7 @@ class Main_Window:
 
 		# Glade
 		self.builder = Gtk.Builder()
+		self.builder.set_translation_domain(UUID)
 		self.builder.add_from_file(self.view_model.GLADE_URI)
 		self.builder.connect_signals(self)
 

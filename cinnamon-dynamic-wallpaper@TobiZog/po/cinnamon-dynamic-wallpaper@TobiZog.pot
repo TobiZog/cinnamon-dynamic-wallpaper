@@ -5,10 +5,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: cinnamon-dynamic-wallpaper@TobiZog 2.2\n"
+"Project-Id-Version: cinnamon-dynamic-wallpaper@TobiZog 2.3\n"
 "Report-Msgid-Bugs-To: https://github.com/linuxmint/cinnamon-spices-"
 "extensions/issues\n"
-"POT-Creation-Date: 2024-02-11 19:14+0100\n"
+"POT-Creation-Date: 2024-02-12 12:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,25 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: 5.4/extension.js:127
+#: 5.4/extension.js:75
+msgid "Welcome to Cinnamon Dynamic Wallpaper"
+msgstr ""
+
+#: 5.4/extension.js:76
+msgid "Check the preferences to choose a dynamic wallpaper"
+msgstr ""
+
+#: 5.4/extension.js:113
+msgid "Error!"
+msgstr ""
+
+#: 5.4/extension.js:114
+msgid ""
+"Cinnamon Dynamic Wallpaper got an error while running the loop script. "
+"Please create an issue on GitHub."
+msgstr ""
+
+#: 5.4/extension.js:139
 msgid "Open settings"
 msgstr ""
 

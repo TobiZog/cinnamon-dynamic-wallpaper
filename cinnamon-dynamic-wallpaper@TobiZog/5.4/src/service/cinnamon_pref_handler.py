@@ -73,6 +73,8 @@ class Cinnamon_Pref_Handler:
       self.extract_json('period_9_custom_start_time')
     ]
 
+    self.login_image = self.extract_json('login_image')
+
 
   def value_to_json(self, parameter: str, value: str):
     """ Storing safely a value to the dictionary
@@ -127,6 +129,7 @@ class Cinnamon_Pref_Handler:
     self.value_to_json('period_7_custom_start_time', self.period_custom_start_time[7])
     self.value_to_json('period_8_custom_start_time', self.period_custom_start_time[8])
     self.value_to_json('period_9_custom_start_time', self.period_custom_start_time[9])
+    self.value_to_json('login_image', self.login_image)
 
 
     # Write to file

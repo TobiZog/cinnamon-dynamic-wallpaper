@@ -130,5 +130,9 @@
   "period_9_custom_start_time": {
     "type": "generic",
     "default": "21:00"
+  },
+  "login_image": {
+    "type": "generic",
+    "default": true
   }
 }

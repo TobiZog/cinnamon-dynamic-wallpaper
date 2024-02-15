@@ -2,7 +2,7 @@
 from gi.repository import Gio, Gdk
 
 # Packages
-import os, time, gi, locale
+import os, time, locale, subprocess, sys
 from PIL import Image
 
 # Local scripts
@@ -183,8 +183,19 @@ class Main_View_Model:
 				self.current_image_uri = self.cinnamon_prefs.source_folder + self.cinnamon_prefs.period_images[i]
 				break
 
-		# Set the background
+		# Update the background
 		self.background_settings['picture-uri'] = "file://" + self.current_image_uri
+
+		# Update the login_image
+		if self.cinnamon_prefs.login_image:
+			# Create the folder in /tmp
+			try:
+				os.mkdir("/tmp/cinnamon_dynamic_wallpaper")
+			except:
+				print("Folder already exists")
+			
+			# Copy the current image to the temp folder for the login screen
+			os.system("cp " + self.current_image_uri + " " + "/tmp/cinnamon_dynamic_wallpaper/login_image.jpg")
 
 		# Set background stretching
 		self.background_settings['picture-options'] = self.cinnamon_prefs.picture_aspect
@@ -269,3 +280,52 @@ class Main_View_Model:
 		except:
 			self.background_settings['primary-color'] = "#000000"
 			self.background_settings['secondary-color'] = "#000000"
+
+
+	def set_login_image(self):
+		""" Writes a path to file in /tmp/cinnamon_dynamic_wallpaper to display the wallpaper on the login screen
+		"""
+		# New config file content
+		file_content = ""
+
+		# Location of the config file
+		file_location = self.WORKING_DIR + "/slick-greeter.conf"
+
+		if os.path.isfile("/etc/lightdm/slick-greeter.conf"):
+			# File already exists, make a copy of the config
+			with open("/etc/lightdm/slick-greeter.conf", "r") as conf_file:
+				for line in conf_file.readlines():
+					if line.startswith("background"):
+						# Case 1: Preference is already set as expected -> leave function
+						print(line)
+						if line.find("cinnamon_dynamic_wallpaper/login_image.jpg") != -1 and self.cinnamon_prefs.login_image or \
+							line.find("cinnamon_dynamic_wallpaper/login_image.jpg") == -1 and not self.cinnamon_prefs.login_image:
+							return
+						
+						# Case 2: Function enabled -> Set the path to the login image
+						elif self.cinnamon_prefs.login_image:
+							file_content += "background=/tmp/cinnamon_dynamic_wallpaper/login_image.jpg\n"
+						
+						# Case 3: Function disabled -> Remove the custom login image
+						elif not self.cinnamon_prefs.login_image:
+							break
+
+					# Other config lines will be simply copied
+					else:
+						file_content += line
+
+		else:
+			# File doesn't exists	
+			file_content = "[Greeter]\n"
+			file_content += "background=/tmp/cinnamon_dynamic_wallpaper/login_image.jpg"
+
+		# Create the file
+		with open(file_location, "w") as conf_file:
+			conf_file.write(file_content)
+			conf_file.close()
+
+		# Move it to /etc/lightdm
+		if os.path.isfile("/etc/lightdm/slick-greeter.conf"):
+			subprocess.call(['pkexec', 'rm', '/etc/lightdm/slick-greeter.conf', 'mv', file_location, '/etc/lightdm/'])
+		else:
+			subprocess.call(['pkexec', 'mv', file_location, '/etc/lightdm/'])

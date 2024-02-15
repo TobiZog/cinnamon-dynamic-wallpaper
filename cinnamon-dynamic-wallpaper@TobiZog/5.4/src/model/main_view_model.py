@@ -121,8 +121,6 @@ class Main_View_Model:
 		hour = raw_str[0:raw_str.find(":")]
 		minute = raw_str[raw_str.find(":") + 1:]
 
-		time(1, 2)
-
 		return time(hour=int(hour), minute=int(minute))
 	
 
@@ -297,7 +295,6 @@ class Main_View_Model:
 				for line in conf_file.readlines():
 					if line.startswith("background"):
 						# Case 1: Preference is already set as expected -> leave function
-						print(line)
 						if line.find("cinnamon_dynamic_wallpaper/login_image.jpg") != -1 and self.cinnamon_prefs.login_image or \
 							line.find("cinnamon_dynamic_wallpaper/login_image.jpg") == -1 and not self.cinnamon_prefs.login_image:
 							return

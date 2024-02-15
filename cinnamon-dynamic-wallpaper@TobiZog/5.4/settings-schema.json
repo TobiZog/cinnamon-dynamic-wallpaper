@@ -5,7 +5,7 @@
   },
   "picture_aspect": {
     "type": "generic",
-    "default": "scaled"
+    "default": "zoom"
   },
   "dynamic_background_color": {
     "type": "generic",
@@ -133,6 +133,6 @@
   },
   "login_image": {
     "type": "generic",
-    "default": true
+    "default": false
   }
 }

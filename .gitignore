@@ -2,6 +2,7 @@
 *.glade#
 *.txt
 *.json
+*.tar.gz
 extracted_images/
 selected/
 __pycache__

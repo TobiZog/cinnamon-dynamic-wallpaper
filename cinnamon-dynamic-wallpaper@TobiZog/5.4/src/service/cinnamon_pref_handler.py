@@ -11,7 +11,7 @@ class Cinnamon_Pref_Handler:
     self.load_preferences()
 
   
-  def extract_json(self, parameter: str) -> str:
+  def extract_json(self, parameter: str) -> any:
     """ Get a parameter from the json dictionary safely
 
     Args:
@@ -52,13 +52,13 @@ class Cinnamon_Pref_Handler:
       self.extract_json('period_9_image')
     ]
 
-    self.period_source =self.extract_json('period_source')
-    self.location_refresh_intervals =self.extract_json('location_refresh_intervals')
-    self.network_location_provider =self.extract_json('network_location_provider')
-    self.latitude_auto =self.extract_json('latitude_auto')
-    self.longitude_auto =self.extract_json('longitude_auto')
-    self.latitude_custom =self.extract_json('latitude_custom')
-    self.longitude_custom =self.extract_json('longitude_custom')
+    self.period_source = self.extract_json('period_source')
+    self.location_refresh_intervals = self.extract_json('location_refresh_intervals')
+    self.network_location_provider = self.extract_json('network_location_provider')
+    self.latitude_auto = self.extract_json('latitude_auto')
+    self.longitude_auto = self.extract_json('longitude_auto')
+    self.latitude_custom = self.extract_json('latitude_custom')
+    self.longitude_custom = self.extract_json('longitude_custom')
 
     self.period_custom_start_time = [
       self.extract_json('period_0_custom_start_time'),

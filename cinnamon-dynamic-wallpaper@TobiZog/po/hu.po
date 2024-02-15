@@ -4,14 +4,14 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: cinnamon-dynamic-wallpaper@TobiZog 2.2\n"
+"Project-Id-Version: cinnamon-dynamic-wallpaper@TobiZog 2.3\n"
 "Report-Msgid-Bugs-To: https://github.com/linuxmint/cinnamon-spices-"
 "extensions/issues\n"
-"POT-Creation-Date: 2024-02-15 18:38+0100\n"
-"PO-Revision-Date: 2024-02-15 18:42+0100\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2024-02-12 12:12+0100\n"
+"PO-Revision-Date: 2024-02-15 15:38+0100\n"
+"Last-Translator: Vajda Örs <ors0092@gmail.com>\n"
 "Language-Team: \n"
-"Language: nl\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,261 +20,250 @@ msgstr ""
 
 #: 5.4/extension.js:75
 msgid "Welcome to Cinnamon Dynamic Wallpaper"
-msgstr "Welkom op Cinnamon Dynamic Wallpaper"
+msgstr "Üdvözöljük a Cinnamon Dinamikus Háttérkép alkalmazásban"
 
 #: 5.4/extension.js:76
 msgid "Check the preferences to choose a dynamic wallpaper"
-msgstr "Controleer de voorkeuren om een dynamische achtergrond te kiezen"
+msgstr "Ellenőrizze a beállításokat a dinamikus háttér kiválasztásához"
 
 #: 5.4/extension.js:113
 msgid "Error!"
-msgstr "Fout!"
+msgstr "Hiba!"
 
 #: 5.4/extension.js:114
 msgid ""
 "Cinnamon Dynamic Wallpaper got an error while running the loop script. "
 "Please create an issue on GitHub."
 msgstr ""
-"Cinnamon Dynamic Wallpaper kreeg een fout tijdens het uitvoeren van het loop-"
-"script. Maak een ticket aan op GitHub."
+"A Cinnamon Dinamikus Háttérkép hibába ütközött a ciklusszkript futtatása "
+"során. Kérem készítsen egy hibajegyet a GitHub-on."
 
 #: 5.4/extension.js:139
 msgid "Open settings"
-msgstr "Instellingen openen"
+msgstr "Beállítások megnyitása"
 
 #. metadata.json->name
 msgid "Cinnamon Dynamic Wallpaper"
-msgstr "Cinnamon Dynamic Wallpaper"
+msgstr "Cinnamon Dinamikus Háttérkép"
 
 #. metadata.json->description
 msgid ""
 "Cinnamon extension for dynamic desktop backgrounds based on time and location"
-msgstr ""
-"Cinnamon extensie voor dynamische bureaublad achtergronden op basis van tijd "
-"en locatie"
+msgstr "Cinnamon bővítmény dinamikus asztali hátterekhez idő és hely alapján"
 
 #: 5.4/res/preferences.glade:135
 msgid "Image Source"
-msgstr "Afbeeldingsbron"
+msgstr "Képforrás"
 
 #: 5.4/res/preferences.glade:186
 msgid "Image Set"
-msgstr "Afbeeldingset"
+msgstr "Kép kollekció"
 
 #: 5.4/res/preferences.glade:236
 msgid "HEIC file"
-msgstr "HEIC-bestand"
+msgstr "HEIC fájl"
 
 #: 5.4/res/preferences.glade:286
 msgid "Source Folder"
-msgstr "Bronmap"
+msgstr "Forrás Könyvtár"
 
 #: 5.4/res/preferences.glade:336
 msgid "Select an image set"
-msgstr "Selecteer een afbeeldingsset"
+msgstr "Válasszon ki egy kép kollekciót"
 
 #: 5.4/res/preferences.glade:379
 msgid "Select a heic file to import"
-msgstr "Selecteer een heic-bestand om te importeren"
+msgstr "Válasszon ki egy heic fájlt az importáláshoz"
 
 #: 5.4/res/preferences.glade:430
 msgid "Select a source folder"
-msgstr "Selecteer een bronmap"
+msgstr "Válassza ki a forrás könyvtárat"
 
 #: 5.4/res/preferences.glade:440
 msgid "Open file selection dialog"
-msgstr "Dialoogvenster voor bestandsselectie openen"
+msgstr "fájlkiválasztó párbeszédpanel megnyitása"
 
 #: 5.4/res/preferences.glade:492
 msgid "Image Selection"
-msgstr "Beeldselectie"
+msgstr "Kép Kiválasztása"
 
 #: 5.4/res/preferences.glade:930
 msgid "Image Configuration"
-msgstr "Afbeeldingsconfiguratie"
+msgstr "Kép Beállítások"
 
 #: 5.4/res/preferences.glade:948
 msgid "Period estimation"
-msgstr "Periodeschatting"
+msgstr "Periódus becslés"
 
 #: 5.4/res/preferences.glade:1001
 msgid "Use Network Location"
-msgstr "Gebruik netwerklocatie"
+msgstr "Hálózati helyzetfelismerés használata"
 
 #: 5.4/res/preferences.glade:1051
 msgid "Custom Location"
-msgstr "Aangepaste locatie"
+msgstr "Egyéni helyszín"
 
 #: 5.4/res/preferences.glade:1103
 msgid "Custom Time Periods"
-msgstr "Aangepaste tijdsperioden"
+msgstr "Egyéni idő periódusok"
 
 #: 5.4/res/preferences.glade:1132
 msgid "Location estimation"
-msgstr "Schatting van locatie"
+msgstr "Helyzet becslése"
 
 #: 5.4/res/preferences.glade:1167
 msgid "Interval time to refresh location via network (min)"
-msgstr "Intervaltijd voor het vernieuwen van de locatie via netwerk (min)"
+msgstr "Helyzet frissítésének időköze (perc)"
 
 #: 5.4/res/preferences.glade:1212
 msgid "Location provider"
-msgstr "Locatieaanbieder"
+msgstr "Helyszolgáltató"
 
 #: 5.4/res/preferences.glade:1274
 msgid "Latitude"
-msgstr "Breedtegraad"
+msgstr "Szélességi kör"
 
 #: 5.4/res/preferences.glade:1317
 msgid "Longitude"
-msgstr "Lengtegraad"
+msgstr "Hosszúság"
 
 #: 5.4/res/preferences.glade:1357
 msgid "Period 1"
-msgstr "Periode 1"
+msgstr "Időszak 1"
 
 #: 5.4/res/preferences.glade:1371
 msgid "Period 2"
-msgstr "Periode 2"
+msgstr "Időszak 2"
 
 #: 5.4/res/preferences.glade:1385
 msgid "Period 3"
-msgstr "Periode 3"
+msgstr "Időszak 3"
 
 #: 5.4/res/preferences.glade:1399
 msgid "Period 4"
-msgstr "Periode 4"
+msgstr "Időszak 4"
 
 #: 5.4/res/preferences.glade:1413
 msgid "Period 5"
-msgstr "Periode 5"
+msgstr "Időszak 5"
 
 #: 5.4/res/preferences.glade:1914
 msgid "Period 6"
-msgstr "Periode 6"
+msgstr "Időszak 6"
 
 #: 5.4/res/preferences.glade:1928
 msgid "Period 7"
-msgstr "Periode 7"
+msgstr "Időszak 7"
 
 #: 5.4/res/preferences.glade:1942
 msgid "Period 9"
-msgstr "Periode 9"
+msgstr "Időszak 9"
 
 #: 5.4/res/preferences.glade:1956
 msgid "Period 8"
-msgstr "Periode 8"
+msgstr "Időszak 8"
 
 #: 5.4/res/preferences.glade:1970
 msgid "Period 10"
-msgstr "Periode 10"
+msgstr "Időszak 10"
 
 #: 5.4/res/preferences.glade:2461
 msgid "Location & Times"
-msgstr "Locatie & Tijden"
+msgstr "Hely és idő"
 
 #: 5.4/res/preferences.glade:2480
 msgid "Scaling"
-msgstr "Schaalvergroting"
+msgstr "Skálázás"
 
 #: 5.4/res/preferences.glade:2519
 msgid "Picture aspect"
-msgstr "Beeldaspect"
+msgstr "Képarány"
 
 #: 5.4/res/preferences.glade:2556
-msgid "Login Screen"
-msgstr "Log in scherm"
+msgid "Dynamic Background color"
+msgstr "Dinamikus háttérszín"
 
 #: 5.4/res/preferences.glade:2593
-msgid "Set the background image as Login Screen background"
-msgstr "Stel de achtergrondafbeelding in als achtergrond van het inlogscherm"
-
-#: 5.4/res/preferences.glade:2630
-msgid "Dynamic Background color"
-msgstr "Dynamische achtergrond kleur"
-
-#: 5.4/res/preferences.glade:2667
 msgid "Use dynamic Background color to create a gradient"
-msgstr ""
-"Gebruik een dynamische achtergrondkleur om een kleur verloop te creëren"
+msgstr "Használjon dinamikus háttérszínt színátmenet létrehozásához"
 
-#: 5.4/res/preferences.glade:2714
+#: 5.4/res/preferences.glade:2639
 msgid "Behaviour"
-msgstr "Gedrag"
+msgstr "Viselkedés"
 
-#: 5.4/res/preferences.glade:2733
+#: 5.4/res/preferences.glade:2658
 msgid "About the project"
-msgstr "Over het project"
+msgstr "A projektről"
 
-#: 5.4/res/preferences.glade:2762
+#: 5.4/res/preferences.glade:2687
 msgid ""
 "Based on a location or by user choice, this extensions calculates the "
 "periods of a day and switches the background image of your Cinnamon desktop. "
 "The extension offers as image sources a set of preconfigured wallpapers, a "
 "heic image import by the user or a custom folder with single images."
 msgstr ""
-"Op basis van een locatie of gebruikerskeuze berekent deze extensie de "
-"perioden van een dag en verandert de achtergrondafbeelding van uw Cinnamon-"
-"bureaublad. De extensie biedt als afbeeldingsbronnen een reeks vooraf "
-"geconfigureerde achtergronden, een heic-afbeeldingsimport door de gebruiker "
-"of een aangepaste map met afzonderlijke afbeeldingen."
+"Egy adott hely alapján, vagy a felhasználó által választott hely szerint ez "
+"az bővítmény kiszámítja a nap különböző időszakait, és megváltoztatja a "
+"háttérképet a Cinnamon asztalon. A bővítmény lehetőséget biztosít előre "
+"beállított háttérképek, a felhasználó által importált heic képek vagy egyéni "
+"mappában található egyedi képek használatára, háttérképként."
 
-#: 5.4/res/preferences.glade:2781
+#: 5.4/res/preferences.glade:2706
 msgid "Developed by TobiZog"
-msgstr "Ontwikkeld door TobiZog"
+msgstr "TobiZog által fejlesztve"
 
-#: 5.4/res/preferences.glade:2798
+#: 5.4/res/preferences.glade:2723
 msgid ""
 "If you need more information or want to rate the extension, you can visit "
 "the Cinnamon Spices Website."
 msgstr ""
-"Als u meer informatie nodig heeft of de extensie wilt beoordelen, kunt u de "
-"website van Cinnamon Spices bezoeken."
+"Ha további információra van szüksége, vagy értékelni szeretné a bővítményt, "
+"keresse fel a Cinnamon Spices webhelyet."
 
-#: 5.4/res/preferences.glade:2809
+#: 5.4/res/preferences.glade:2734
 msgid "Cinnamon Dynamic Wallpaper at Cinnamon Spices Website"
-msgstr "Cinnamon Dynamic Wallpaper op Cinnamon Spices Website"
+msgstr "Cinnamon Dinamikus Háttérkép a Cinnamon Spices webhelyen"
 
-#: 5.4/res/preferences.glade:2834
+#: 5.4/res/preferences.glade:2759
 msgid "Source Code"
-msgstr "Broncode"
+msgstr "Forráskód"
 
-#: 5.4/res/preferences.glade:2863
+#: 5.4/res/preferences.glade:2788
 msgid ""
 "This project is Open Source. You can take a look inside the whole source "
 "code of this extension on GitHub."
 msgstr ""
-"Dit project is Open Source. Je kunt de volledige broncode van deze extensie "
-"op GitHub bekijken."
+"Ez a projekt nyílt forráskódú. A GitHubon megtekintheti a bővítmény teljes "
+"forráskódját."
 
-#: 5.4/res/preferences.glade:2874
+#: 5.4/res/preferences.glade:2799
 msgid "Source Code on GitHub"
-msgstr "Broncode op GitHub"
+msgstr "Forráskód a GitHubon"
 
-#: 5.4/res/preferences.glade:2899
+#: 5.4/res/preferences.glade:2824
 msgid "Issues and Enhancements"
-msgstr "Problemen en Verbeteringen"
+msgstr "Problémák és fejlesztések"
 
-#: 5.4/res/preferences.glade:2928
+#: 5.4/res/preferences.glade:2853
 msgid ""
 "Do you find an issue? Or want a new feature? Go to the GitHub repository and "
 "create a new issue."
 msgstr ""
-"Vindt jij een probleem? Of wil je een nieuwe functie? Ga naar de GitHub-"
-"repository en maak een nieuw ticket."
+"Problémát talált? Vagy új funkciót szeretne? Nyissa meg a GitHub-tárat, és "
+"hozzon létre egy új bejelentést."
 
-#: 5.4/res/preferences.glade:2939
+#: 5.4/res/preferences.glade:2864
 msgid "Create a new issue on GitHub"
-msgstr "Maak een nieuw ticket op GitHub"
+msgstr "Hozzon létre egy új bejentést a GitHubon"
 
-#: 5.4/res/preferences.glade:2964
+#: 5.4/res/preferences.glade:2889
 msgid "About"
-msgstr "Over"
+msgstr "Névjegy"
 
-#: 5.4/res/preferences.glade:2992
+#: 5.4/res/preferences.glade:2917
 msgid "Apply and close this window"
-msgstr "Toepassen en sluit dit venster"
+msgstr "Alkalmazza és zárja be ezt az ablakot"
 
-#: 5.4/res/preferences.glade:3004
+#: 5.4/res/preferences.glade:2929
 msgid "Apply the settings without closing this window"
-msgstr "Pas de instellingen toe zonder dit venster te sluiten"
+msgstr "Alkalmazza a beállításokat az ablak bezárása nélkül"

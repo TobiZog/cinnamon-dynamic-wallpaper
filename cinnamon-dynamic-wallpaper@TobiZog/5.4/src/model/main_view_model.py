@@ -2,7 +2,7 @@
 from gi.repository import Gio, Gdk
 
 # Packages
-import os, time, locale, subprocess, sys
+import os, time, locale, subprocess
 from PIL import Image
 
 # Local scripts

@@ -22,6 +22,7 @@ This extension switches the background image of your Cinnamon desktop multiple t
 - 5.6 (Mint 21.1)
 - 5.8 (Mint 21.2)
 - 6.0 (Mint 21.3)
+- 6.2 (Mint 22)
 
 ### Technology
 - `JavaScript`
@@ -59,6 +60,34 @@ Because of the lack of configuration options in the standard Cinnamon configurat
 All configuration will be handled there. You can choose between included image sets, a HEIC file or a folder source and set the image to ten different daytime periods. Time periods will be estimated via network, custom coordinations or custom time periods. Some behaviour preferences (strech image, fill empty background with gradient color) are also here.
 
 ![](res/image_configurator.png)
+
+---
+## Troubleshooting
+### General
+At first: Check if the extension is installed AND activated (check symbol on the left in Extension window).
+
+![](res/activated-extension.png)
+
+Many errors on Linux Mint/Cinnamon Desktop will be printed to Melange. You can open it by pressing `Super Key` + `L`.
+
+### The Preference Window doesn't open!
+Go to your home directory, open the terminal. Execute the command:
+
+```
+python3 .local/share/cinnamon/extensions/cinnamon-dynamic-wallpaper@TobiZog/5.4/src/main.py
+```
+
+This will manually start the window. If there are any problems, the terminal will show it. Use these informations to fix the problem or add them to the Issue.
+
+### The extension don't change the wallpaper
+Go to your home directory, open the terminal. Execute the command:
+
+```
+python3 .local/share/cinnamon/extensions/cinnamon-dynamic-wallpaper@TobiZog/5.4/src/main.py loop
+```
+
+It executes the loop-function which handles the wallpaper change. Terminal will show errors. Use these informations to fix the problem or add them to the Issue.
+
 ---
 ## Contribute
 ### Translation

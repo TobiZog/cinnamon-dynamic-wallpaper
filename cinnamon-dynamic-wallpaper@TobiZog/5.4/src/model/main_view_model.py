@@ -1,5 +1,5 @@
 # GTK
-from gi.repository import Gio, Gdk
+from gi.repository import Gio, Gdk, GLib
 
 # Packages
 import os, time, locale, subprocess, getpass
@@ -244,7 +244,8 @@ class Main_View_Model:
 				os.remove(extract_folder + file)
 
 			# Extract the HEIC file
-			os.system("heif-convert '" + file_uri + "' '" + extract_folder + file_name + ".jpg'")
+			print(self.get_imagemagick_prompt() + " " + file_uri + " -quality 100% " + extract_folder + file_name + ".jpg")
+			os.system(self.get_imagemagick_prompt() + " " + file_uri + " -quality 100% " + extract_folder + file_name + ".jpg")
 
 			return True
 		except:
@@ -328,3 +329,24 @@ class Main_View_Model:
 		if os.path.isfile('/etc/lightdm/slick-greeter.conf.backup'):
 			subprocess.call(['pkexec', 'rm', '/etc/lightdm/slick-greeter.conf'])
 			subprocess.call(['pkexec', 'mv', '/etc/lightdm/slick-greeter.conf.backup', '/etc/lightdm/slick-greeter.conf'])
+
+
+	def check_for_imagemagick(self) -> bool:
+		# Imagemagick < v.7.0
+		if GLib.find_program_in_path("convert") != None:
+			return True
+		# Imagemagick >= v.7.0
+		elif GLib.find_program_in_path("imagemagick") != None:
+			return True
+		# Not installed
+		else:
+			return False
+		
+	def get_imagemagick_prompt(self) -> str:
+		# Imagemagick < v.7.0
+		if GLib.find_program_in_path("convert") != None:
+			return "convert"
+		# Imagemagick >= v.7.0
+		elif GLib.find_program_in_path("imagemagick") != None:
+			return "imagemagick convert"
+		

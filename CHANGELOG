@@ -1,5 +1,6 @@
 # Version 2.5
 - Switch from libheif to imagemagick, HEIC conversion is now possible on Arch and Fedora!
+- Three new image sets: desert, island, lake
 
 # Version 2.4
 - Adding Login window support

@@ -108,9 +108,13 @@ The image sets are from https://github.com/adi1090x/dynamic-wallpaper
 | ------ | ----- | ------ |
 | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/aurora/5.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/beach/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/bitday/4.jpg) |
 
-| Cliffs | Earth | Gradient | 
-| -------- | --------- | ------ |
-| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/cliffs/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/earth/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/gradient/4.jpg) | 
+| Cliffs | Desert | Earth |  
+| -------- | --------- | --------- |
+| ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/cliffs/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/desert/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/earth/4.jpg) | 
+
+| Gradient | Island | Lake |
+| --- | --- | --- |
+![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/gradient/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/island/4.jpg) | ![](cinnamon-dynamic-wallpaper@TobiZog/5.4/res/images/included_image_sets/lake/4.jpg) | 
 
 | Lakeside | Mountains | Sahara |
 | --------- | ------ | ------ |

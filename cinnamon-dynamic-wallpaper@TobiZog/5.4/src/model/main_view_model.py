@@ -31,7 +31,8 @@ class Main_View_Model:
       "/.config/cinnamon/spices/cinnamon-dynamic-wallpaper@TobiZog/cinnamon-dynamic-wallpaper@TobiZog.json"
 
 		# Datasets
-		self.image_sets = ["aurora", "beach", "bitday", "cliffs", "earth", "gradient", "lakeside", "mountains", "sahara"]
+		self.image_sets = ["aurora", "beach", "bitday", "cliffs", "desert", "earth", 
+										 "gradient", "island", "lake", "lakeside", "mountains", "sahara"]
 		self.picture_aspects = ["centered", "scaled", "stretched", "zoom", "spanned"]
 		self.network_location_provider = ["geojs.io", "ip-api.com", "ipwho.is"]
 

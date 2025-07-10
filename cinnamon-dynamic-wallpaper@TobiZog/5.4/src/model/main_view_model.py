@@ -245,11 +245,33 @@ class Main_View_Model:
 				os.remove(extract_folder + file)
 
 			# Extract the HEIC file
-			print(self.get_imagemagick_prompt() + " " + file_uri + " -quality 100% " + extract_folder + file_name + ".jpg")
-			os.system(self.get_imagemagick_prompt() + " " + file_uri + " -quality 100% " + extract_folder + file_name + ".jpg")
+			imagemagick_prompt = self.get_imagemagick_prompt()
+			if not imagemagick_prompt:
+				print("ImageMagick not found.")
+				return False
 
-			return True
-		except:
+			command = imagemagick_prompt.split() + [
+				file_uri,
+				"-quality", "100%",
+				f"{extract_folder}{file_name}.jpg"
+			]
+			
+			try:
+				result = subprocess.run(command, capture_output=True, text=True, timeout=60) # Increased timeout for potentially large images
+				if result.returncode == 0:
+					return True
+				else:
+					print(f"Error during ImageMagick conversion: {result.stderr}")
+					return False
+			except subprocess.TimeoutExpired:
+				print("ImageMagick conversion timed out.")
+				return False
+			except Exception as e:
+				print(f"An unexpected error occurred during ImageMagick conversion: {e}")
+				return False
+				
+		except Exception as e:
+			print(f"An error occurred during HEIC extraction: {e}")
 			return False
 
 
@@ -265,8 +287,8 @@ class Main_View_Model:
 			width, height = im.size
 
 			# Color of the top and bottom pixel in the middle of the image
-			top_color = pix[width / 2,0]
-			bottom_color = pix[width / 2, height - 1]
+			top_color = pix[width // 2,0]
+			bottom_color = pix[width // 2, height - 1]
 
 			# Create the gradient
 			self.background_settings['color-shading-type'] = "vertical"
@@ -351,3 +373,4 @@ class Main_View_Model:
 		elif GLib.find_program_in_path("imagemagick") != None:
 			return "imagemagick convert"
 		
+

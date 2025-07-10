@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 class Images:
 	""" Class for image operations
@@ -53,8 +54,24 @@ class Images:
 				os.remove(extract_folder + file)
 
 			# Extract the HEIC file
-			os.system("heif-convert '" + file_uri + "' '" + extract_folder + file_name + ".jpg'")
+			command = [
+				"heif-convert",
+				file_uri,
+				f"{extract_folder}{file_name}.jpg"
+			]
+			result = subprocess.run(command, capture_output=True, text=True, timeout=30)
 
-			return True
-		except:
+			if result.returncode == 0:
+				return True
+			else:
+				# Log the error or handle it appropriately
+				print(f"Error converting HEIC file: {result.stderr}")
+				return False
+		except subprocess.TimeoutExpired:
+			# Handle timeout if heif-convert takes too long
+			print("HEIC conversion timed out.")
 			return False
+		except Exception as e:
+			print(f"An unexpected error occurred: {e}")
+			return False
+

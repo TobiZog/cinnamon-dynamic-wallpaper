@@ -503,8 +503,12 @@ class Main_Window:
 			# Collect all extracted images and push them to the comboboxes
 			image_names = self.view_model.get_images_from_folder(self.view_model.cinnamon_prefs.source_folder)
 			self.load_image_options_to_combo_boxes(image_names)
+			
+			# Show success message
+			self.dialogs.message_dialog("Image loaded successfully! Please select it from the dropdown box.", Gtk.MessageType.INFO)
 		else:
-			self.dialogs.message_dialog("Error during extraction!", Gtk.MessageType.ERROR)
+			# Show error message
+			self.dialogs.message_dialog("Something went wrong during extraction. Please try again.", Gtk.MessageType.ERROR)
 
 
 	# +------------------------------------------------------------+

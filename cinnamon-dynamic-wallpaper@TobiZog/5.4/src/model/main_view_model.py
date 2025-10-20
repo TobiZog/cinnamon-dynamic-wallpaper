@@ -2,6 +2,7 @@
 from gi.repository import Gio, Gdk, GLib
 
 # Packages
+from typing import List
 import os, time, locale, subprocess, getpass
 from PIL import Image
 
@@ -194,7 +195,7 @@ class Main_View_Model:
 				subprocess.run(['pkexec', 'install', '-o', getpass.getuser(), '-d', directory])
 			
 			# Copy the current image to the temp folder for the login screen
-			os.system("cp " + self.current_image_uri + " " + directory + "/login_image.jpg")
+			subprocess.run(["cp", self.current_image_uri, directory + "/login_image.jpg"])
 
 		# Set background stretching
 		self.background_settings['picture-options'] = self.cinnamon_prefs.picture_aspect
@@ -245,8 +246,7 @@ class Main_View_Model:
 				os.remove(extract_folder + file)
 
 			# Extract the HEIC file
-			print(self.get_imagemagick_prompt() + " " + file_uri + " -quality 100% " + extract_folder + file_name + ".jpg")
-			os.system(self.get_imagemagick_prompt() + " " + file_uri + " -quality 100% " + extract_folder + file_name + ".jpg")
+			subprocess.run([*self.get_imagemagick_prompt(), file_uri, "-quality", "100%", extract_folder + file_name + ".jpg"])
 
 			return True
 		except:
@@ -343,11 +343,11 @@ class Main_View_Model:
 		else:
 			return False
 		
-	def get_imagemagick_prompt(self) -> str:
+	def get_imagemagick_prompt(self) -> List[str]:
 		# Imagemagick < v.7.0
 		if GLib.find_program_in_path("convert") != None:
-			return "convert"
+			return ["convert"]
 		# Imagemagick >= v.7.0
 		elif GLib.find_program_in_path("imagemagick") != None:
-			return "imagemagick convert"
+			return ["imagemagick", "convert"]
 		
